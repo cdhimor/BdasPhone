@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="首页" />
+
+    <item
+        android:id="@+id/navigation_liulan"
+        android:icon="@drawable/ic_liulan_gray_24dp"
+        android:title="浏览" />
+
+    <item
+        android:id="@+id/navigation_tongzhi"
+        android:icon="@drawable/ic_notifications_black_24dp"
+        android:title="通知" />
+
+    <item
+        android:id="@+id/navigation_tongji"
+        android:icon="@drawable/ic_tongji_black_24dp"
+        android:title="统计" />
+
+</menu>

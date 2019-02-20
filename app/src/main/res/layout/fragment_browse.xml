@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<data>
+    <import type="cn.com.lxsoft.bdasphone.ui.browse.BrowseFragmentViewModel" />
+
+    <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
+    <import type="me.goldze.mvvmhabit.binding.viewadapter.recyclerview.LineManagers" />
+
+    <variable
+        name="viewModel"
+        type="cn.com.lxsoft.bdasphone.ui.browse.BrowseFragmentViewModel" />
+</data>
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:binding="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/drawerLayout"
+    android:fitsSystemWindows="true"
+    >
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/main_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/qlListLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TopBarPrimary"
+            android:fitsSystemWindows="true">
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/topPanel"
+                android:layout_width="match_parent"
+                android:layout_height="84dp"
+                app:contentInsetStart="0dp"
+                style="@style/TopBarPrimary"
+                android:fitsSystemWindows="true"
+                app:expandedTitleMarginBottom="0dp"
+                app:titleEnabled="false"
+                app:layout_scrollFlags="scroll"
+                app:statusBarScrim="@android:color/transparent"
+                android:layout_marginTop="24dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_collapseMode="pin"
+                    android:layout_gravity="top"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        >
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_scan_white"
+                            android:background="@android:color/transparent"/>
+                        <TextView
+                            android:id="@+id/editText_topSearch"
+                            style="@style/TopBarEditTextSearch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="32dp"
+                            android:layout_weight="1"
+                            android:drawableLeft="@drawable/ic_search_gray"
+                            />
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_gps_white"
+                            android:background="@android:color/transparent"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="4dp">
+                        <TextView
+                            android:id="@+id/qlList_toobar_PaiXu"
+                            style="@style/TopBarQuickChoose"
+                            android:text="排序"
+                            android:onClick="@{()->viewModel.onToolbarSelectedPanelChange(1)}"
+                            />
+                        <TextView style="@style/viewWeight"/>
+                        <TextView
+                            android:id="@+id/qlList_toobar_LeiXing"
+                            style="@style/TopBarQuickChoose"
+                            android:text="类型"
+                            android:onClick="@{()->viewModel.onToolbarSelectedPanelChange(2)}"
+                            />
+                        <TextView style="@style/viewWeight"/>
+                        <TextView
+                            android:id="@+id/qlList_toobar_ZhuangKuang"
+                            style="@style/TopBarQuickChoose"
+                            android:text="状况"
+                            android:onClick="@{()->viewModel.onToolbarSelectedPanelChange(3)}"
+                            />
+                        <TextView style="@style/viewWeight"/>
+                        <TextView
+                            android:id="@+id/qlList_toobar_DanWei"
+                            style="@style/TopBarQuickChoose"
+                            android:text="单位"
+                            android:onClick="@{()->viewModel.onToolbarSelectedPanelChange(4)}"
+                            />
+                        <TextView style="@style/viewWeight"/>
+                        <TextView
+                            android:id="@+id/qlList_toolbar_luXian"
+                            style="@style/TopBarQuickChoose"
+                            android:text="路线"
+                            android:onClick="@{()->viewModel.onToolbarSelectedPanelChange(5)}"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+            </android.support.design.widget.CollapsingToolbarLayout>
+            <LinearLayout
+                android:theme="@style/TopBarLightGray"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:orientation="vertical"
+                app:layout_collapseMode="pin">
+                <RadioGroup
+                    android:id="@+id/id_radioGpPaiXu"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <RadioButton
+                        android:id="@+id/rdoBtn_toolbarPaiXu_ZongHe"
+                        style="@style/TopBarLightFunc"
+                        android:text="综合▲"
+                        android:onClick="@{()->viewModel.onToolbarOrderSet(1)}"/>
+                    <TextView style="@style/viewWeight"/>
+                    <RadioButton
+                        android:id="@+id/rdoBtn_toolbarPaiXu_LuXian"
+                        style="@style/TopBarLightFunc"
+                        android:text="路线▲"
+                        android:onClick="@{()->viewModel.onToolbarOrderSet(2)}"/>
+                    <TextView style="@style/viewWeight"/>
+                    <RadioButton
+                        android:id="@+id/rdoBtn_toolbarPaiXu_ZhuangKuang"
+                        style="@style/TopBarLightFunc"
+                        android:text="状况▲"
+                        android:onClick="@{()->viewModel.onToolbarOrderSet(3)}"/>
+                    <TextView style="@style/viewWeight"/>
+                    <RadioButton
+                        android:id="@+id/rdoBtn_toolbarPaiXu_QiaoChang"
+                        style="@style/TopBarLightFunc"
+                        android:text="桥长▲"
+                        android:onClick="@{()->viewModel.onToolbarOrderSet(4)}"/>
+                </RadioGroup>
+                <RadioGroup
+                    android:id="@+id/rdoGp_quickChoose"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:id="@+id/layout_panel_PingJia"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <RadioButton
+                            android:id="@+id/rdoBtn_toolbarPJ_1"
+                            style="@style/TopBarLightFunc"
+                            android:text="一级"
+                            android:onClick="@{()->viewModel.onToolbarQuickSearch(11)}"/>
+                        <TextView style="@style/viewWeight"/>
+                        <RadioButton
+                            android:id="@+id/rdoBtn_toolbarPJ_2"
+                            style="@style/TopBarLightFunc"
+                            android:text="二级"
+                            android:onClick="@{()->viewModel.onToolbarQuickSearch(12)}"/>
+                        <TextView style="@style/viewWeight"/>
+                        <RadioButton
+                            android:id="@+id/rdoBtn_toolbarPJ_3"
+                            style="@style/TopBarLightFunc"
+                            android:text="三级"
+                            android:onClick="@{()->viewModel.onToolbarQuickSearch(13)}"/>
+                        <TextView style="@style/viewWeight"/>
+                        <RadioButton
+                            android:id="@+id/rdoBtn_toolbarPJ_4"
+                            style="@style/TopBarLightFunc"
+                            android:text="四级"
+                            android:onClick="@{()->viewModel.onToolbarQuickSearch(14)}"/>
+                        <TextView style="@style/viewWeight"/>
+                        <RadioButton
+                            android:id="@+id/rdoBtn_toolbarPJ_5"
+                            style="@style/TopBarLightFunc"
+                            android:text="五级"
+                            android:onClick="@{()->viewModel.onToolbarQuickSearch(15)}"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/layout_panel_leiXing"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <RadioButton
+                            android:id="@+id/rdoBtn_toolbarLX_TedaQ"
+                            style="@style/TopBarLightFunc"
+                            android:text="特大桥"
+                            android:onClick="@{()->viewModel.onToolbarQuickSearch(21)}"/>
+                        <TextView style="@style/viewWeight"/>
+                        <RadioButton
+                            android:id="@+id/rdoBtn_toolbarLX_daQ"
+                            style="@style/TopBarLightFunc"
+                            android:text="大桥"
+                            android:onClick="@{()->viewModel.onToolbarQuickSearch(22)}"/>
+                        <TextView style="@style/viewWeight"/>
+                        <RadioButton
+                            android:id="@+id/rdoBtn_toolbarLX_ZhongQ"
+                            style="@style/TopBarLightFunc"
+                            android:text="中桥"
+                            android:onClick="@{()->viewModel.onToolbarQuickSearch(23)}"/>
+                        <TextView style="@style/viewWeight"/>
+                        <RadioButton
+                            android:id="@+id/rdoBtn_toolbarLX_XiaoQ"
+                            style="@style/TopBarLightFunc"
+                            android:text="小桥"
+                            android:onClick="@{()->viewModel.onToolbarQuickSearch(24)}"/>
+                    </LinearLayout>
+                </RadioGroup>
+            </LinearLayout>
+
+        </android.support.design.widget.AppBarLayout>
+        <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+            android:id="@+id/twinklingRefreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:tr_enable_refresh="false"
+            app:tr_max_head_height="180dp"
+            app:tr_max_bottom_height="100dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            binding:onLoadMoreCommand="@{viewModel.onLoadMoreCommandQiaoLiang}"
+            >
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/id_recyclerview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:overScrollMode="never"
+            binding:adapter="@{viewModel.adapterQiaoLiang}"
+            binding:itemBinding="@{viewModel.itemBindingQiaoLiang}"
+            binding:items="@{viewModel.observableListQiaoLiang}"
+            />
+        </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="?android:attr/windowBackground"
+            app:menu="@menu/navigation"
+            app:itemIconTint="@color/sel_navmenu"
+            app:itemTextColor="@color/sel_navmenu"
+            android:fitsSystemWindows="true"/>
+
+    </android.support.design.widget.CoordinatorLayout>
+    <LinearLayout
+        android:id="@+id/id_LayoutDrawer"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:background="#fff"
+        android:layout_gravity="end"
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/id_LayoutDWChoose"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <EditText
+                android:id="@+id/text_dwSearch"
+                android:background="@drawable/shape_rect_border_primarycolor"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:drawableLeft="@drawable/ic_search_gray"
+                android:layout_margin="20dp"
+                android:maxLines="1"
+                android:hint="单位"
+                />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/id_drawerListDanWei"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:choiceMode="singleChoice"
+                android:background="@color/white"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/id_LayoutLXChoose"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <EditText
+                android:id="@+id/text_lxSearch"
+                android:background="@drawable/shape_rect_border_primarycolor"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:drawableLeft="@drawable/ic_search_gray"
+                android:layout_margin="20dp"
+                android:maxLines="1"
+                android:hint="路线"
+                android:text="@={viewModel.oStringLuXianSearchText}"
+                binding:textChanged ="@{viewModel.onLuXianSearchTextChangeCommand}"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/id_drawerListLuXian"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:choiceMode="singleChoice"
+                android:background="@color/white"
+                binding:adapter="@{viewModel.adapterLuXian}"
+                binding:itemBinding="@{viewModel.itemBindingLuXian}"
+                binding:items="@{viewModel.observableListLuXian}"
+                />
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v4.widget.DrawerLayout>
+</layout>

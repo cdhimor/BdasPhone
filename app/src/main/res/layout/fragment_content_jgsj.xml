@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <import type="cn.com.lxsoft.bdasphone.ui.browse.ContentViewPagerViewModel" />
+        <variable
+            name="viewModel"
+            type="ContentViewPagerViewModel" />
+    </data>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:binding="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:lx="http://schemas.android.com/apk/res/cn.com.lxsoft.bdasphone"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="桥梁代码" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jgsj.qiaoLiangDaiMa}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="桥梁全长" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jgsj.qiaoLiangQuanChang}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="桥跨组合" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jgsj.qiaoKuanZuHe}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="最大跨径" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jgsj.zuiDaKuaJing}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="桥宽组合" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jgsj.qiaoKuanZuHe}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="桥面净宽" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jgsj.qiaoMianJingKuan}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="桥高" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jgsj.qiaoGao}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="建桥年月" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jgsj.jianQiaoNianYue}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="改建年月" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jgsj.gaiJianNianYue}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="桥梁限高" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jgsj.qiaoLiangXianGao}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="桥下垂直净高" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jgsj.cuiZhiJingGao}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="通航等级" />
+        <cn.com.lxsoft.bdasphone.ui.component.EditTextDict
+            style="@style/ContentItemTextEdit"
+            lx:dict="m2.1"
+            android:text="@={viewModel.jgsj.tongHangDengJi}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="跨中截面高" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jgsj.kuaZhongJieMianGao}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="矢跨比" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jgsj.shiKuaBi}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="桥面纵坡" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            lx:dict="m1.6"
+            android:text="@={viewModel.jgsj.qiaoMianZhongPo}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="弯坡斜特征" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jgsj.wuanPoXieTeZheng}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="立交特征" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jgsj.liJiaoTeZheng}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="交叉形式" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jgsj.jiaoChaXingShi}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="桥面全宽" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jgsj.qiaoMianQuanKuan}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="桥梁平曲线半径" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jgsj.pinQuXianBanJing}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="桥头路宽" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jgsj.qiaoTouLuKuan}"/>
+    </LinearLayout>
+</LinearLayout>
+</android.support.v4.widget.NestedScrollView>
+</layout>

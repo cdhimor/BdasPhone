@@ -13,6 +13,10 @@ import android.view.View;
 import java.util.concurrent.TimeUnit;
 
 import cn.com.lxsoft.bdasphone.ui.browse.BrowseActivity;
+import cn.com.lxsoft.bdasphone.ui.browse.ContentFragment;
+import cn.com.lxsoft.bdasphone.ui.examine.FragmentPatrol;
+import cn.com.lxsoft.bdasphone.ui.examine.FragmentPatrolViewModel;
+import cn.com.lxsoft.bdasphone.ui.main.MainActivity;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
@@ -112,7 +116,9 @@ public class LoginViewModel extends BaseViewModel {
                     public void accept(Object o) throws Exception {
                         dismissDialog();
                         //进入DemoActivity页面
-                        startActivity(BrowseActivity.class);
+                        startActivity(MainActivity.class);
+                        //startContainerActivity(ContentFragment.class.getCanonicalName());
+                        //startContainerActivity(FragmentPatrol.class.getCanonicalName());
                         //关闭页面
                         finish();
                     }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#009900</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimaryDark">#006600</color>
     <color name="colorAccent">#D81B60</color>
     <color name="colorTextEditBack">#FFFFFF</color>
     <color name="textColorHint">#A0A0A0</color>
@@ -9,5 +9,7 @@
     <color name="colorTextDark">#202020</color>
     <color name="colorText">#FFFFFF</color>
     <color name="colorLightGray">#F2F2F2</color>
+    <color name="colorSplit">#d7ccc8</color>
     <color name="colorLightBlack">#424242</color>
+    <color name="colorPrimaryLight">#FFB2FF59</color>
 </resources>

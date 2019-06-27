@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<data>
+    <import type="cn.com.lxsoft.bdasphone.ui.browse.GISFragmentViewModel" />
+    <variable
+        name="viewModel"
+        type="GISFragmentViewModel" />
+</data>
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:binding="http://schemas.android.com/apk/res-auto"
+    xmlns:lx="http://schemas.android.com/apk/res/cn.com.lxsoft.bdasphone"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/drawerLayout"
+    android:fitsSystemWindows="true">
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <cn.com.lxsoft.bdasphone.ui.component.ToolBarBdas
+            android:id="@+id/toolbar_gis"
+            lx:name="位置信息"
+            style="@style/ToolBarTitle" />
+
+        <com.amap.api.maps2d.MapView
+            android:id="@+id/gis_map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+    <include
+        android:id="@+id/layout_slide_list"
+        layout="@layout/layout_slide_list"
+        binding:viewModel="@{viewModel.slideBrowseViewModel}" />
+</android.support.v4.widget.DrawerLayout>
+</layout>

@@ -12,8 +12,12 @@ import org.greenrobot.greendao.internal.DaoConfig;
 import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.database.DatabaseStatement;
 
+import cn.com.lxsoft.bdasphone.entity.Check;
 import cn.com.lxsoft.bdasphone.entity.DanWei;
 import cn.com.lxsoft.bdasphone.entity.LuXian;
+import cn.com.lxsoft.bdasphone.entity.Patrol;
+import cn.com.lxsoft.bdasphone.entity.User;
+import cn.com.lxsoft.bdasphone.entity.YearTest;
 
 import cn.com.lxsoft.bdasphone.entity.QiaoLiang;
 
@@ -21,7 +25,7 @@ import cn.com.lxsoft.bdasphone.entity.QiaoLiang;
 /** 
  * DAO for table "QIAO_LIANG".
 */
-public class QiaoLiangDao extends AbstractDao<QiaoLiang, Long> {
+public class QiaoLiangDao extends AbstractDao<QiaoLiang, String> {
 
     public static final String TABLENAME = "QIAO_LIANG";
 
@@ -30,18 +34,25 @@ public class QiaoLiangDao extends AbstractDao<QiaoLiang, Long> {
      * Can be used for QueryBuilder and for referencing column names.
      */
     public static class Properties {
-        public final static Property Id = new Property(0, Long.class, "id", true, "_id");
-        public final static Property DaiMa = new Property(1, String.class, "daiMa", false, "DAI_MA");
-        public final static Property MingCheng = new Property(2, String.class, "mingCheng", false, "MING_CHENG");
-        public final static Property LeiXing = new Property(3, String.class, "leiXing", false, "LEI_XING");
-        public final static Property JieGou = new Property(4, String.class, "jieGou", false, "JIE_GOU");
-        public final static Property DanWeiID = new Property(5, String.class, "danWeiID", false, "DAN_WEI_ID");
-        public final static Property LuXianID = new Property(6, String.class, "luXianID", false, "LU_XIAN_ID");
-        public final static Property ZhuangHao = new Property(7, float.class, "zhuangHao", false, "ZHUANG_HAO");
-        public final static Property QiaoChang = new Property(8, float.class, "qiaoChang", false, "QIAO_CHANG");
-        public final static Property QiaoKuan = new Property(9, float.class, "qiaoKuan", false, "QIAO_KUAN");
-        public final static Property QiaoGao = new Property(10, float.class, "qiaoGao", false, "QIAO_GAO");
-        public final static Property PingJi = new Property(11, int.class, "pingJi", false, "PING_JI");
+        public final static Property DaiMa = new Property(0, String.class, "daiMa", true, "DAI_MA");
+        public final static Property MingCheng = new Property(1, String.class, "mingCheng", false, "MING_CHENG");
+        public final static Property LeiXing = new Property(2, String.class, "leiXing", false, "LEI_XING");
+        public final static Property JieGou = new Property(3, String.class, "jieGou", false, "JIE_GOU");
+        public final static Property DanWeiID = new Property(4, String.class, "danWeiID", false, "DAN_WEI_ID");
+        public final static Property LuXianID = new Property(5, String.class, "luXianID", false, "LU_XIAN_ID");
+        public final static Property ZhuangHao = new Property(6, float.class, "zhuangHao", false, "ZHUANG_HAO");
+        public final static Property QiaoChang = new Property(7, float.class, "qiaoChang", false, "QIAO_CHANG");
+        public final static Property QiaoKuan = new Property(8, float.class, "qiaoKuan", false, "QIAO_KUAN");
+        public final static Property QiaoGao = new Property(9, float.class, "qiaoGao", false, "QIAO_GAO");
+        public final static Property PingJi = new Property(10, int.class, "pingJi", false, "PING_JI");
+        public final static Property WorkerID = new Property(11, String.class, "workerID", false, "WORKER_ID");
+        public final static Property OwnerID = new Property(12, String.class, "ownerID", false, "OWNER_ID");
+        public final static Property PatrolID = new Property(13, String.class, "patrolID", false, "PATROL_ID");
+        public final static Property YearTestID = new Property(14, String.class, "yearTestID", false, "YEAR_TEST_ID");
+        public final static Property ExamineTime = new Property(15, String.class, "examineTime", false, "EXAMINE_TIME");
+        public final static Property Lat = new Property(16, double.class, "lat", false, "LAT");
+        public final static Property Lng = new Property(17, double.class, "lng", false, "LNG");
+        public final static Property CheckID = new Property(18, String.class, "checkID", false, "CHECK_ID");
     }
 
     private DaoSession daoSession;
@@ -60,18 +71,25 @@ public class QiaoLiangDao extends AbstractDao<QiaoLiang, Long> {
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"QIAO_LIANG\" (" + //
-                "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
-                "\"DAI_MA\" TEXT NOT NULL UNIQUE ," + // 1: daiMa
-                "\"MING_CHENG\" TEXT," + // 2: mingCheng
-                "\"LEI_XING\" TEXT," + // 3: leiXing
-                "\"JIE_GOU\" TEXT," + // 4: jieGou
-                "\"DAN_WEI_ID\" TEXT," + // 5: danWeiID
-                "\"LU_XIAN_ID\" TEXT," + // 6: luXianID
-                "\"ZHUANG_HAO\" REAL NOT NULL ," + // 7: zhuangHao
-                "\"QIAO_CHANG\" REAL NOT NULL ," + // 8: qiaoChang
-                "\"QIAO_KUAN\" REAL NOT NULL ," + // 9: qiaoKuan
-                "\"QIAO_GAO\" REAL NOT NULL ," + // 10: qiaoGao
-                "\"PING_JI\" INTEGER NOT NULL );"); // 11: pingJi
+                "\"DAI_MA\" TEXT PRIMARY KEY NOT NULL ," + // 0: daiMa
+                "\"MING_CHENG\" TEXT," + // 1: mingCheng
+                "\"LEI_XING\" TEXT," + // 2: leiXing
+                "\"JIE_GOU\" TEXT," + // 3: jieGou
+                "\"DAN_WEI_ID\" TEXT," + // 4: danWeiID
+                "\"LU_XIAN_ID\" TEXT," + // 5: luXianID
+                "\"ZHUANG_HAO\" REAL NOT NULL ," + // 6: zhuangHao
+                "\"QIAO_CHANG\" REAL NOT NULL ," + // 7: qiaoChang
+                "\"QIAO_KUAN\" REAL NOT NULL ," + // 8: qiaoKuan
+                "\"QIAO_GAO\" REAL NOT NULL ," + // 9: qiaoGao
+                "\"PING_JI\" INTEGER NOT NULL ," + // 10: pingJi
+                "\"WORKER_ID\" TEXT," + // 11: workerID
+                "\"OWNER_ID\" TEXT," + // 12: ownerID
+                "\"PATROL_ID\" TEXT," + // 13: patrolID
+                "\"YEAR_TEST_ID\" TEXT," + // 14: yearTestID
+                "\"EXAMINE_TIME\" TEXT," + // 15: examineTime
+                "\"LAT\" REAL NOT NULL ," + // 16: lat
+                "\"LNG\" REAL NOT NULL ," + // 17: lng
+                "\"CHECK_ID\" TEXT);"); // 18: checkID
     }
 
     /** Drops the underlying database table. */
@@ -84,82 +102,144 @@ public class QiaoLiangDao extends AbstractDao<QiaoLiang, Long> {
     protected final void bindValues(DatabaseStatement stmt, QiaoLiang entity) {
         stmt.clearBindings();
  
-        Long id = entity.getId();
-        if (id != null) {
-            stmt.bindLong(1, id);
+        String daiMa = entity.getDaiMa();
+        if (daiMa != null) {
+            stmt.bindString(1, daiMa);
         }
-        stmt.bindString(2, entity.getDaiMa());
  
         String mingCheng = entity.getMingCheng();
         if (mingCheng != null) {
-            stmt.bindString(3, mingCheng);
+            stmt.bindString(2, mingCheng);
         }
  
         String leiXing = entity.getLeiXing();
         if (leiXing != null) {
-            stmt.bindString(4, leiXing);
+            stmt.bindString(3, leiXing);
         }
  
         String jieGou = entity.getJieGou();
         if (jieGou != null) {
-            stmt.bindString(5, jieGou);
+            stmt.bindString(4, jieGou);
         }
  
         String danWeiID = entity.getDanWeiID();
         if (danWeiID != null) {
-            stmt.bindString(6, danWeiID);
+            stmt.bindString(5, danWeiID);
         }
  
         String luXianID = entity.getLuXianID();
         if (luXianID != null) {
-            stmt.bindString(7, luXianID);
+            stmt.bindString(6, luXianID);
         }
-        stmt.bindDouble(8, entity.getZhuangHao());
-        stmt.bindDouble(9, entity.getQiaoChang());
-        stmt.bindDouble(10, entity.getQiaoKuan());
-        stmt.bindDouble(11, entity.getQiaoGao());
-        stmt.bindLong(12, entity.getPingJi());
+        stmt.bindDouble(7, entity.getZhuangHao());
+        stmt.bindDouble(8, entity.getQiaoChang());
+        stmt.bindDouble(9, entity.getQiaoKuan());
+        stmt.bindDouble(10, entity.getQiaoGao());
+        stmt.bindLong(11, entity.getPingJi());
+ 
+        String workerID = entity.getWorkerID();
+        if (workerID != null) {
+            stmt.bindString(12, workerID);
+        }
+ 
+        String ownerID = entity.getOwnerID();
+        if (ownerID != null) {
+            stmt.bindString(13, ownerID);
+        }
+ 
+        String patrolID = entity.getPatrolID();
+        if (patrolID != null) {
+            stmt.bindString(14, patrolID);
+        }
+ 
+        String yearTestID = entity.getYearTestID();
+        if (yearTestID != null) {
+            stmt.bindString(15, yearTestID);
+        }
+ 
+        String examineTime = entity.getExamineTime();
+        if (examineTime != null) {
+            stmt.bindString(16, examineTime);
+        }
+        stmt.bindDouble(17, entity.getLat());
+        stmt.bindDouble(18, entity.getLng());
+ 
+        String checkID = entity.getCheckID();
+        if (checkID != null) {
+            stmt.bindString(19, checkID);
+        }
     }
 
     @Override
     protected final void bindValues(SQLiteStatement stmt, QiaoLiang entity) {
         stmt.clearBindings();
  
-        Long id = entity.getId();
-        if (id != null) {
-            stmt.bindLong(1, id);
+        String daiMa = entity.getDaiMa();
+        if (daiMa != null) {
+            stmt.bindString(1, daiMa);
         }
-        stmt.bindString(2, entity.getDaiMa());
  
         String mingCheng = entity.getMingCheng();
         if (mingCheng != null) {
-            stmt.bindString(3, mingCheng);
+            stmt.bindString(2, mingCheng);
         }
  
         String leiXing = entity.getLeiXing();
         if (leiXing != null) {
-            stmt.bindString(4, leiXing);
+            stmt.bindString(3, leiXing);
         }
  
         String jieGou = entity.getJieGou();
         if (jieGou != null) {
-            stmt.bindString(5, jieGou);
+            stmt.bindString(4, jieGou);
         }
  
         String danWeiID = entity.getDanWeiID();
         if (danWeiID != null) {
-            stmt.bindString(6, danWeiID);
+            stmt.bindString(5, danWeiID);
         }
  
         String luXianID = entity.getLuXianID();
         if (luXianID != null) {
-            stmt.bindString(7, luXianID);
+            stmt.bindString(6, luXianID);
         }
-        stmt.bindDouble(8, entity.getZhuangHao());
-        stmt.bindDouble(9, entity.getQiaoChang());
-        stmt.bindDouble(10, entity.getQiaoKuan());
-        stmt.bindDouble(11, entity.getQiaoGao());
-        stmt.bindLong(12, entity.getPingJi());
+        stmt.bindDouble(7, entity.getZhuangHao());
+        stmt.bindDouble(8, entity.getQiaoChang());
+        stmt.bindDouble(9, entity.getQiaoKuan());
+        stmt.bindDouble(10, entity.getQiaoGao());
+        stmt.bindLong(11, entity.getPingJi());
+ 
+        String workerID = entity.getWorkerID();
+        if (workerID != null) {
+            stmt.bindString(12, workerID);
+        }
+ 
+        String ownerID = entity.getOwnerID();
+        if (ownerID != null) {
+            stmt.bindString(13, ownerID);
+        }
+ 
+        String patrolID = entity.getPatrolID();
+        if (patrolID != null) {
+            stmt.bindString(14, patrolID);
+        }
+ 
+        String yearTestID = entity.getYearTestID();
+        if (yearTestID != null) {
+            stmt.bindString(15, yearTestID);
+        }
+ 
+        String examineTime = entity.getExamineTime();
+        if (examineTime != null) {
+            stmt.bindString(16, examineTime);
+        }
+        stmt.bindDouble(17, entity.getLat());
+        stmt.bindDouble(18, entity.getLng());
+ 
+        String checkID = entity.getCheckID();
+        if (checkID != null) {
+            stmt.bindString(19, checkID);
+        }
     }
 
     @Override
@@ -169,55 +249,68 @@ public class QiaoLiangDao extends AbstractDao<QiaoLiang, Long> {
     }
 
     @Override
-    public Long readKey(Cursor cursor, int offset) {
-        return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
+    public String readKey(Cursor cursor, int offset) {
+        return cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0);
     }    
 
     @Override
     public QiaoLiang readEntity(Cursor cursor, int offset) {
         QiaoLiang entity = new QiaoLiang( //
-            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.getString(offset + 1), // daiMa
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // mingCheng
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // leiXing
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // jieGou
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // danWeiID
-            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // luXianID
-            cursor.getFloat(offset + 7), // zhuangHao
-            cursor.getFloat(offset + 8), // qiaoChang
-            cursor.getFloat(offset + 9), // qiaoKuan
-            cursor.getFloat(offset + 10), // qiaoGao
-            cursor.getInt(offset + 11) // pingJi
+            cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // daiMa
+            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // mingCheng
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // leiXing
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // jieGou
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // danWeiID
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // luXianID
+            cursor.getFloat(offset + 6), // zhuangHao
+            cursor.getFloat(offset + 7), // qiaoChang
+            cursor.getFloat(offset + 8), // qiaoKuan
+            cursor.getFloat(offset + 9), // qiaoGao
+            cursor.getInt(offset + 10), // pingJi
+            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // workerID
+            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // ownerID
+            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // patrolID
+            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // yearTestID
+            cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15), // examineTime
+            cursor.getDouble(offset + 16), // lat
+            cursor.getDouble(offset + 17), // lng
+            cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18) // checkID
         );
         return entity;
     }
      
     @Override
     public void readEntity(Cursor cursor, QiaoLiang entity, int offset) {
-        entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setDaiMa(cursor.getString(offset + 1));
-        entity.setMingCheng(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setLeiXing(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setJieGou(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setDanWeiID(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setLuXianID(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setZhuangHao(cursor.getFloat(offset + 7));
-        entity.setQiaoChang(cursor.getFloat(offset + 8));
-        entity.setQiaoKuan(cursor.getFloat(offset + 9));
-        entity.setQiaoGao(cursor.getFloat(offset + 10));
-        entity.setPingJi(cursor.getInt(offset + 11));
+        entity.setDaiMa(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
+        entity.setMingCheng(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
+        entity.setLeiXing(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setJieGou(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setDanWeiID(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setLuXianID(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setZhuangHao(cursor.getFloat(offset + 6));
+        entity.setQiaoChang(cursor.getFloat(offset + 7));
+        entity.setQiaoKuan(cursor.getFloat(offset + 8));
+        entity.setQiaoGao(cursor.getFloat(offset + 9));
+        entity.setPingJi(cursor.getInt(offset + 10));
+        entity.setWorkerID(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
+        entity.setOwnerID(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
+        entity.setPatrolID(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
+        entity.setYearTestID(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
+        entity.setExamineTime(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
+        entity.setLat(cursor.getDouble(offset + 16));
+        entity.setLng(cursor.getDouble(offset + 17));
+        entity.setCheckID(cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18));
      }
     
     @Override
-    protected final Long updateKeyAfterInsert(QiaoLiang entity, long rowId) {
-        entity.setId(rowId);
-        return rowId;
+    protected final String updateKeyAfterInsert(QiaoLiang entity, long rowId) {
+        return entity.getDaiMa();
     }
     
     @Override
-    public Long getKey(QiaoLiang entity) {
+    public String getKey(QiaoLiang entity) {
         if(entity != null) {
-            return entity.getId();
+            return entity.getDaiMa();
         } else {
             return null;
         }
@@ -225,7 +318,7 @@ public class QiaoLiangDao extends AbstractDao<QiaoLiang, Long> {
 
     @Override
     public boolean hasKey(QiaoLiang entity) {
-        return entity.getId() != null;
+        return entity.getDaiMa() != null;
     }
 
     @Override
@@ -243,9 +336,24 @@ public class QiaoLiangDao extends AbstractDao<QiaoLiang, Long> {
             SqlUtils.appendColumns(builder, "T0", daoSession.getDanWeiDao().getAllColumns());
             builder.append(',');
             SqlUtils.appendColumns(builder, "T1", daoSession.getLuXianDao().getAllColumns());
+            builder.append(',');
+            SqlUtils.appendColumns(builder, "T2", daoSession.getUserDao().getAllColumns());
+            builder.append(',');
+            SqlUtils.appendColumns(builder, "T3", daoSession.getUserDao().getAllColumns());
+            builder.append(',');
+            SqlUtils.appendColumns(builder, "T4", daoSession.getPatrolDao().getAllColumns());
+            builder.append(',');
+            SqlUtils.appendColumns(builder, "T5", daoSession.getYearTestDao().getAllColumns());
+            builder.append(',');
+            SqlUtils.appendColumns(builder, "T6", daoSession.getCheckDao().getAllColumns());
             builder.append(" FROM QIAO_LIANG T");
             builder.append(" LEFT JOIN DAN_WEI T0 ON T.\"DAN_WEI_ID\"=T0.\"DAI_MA\"");
             builder.append(" LEFT JOIN LU_XIAN T1 ON T.\"LU_XIAN_ID\"=T1.\"BIAN_HAO\"");
+            builder.append(" LEFT JOIN USER T2 ON T.\"WORKER_ID\"=T2.\"LOGIN_NAME\"");
+            builder.append(" LEFT JOIN USER T3 ON T.\"OWNER_ID\"=T3.\"LOGIN_NAME\"");
+            builder.append(" LEFT JOIN PATROL T4 ON T.\"PATROL_ID\"=T4.\"EXAMINE_ID\"");
+            builder.append(" LEFT JOIN YEAR_TEST T5 ON T.\"PATROL_ID\"=T5.\"EXAMINE_ID\"");
+            builder.append(" LEFT JOIN CHECK T6 ON T.\"CHECK_ID\"=T6.\"EXAMINE_ID\"");
             builder.append(' ');
             selectDeep = builder.toString();
         }
@@ -262,6 +370,26 @@ public class QiaoLiangDao extends AbstractDao<QiaoLiang, Long> {
 
         LuXian luXian = loadCurrentOther(daoSession.getLuXianDao(), cursor, offset);
         entity.setLuXian(luXian);
+        offset += daoSession.getLuXianDao().getAllColumns().length;
+
+        User worker = loadCurrentOther(daoSession.getUserDao(), cursor, offset);
+        entity.setWorker(worker);
+        offset += daoSession.getUserDao().getAllColumns().length;
+
+        User owner = loadCurrentOther(daoSession.getUserDao(), cursor, offset);
+        entity.setOwner(owner);
+        offset += daoSession.getUserDao().getAllColumns().length;
+
+        Patrol patrol = loadCurrentOther(daoSession.getPatrolDao(), cursor, offset);
+        entity.setPatrol(patrol);
+        offset += daoSession.getPatrolDao().getAllColumns().length;
+
+        YearTest yearTest = loadCurrentOther(daoSession.getYearTestDao(), cursor, offset);
+        entity.setYearTest(yearTest);
+        offset += daoSession.getYearTestDao().getAllColumns().length;
+
+        Check check = loadCurrentOther(daoSession.getCheckDao(), cursor, offset);
+        entity.setCheck(check);
 
         return entity;    
     }

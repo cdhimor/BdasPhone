@@ -7,7 +7,7 @@
         android:title="首页" />
 
     <item
-        android:id="@+id/navigation_liulan"
+        android:id="@+id/navigation_browse"
         android:icon="@drawable/ic_liulan_gray_24dp"
         android:title="浏览" />
 

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <import type="cn.com.lxsoft.bdasphone.ui.browse.SlideBrowseViewModel" />
+        <variable
+            name="viewModel"
+            type="SlideBrowseViewModel" />
+    </data>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:binding="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/id_LayoutDrawer"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:background="#fff"
+        android:layout_gravity="end"
+        android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <EditText
+            android:background="@drawable/shape_rect_border_primarycolor"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:drawableLeft="@drawable/ic_search_gray"
+            android:layout_margin="20dp"
+            android:maxLines="1"
+            android:text="@={viewModel.sSearchText}"
+            binding:textChanged ="@{viewModel.onSlideSearchTextChangeCommand}"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/id_drawerList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:choiceMode="singleChoice"
+            android:background="@color/white"
+            binding:adapter="@{viewModel.adapterMain}"
+            binding:itemBinding="@{viewModel.itemBindingMain}"
+            binding:items="@{viewModel.observableListMain}"
+            />
+    </LinearLayout>
+    </LinearLayout>
+</layout>

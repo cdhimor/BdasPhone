@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <import type="me.goldze.mvvmhabit.base.BaseViewModel" />
+        <variable
+            name="viewModel"
+            type="BaseViewModel"/>
+    </data>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:binding="http://schemas.android.com/apk/res-auto"
+    xmlns:lx="http://schemas.android.com/apk/res/cn.com.lxsoft.bdasphone"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/drawerLayout"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        style="@style/TopBarPrimary">
+        <cn.com.lxsoft.bdasphone.ui.component.ToolBarBdas
+            android:id="@+id/layout_toolbar_title"
+            lx:type="search"
+            style="@style/ToolBarTitle"
+            android:layout_height="32dp" />
+    </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="搜索历史"/>
+            <cn.com.lxsoft.bdasphone.ui.component.LaybelLayout
+                android:id="@+id/layout_searchHistoryPanel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:text_background="@drawable/shape_rect_noborder_gray"
+                app:line_padding="5"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/colorLightGray"/>
+        <LinearLayout
+            android:id="@+id/layout_searchPanelItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+         </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+        <Button
+            android:id="@+id/button_searchCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:background="@drawable/shape_rect_noborder_lightgray"
+            android:layout_marginRight="32dp"
+            android:textColor="@color/black"
+            android:layout_weight="1"
+            android:text="取  消"/>
+        <Button
+            android:id="@+id/button_searchOK"
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:textColor="@color/black"
+            android:background="@drawable/shape_rect_border_lightgray"
+            android:layout_weight="1"
+            android:text="确  定"/>
+    </LinearLayout>
+</LinearLayout>
+</layout>

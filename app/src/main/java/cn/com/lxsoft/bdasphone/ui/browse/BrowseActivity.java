@@ -2,6 +2,7 @@ package cn.com.lxsoft.bdasphone.ui.browse;
 
 import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.pm.PackageManager;
 import android.databinding.Observable;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
@@ -39,4 +40,23 @@ public class BrowseActivity extends BaseActivity<ActivityBrowseBinding, BrowseAc
 
         StatusBarUtils.setBar(this,R.color.colorPrimary,false);
     }
+
+/*
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults){
+        switch (requestCode) {
+            case 1:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.
+                        PERMISSION_GRANTED) {
+                    、、call();
+                } else {
+                    Toast.makeText(this, "You denied the permission", Toast.LENGTH_
+                            SHORT).show();
+                }b
+                    reak;
+            default:
+        }
+    }
+    */
 }

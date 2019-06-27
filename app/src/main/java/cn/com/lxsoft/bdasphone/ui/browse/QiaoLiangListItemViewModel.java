@@ -1,6 +1,7 @@
 package cn.com.lxsoft.bdasphone.ui.browse;
 
 import android.databinding.ObservableField;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -23,12 +24,16 @@ public class QiaoLiangListItemViewModel extends ItemViewModel<BaseViewModel> {
     public String mingCheng;
     public String leiXing;
     public String luXian;
-    public String danWei;
+    public String info4;
+    public boolean bShowJieGou=true;
     public String jieGou;
     public Drawable drawableBack;
     public Drawable drawableIcon;
 
-    interface OnItemClickListener {
+
+    public boolean bCanClick=true;
+
+    public interface OnItemClickListener {
         // 回调方法
         void onClick(QiaoLiang tpQiaoLiang);
     }
@@ -42,9 +47,11 @@ public class QiaoLiangListItemViewModel extends ItemViewModel<BaseViewModel> {
         mingCheng=tpEntity.getMingCheng();
         leiXing=tpEntity.getleiXingInfo();
         luXian=tpEntity.getLuXianID().concat(tpEntity.getLuXian().getMingCheng());
-        danWei=tpEntity.getDanWei().getMingCheng();
+        info4=tpEntity.getDanWei().getMingCheng();
 
-        jieGou=tpEntity.getjieGouInfo().concat(" ∙ ").concat(Float.toString(tpEntity.getZhuangHao())).concat("Z ∙ ").concat(Float.toString(tpEntity.getQiaoChang())).concat("L ∙ ").concat(Float.toString(tpEntity.getQiaoKuan())).concat("W ∙ ").concat(Float.toString(tpEntity.getQiaoGao()).concat("H"));
+
+        if(bShowJieGou)
+            jieGou=tpEntity.getjieGouInfo().concat(" ∙ ").concat(Float.toString(tpEntity.getZhuangHao())).concat("Z ∙ ").concat(Float.toString(tpEntity.getQiaoChang())).concat("L ∙ ").concat(Float.toString(tpEntity.getQiaoKuan())).concat("W ∙ ").concat(Float.toString(tpEntity.getQiaoGao()).concat("H"));
 
         int color=0xFF00CC00;
         switch (tpEntity.getPingJi()) {
@@ -65,6 +72,8 @@ public class QiaoLiangListItemViewModel extends ItemViewModel<BaseViewModel> {
         grad.setCornerRadius(24);
         drawableBack=grad;
 
+        //grad.
+
         int iconID=R.mipmap.ic_qiaoxing_liang;
         switch (Float.floatToIntBits(tpEntity.getZhuangHao())%5){
             case 1:
@@ -82,6 +91,7 @@ public class QiaoLiangListItemViewModel extends ItemViewModel<BaseViewModel> {
         }
         drawableIcon=ContextCompat.getDrawable(viewModel.getApplication(),iconID);
 
+
         entity.set(tpEntity);
 
     }
@@ -94,7 +104,8 @@ public class QiaoLiangListItemViewModel extends ItemViewModel<BaseViewModel> {
     public BindingCommand itemClick = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            mOnItemClickListener.onClick(entity.get());
+            if(bCanClick)
+               mOnItemClickListener.onClick(entity.get());
         }
     });
 

@@ -14,7 +14,7 @@ import me.tatarka.bindingcollectionadapter2.BindingRecyclerViewAdapter;
 public class LuXianListItemViewModel extends ItemViewModel<BaseViewModel> {
     public ObservableField<LuXian> entity = new ObservableField<>();
     public String showName;
-    interface OnItemClickListener {
+    public interface OnItemClickListener {
         // 回调方法
         void onClick(LuXian tpLuXian);
     }

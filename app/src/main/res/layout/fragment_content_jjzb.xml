@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <import type="cn.com.lxsoft.bdasphone.ui.browse.ContentViewPagerViewModel" />
+        <variable
+            name="viewModel"
+            type="ContentViewPagerViewModel" />
+    </data>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:binding="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:lx="http://schemas.android.com/apk/res/cn.com.lxsoft.bdasphone"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="桥梁代码" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jjzb.qiaoLiangDaiMa}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="总造价" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jjzb.zongZaoJia}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="施工工期" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jjzb.shiGongGongQi}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="桥面中心标高" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jjzb.qiaoMianZhongXinBiaoGao}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="设计洪水频率" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jjzb.sheJiHongShuiPinLv}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="设计冲刷标高" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jjzb.sheJiCongShuaBiaoGao}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="主桥基底标高" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jjzb.zhuQiaoJiDiBiaoGao}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="历史最大洪水" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jjzb.liShiZuiDaHongShui}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="年日均交通量" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            lx:dict="dept"
+            android:text="@={viewModel.jjzb.nianRiJunJiaoTongLiang}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="防护工程类型" />
+        <cn.com.lxsoft.bdasphone.ui.component.EditTextDict
+            style="@style/ContentItemTextEdit"
+            lx:dict="m3.1"
+            android:text="@={viewModel.jjzb.fangHuGongChengLeiXing}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="地基地质" />
+        <cn.com.lxsoft.bdasphone.ui.component.EditTextDict
+            style="@style/ContentItemTextEdit"
+            lx:dict="m3.2"
+            android:text="@={viewModel.jjzb.diJiDiZhi}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="抗震设防" />
+        <cn.com.lxsoft.bdasphone.ui.component.EditTextDict
+            style="@style/ContentItemTextEdit"
+            lx:dict="m3.3|m3.4"
+            android:text="@={viewModel.jjzb.kangZhenSheFang}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="桥上附设" />
+        <cn.com.lxsoft.bdasphone.ui.component.EditTextDict
+            style="@style/ContentItemTextEdit"
+            lx:dict="m3.5"
+            android:text="@={viewModel.jjzb.qiaoShangFuShe}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="分隔带" />
+        <cn.com.lxsoft.bdasphone.ui.component.EditTextDict
+            style="@style/ContentItemTextEdit"
+            lx:dict="m3.6"
+            android:text="@={viewModel.jjzb.fenGeDai}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="收费情况" />
+        <cn.com.lxsoft.bdasphone.ui.component.EditTextDict
+            style="@style/ContentItemTextEdit"
+            lx:dict="s"
+            android:text="@={viewModel.jjzb.shouFeiQingKuang}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="设计时速" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jjzb.sheJiShiShu}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="桥梁与环境协调度" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jjzb.huanJingXieTiaoDu}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="环境条件" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jjzb.huanJingTiaoJian}"/>
+    </LinearLayout>
+</LinearLayout>
+</android.support.v4.widget.NestedScrollView>
+</layout>

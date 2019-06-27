@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<data>
+    <import type="cn.com.lxsoft.bdasphone.ui.chart.LayoutChartViewModel" />
+    <variable
+        name="viewModel"
+        type="LayoutChartViewModel" />
+</data>
+    <com.github.mikephil.charting.charts.PieChart
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/chart_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"/>
+</layout>

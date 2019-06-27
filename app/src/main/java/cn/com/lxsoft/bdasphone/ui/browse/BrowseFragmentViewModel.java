@@ -7,189 +7,125 @@ import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
 import android.databinding.ObservableList;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import org.greenrobot.greendao.Property;
 
 import org.greenrobot.greendao.query.WhereCondition;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import cn.com.lxsoft.bdasphone.BR;
 import cn.com.lxsoft.bdasphone.R;
 import cn.com.lxsoft.bdasphone.app.AppApplication;
+import cn.com.lxsoft.bdasphone.app.SystemConfig;
 import cn.com.lxsoft.bdasphone.database.DataBase;
+import cn.com.lxsoft.bdasphone.database.DataSession;
+import cn.com.lxsoft.bdasphone.database.greendao.BridgeJCSBDao;
 import cn.com.lxsoft.bdasphone.database.greendao.QiaoLiangDao;
+import cn.com.lxsoft.bdasphone.entity.DanWei;
 import cn.com.lxsoft.bdasphone.entity.LuXian;
 import cn.com.lxsoft.bdasphone.entity.QiaoLiang;
+import cn.com.lxsoft.bdasphone.ui.examine.FragmentCheck;
+import cn.com.lxsoft.bdasphone.ui.examine.FragmentPatrol;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import me.goldze.mvvmhabit.base.BaseViewModel;
 import me.goldze.mvvmhabit.binding.command.BindingAction;
 import me.goldze.mvvmhabit.binding.command.BindingCommand;
 import me.goldze.mvvmhabit.binding.command.BindingConsumer;
 import me.tatarka.bindingcollectionadapter2.BindingRecyclerViewAdapter;
 import me.tatarka.bindingcollectionadapter2.ItemBinding;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-
-public class BrowseFragmentViewModel extends BaseViewModel {
-    public ObservableInt oIntToolbarSelectedPanel = new ObservableInt();
-
-    public ObservableField<String> oStringChooseQiaoLiang = new ObservableField<>();
-    public ObservableList<QiaoLiangListItemViewModel> observableListQiaoLiang = new ObservableArrayList<>();
-    public ItemBinding<QiaoLiangListItemViewModel> itemBindingQiaoLiang = ItemBinding.of(BR.viewModel, R.layout.layout_qiaoliang_item);
-    public final BindingRecyclerViewAdapter<QiaoLiangListItemViewModel> adapterQiaoLiang = new BindingRecyclerViewAdapter<>();
-    public ObservableInt pageIndexQiaoLiang = new ObservableInt(0);
-    private WhereCondition whereConditionQiaoLiang=QiaoLiangDao.Properties.Id.isNotNull();
-    private Property propertyOrderQiaoLiang=QiaoLiangDao.Properties.DaiMa;
-    public ObservableBoolean oBoolQiaoLiangOrderUp=new ObservableBoolean(true);
 
 
-    public ObservableField<String> oStringLuXianSearchText = new ObservableField<>();
-    public ObservableList<LuXianListItemViewModel> observableListLuXian = new ObservableArrayList<>();
-    public ItemBinding<LuXianListItemViewModel> itemBindingLuXian = ItemBinding.of(BR.viewModel, R.layout.layout_luxian_item);
-    public final BindingRecyclerViewAdapter<LuXianListItemViewModel> adapterLuXian = new BindingRecyclerViewAdapter<>();
+public class BrowseFragmentViewModel extends BaseBrowseFragmentViewModel {
+    public ObservableInt oIntToolbarSelectedPanel = new ObservableInt(0);
 
-
-
-
-    //boolean bDWDataInit
+    public SlideBrowseViewModel slideBrowseViewModel;
 
     public BrowseFragmentViewModel(@NonNull Application application) {
+
         super(application);
+        slideBrowseViewModel=new SlideBrowseViewModel(application);
     }
 
     @Override
     public void onCreate() {
 
-        oIntToolbarSelectedPanel.set(2);
-        dealQiaoLiangDataBinding(pageIndexQiaoLiang.get());
+        observableListMain = new ObservableArrayList<>();
+        itemBindingMain = ItemBinding.of(BR.viewModel, R.layout.layout_qiaoliang_item);
+        adapterMain = new BindingRecyclerViewAdapter<>();
+        //dealMainDataBinding(pageIndexMain.get());
+
+        slideBrowseViewModel.setItemClickListener(new SlideBrowseViewModel.OnItemClickListener() {
+            @Override
+            public void onItemClick(short listType, Object object) {
+                if(listType==SystemConfig.SlideList_Type_Path){
+                    setSearchData("m0.4",(((LuXian)object).getBianHao()));
+                }
+                else if(listType==SystemConfig.SlideList_Type_Dept) {
+                    setSearchData("m0.3",(((DanWei)object).getDaiMa()));
+                }
+                dealMainDataBinding(0);
+            }
+        });
+
+        slideBrowseViewModel.onCreate();
+
+        /*
+        if(DataSession.getSearchInfo()!="")
+            initSearchInfo=DataSession.getSearchInfo();
+        DataSession.setSearchInfo("");
+        */
+    }
+
+    protected void dealMainItem(Object tpobj){
+        QiaoLiang tpEntity=(QiaoLiang)tpobj;
+        QiaoLiangListItemViewModel itemViewModel = new QiaoLiangListItemViewModel(BrowseFragmentViewModel.this, tpEntity);
+        //itemViewModel.parentViewModel=BrowseFragmentViewModel.this;
+        //双向绑定动态添加Item
+        observableListMain.add(itemViewModel);
+        itemViewModel.setItemClickListener(new QiaoLiangListItemViewModel.OnItemClickListener() {
+            @Override
+            public void onClick(QiaoLiang tpQiaoLiang) {
+                //oStringChooseQiaoLiang.set(tpQiaoLiang.getDaiMa());
+                DataSession.setCurrentQiaoLiang(tpQiaoLiang);
+                startContainerActivity(ContentFragment.class.getCanonicalName());
+            }
+        });
     }
 
     public void onToolbarSelectedPanelChange(int i) {
-        if (oIntToolbarSelectedPanel.get() != i)
-            oIntToolbarSelectedPanel.set(i);
-        if (i == 5 && observableListLuXian.isEmpty()) {//luxian
-            dealLuXianDataBinding("");
+        if (i == 5) {//luxian
+            slideBrowseViewModel.initData(SystemConfig.SlideList_Type_Path);
         }
-    }
-
-    private WhereCondition getWhereCondition(String type, String res){
-        WhereCondition wc=null;
-        switch (type)
-        {
-            case "LuXian":
-                wc= QiaoLiangDao.Properties.LuXianID.eq(res);
-                break;
+        else if(i==4){
+            slideBrowseViewModel.initData(SystemConfig.SlideList_Type_Dept);
         }
-        whereConditionQiaoLiang=wc;
-        return wc;
-    }
-
-    private void dealLuXianDataBinding(String searchText) {
-        DataBase database = AppApplication.dataBase;
-        database.getLuXianData(searchText)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        new Action1<List<LuXian>>() {
-                            @Override
-                            public void call(List<LuXian> luXians) {
-                                observableListLuXian.clear();
-                                for (int i = 0; i < luXians.size(); i++) {
-                                    LuXianListItemViewModel itemViewModel = new LuXianListItemViewModel(BrowseFragmentViewModel.this, luXians.get(i));
-                                    //双向绑定动态添加Item
-                                    observableListLuXian.add(itemViewModel);
-                                    itemViewModel.setItemClickListener(new LuXianListItemViewModel.OnItemClickListener() {
-                                        @Override
-                                        public void onClick(LuXian tpLuXian) {
-                                            //oStringChooseLuXian.set(tpLuXian.getBianHao());
-                                            dealQiaoLiangDataBinding(getWhereCondition("LuXian",tpLuXian.getBianHao()),0);
-                                        }
-                                    });
-                                }
-                            }
-                        }
-                );
-
-    }
-
-    private void dealQiaoLiangDataBinding(Property orderProperty,boolean bUp,int pageIndex){
-        propertyOrderQiaoLiang=orderProperty;
-        oBoolQiaoLiangOrderUp.set(bUp);
-        dealQiaoLiangDataBinding(pageIndex);
-    }
-
-    private void dealQiaoLiangDataBinding(WhereCondition whereCondition,int pageIndex){
-        whereConditionQiaoLiang=whereCondition;
-        dealQiaoLiangDataBinding(pageIndex);
-    }
-
-    private void dealQiaoLiangDataBinding(int pageIndex) {
-        pageIndexQiaoLiang.set(pageIndex);
-        DataBase database = AppApplication.dataBase;
-        database.getQiaoLiangData(whereConditionQiaoLiang,propertyOrderQiaoLiang,oBoolQiaoLiangOrderUp.get(),pageIndex)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        new Action1<List<QiaoLiang>>() {
-                            @Override
-                            public void call(List<QiaoLiang> qiaoLiangs) {
-                                if(pageIndex==0)
-                                    observableListQiaoLiang.clear();
-                                for (int i = 0; i < qiaoLiangs.size(); i++) {
-                                    QiaoLiangListItemViewModel itemViewModel = new QiaoLiangListItemViewModel(BrowseFragmentViewModel.this, qiaoLiangs.get(i));
-                                    //双向绑定动态添加Item
-                                    observableListQiaoLiang.add(itemViewModel);
-                                    itemViewModel.setItemClickListener(new QiaoLiangListItemViewModel.OnItemClickListener() {
-                                        @Override
-                                        public void onClick(QiaoLiang tpQiaoLiang) {
-                                            oStringChooseQiaoLiang.set(tpQiaoLiang.getDaiMa());
-                                        }
-                                    });
-                                }
-                            }
-                        }
-                );
+        //else if (oIntToolbarSelectedPanel.get() != i)
+        oIntToolbarSelectedPanel.set(i);
     }
 
     public void onToolbarQuickSearch(int searchNum) {
-        WhereCondition wc=null;
-        switch(searchNum) {
-            case -1://点击取消
-                wc=QiaoLiangDao.Properties.Id.ge(0);
-                break;
-            case 11:
-                wc = QiaoLiangDao.Properties.PingJi.eq(1);
-                break;
-            case 12:
-                wc = QiaoLiangDao.Properties.PingJi.eq(2);
-                break;
-            case 13:
-                wc = QiaoLiangDao.Properties.PingJi.eq(3);
-                break;
-            case 14:
-                wc = QiaoLiangDao.Properties.PingJi.eq(4);
-                break;
-            case 15:
-                wc = QiaoLiangDao.Properties.PingJi.eq(5);
-                break;
-            case 21:
-                wc = QiaoLiangDao.Properties.LeiXing.eq("1");
-                break;
-            case 22:
-                wc = QiaoLiangDao.Properties.LeiXing.eq("2");
-                break;
-            case 23:
-                wc = QiaoLiangDao.Properties.LeiXing.eq("3");
-                break;
-            case 24:
-                wc = QiaoLiangDao.Properties.LeiXing.eq("4");
-                break;
-        }
-        dealQiaoLiangDataBinding(wc,0);
+        String searchRes="";
+        if(searchNum==-1)
+            setSearchData("m0.1","NOTNULL");
+        if(searchNum>20)
+            setSearchData("m1.1", Integer.toString(searchNum - 20));
+        else if (searchNum > 10)
+            setSearchData("m6.0", Integer.toString(searchNum - 10));
+        dealMainDataBinding(0);
     }
 
     private int curOrderNum=0;
     public void onToolbarOrderSet(int orderNum)
     {
-        boolean bUp=oBoolQiaoLiangOrderUp.get();
+        boolean bUp=oBoolMainOrderUp.get();
         Property pt=QiaoLiangDao.Properties.DaiMa;
         switch (orderNum)
         {
@@ -206,31 +142,38 @@ public class BrowseFragmentViewModel extends BaseViewModel {
         if(curOrderNum==orderNum)
             bUp=!bUp;
         curOrderNum=orderNum;
-        dealQiaoLiangDataBinding(pt,bUp,0);
+        dealMainDataBinding(pt,bUp,0);
     }
 
-    //用户名输入框焦点改变的回调事件
-    public BindingCommand<String> onLuXianSearchTextChangeCommand = new BindingCommand<>(new BindingConsumer<String>() {
-        @Override
-        public void call(String editText) {
-            dealLuXianDataBinding(editText);
-        }
-    });
 
-    public BindingCommand onLoadMoreCommandQiaoLiang = new BindingCommand(new BindingAction() {
-        @Override
-        public void call() {
-            dealQiaoLiangDataBinding(pageIndexQiaoLiang.get()+1);
-        }
-    });
+    protected List<Object> getMainListData(WhereCondition whereCondition, Property property,boolean bUp,int pageIndex)
+    {
+        DataBase database = AppApplication.dataBase;
+        List tplist;
+        //    tplist=database.getQiaoLiangData(whereConditionMain,propertyOrderMain,oBoolMainOrderUp.get(),pageIndex);
+        //if(pageIndex==0)
+        //    tplist=database.getQiaoLiangDataAdv(advSearchCondition,propertyOrderMain,oBoolMainOrderUp.get(),pageIndex);
+        //else
+            tplist=database.getBridgePageData(pageIndex);
+        return tplist;
+    }
+
+    public void setSearchHistoryData(String name,String data){
+        if(name=="")
+            return;
+        DataBase database = AppApplication.dataBase;
+        database.addSearchHistoryData(name,data);
+    }
+
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        observableListLuXian.clear();
-        observableListQiaoLiang.clear();
-        observableListLuXian=null;
-        observableListQiaoLiang=null;
+
+        slideBrowseViewModel.onDestroy();
+
     }
+
+
 
 }

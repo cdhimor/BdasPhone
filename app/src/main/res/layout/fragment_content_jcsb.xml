@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <import type="cn.com.lxsoft.bdasphone.ui.browse.ContentViewPagerViewModel" />
+        <variable
+            name="viewModel"
+            type="ContentViewPagerViewModel" />
+    </data>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:binding="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:lx="http://schemas.android.com/apk/res/cn.com.lxsoft.bdasphone"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="桥梁代码" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jcsb.qiaoLiangDaiMa}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="桥梁名称" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jcsb.qiaoLiangMingCheng}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="路线号" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jcsb.luXianHao}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="路线名称" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jcsb.luXianMingCheng}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="路线类型" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jcsb.luXianMingCheng}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="顺序号" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jcsb.shunXuHao}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="所在地" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jcsb.suoZaiDi}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="中心桩号" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jcsb.zhongXinZhuangHao}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="管养单位" />
+        <cn.com.lxsoft.bdasphone.ui.component.EditTextDict
+            style="@style/ContentItemTextEdit"
+            lx:dict="dept"
+            android:text="@={viewModel.jcsb.guanYangDanWei}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="跨越地物类型" />
+        <cn.com.lxsoft.bdasphone.ui.component.EditTextDict
+            style="@style/ContentItemTextEdit"
+            lx:dict="m1.3"
+            android:text="@={viewModel.jcsb.kuaYueDiWuLeiXing}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="跨越地物名称" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.jcsb.kuaYueDiWuMingCheng}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="公路技术等级" />
+        <cn.com.lxsoft.bdasphone.ui.component.EditTextDict
+            style="@style/ContentItemTextEdit"
+            lx:dict="m1.4"
+            android:text="@={viewModel.jcsb.gongLuJiShuDengJi}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="桥梁性质" />
+        <cn.com.lxsoft.bdasphone.ui.component.EditTextDict
+            style="@style/ContentItemTextEdit"
+            lx:dict="m1.5"
+            android:text="@={viewModel.jcsb.qiaoLiangXingZhi}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="桥梁分类" />
+        <cn.com.lxsoft.bdasphone.ui.component.EditTextDict
+            style="@style/ContentItemTextEdit"
+            lx:dict="m1.1"
+            android:text="@={viewModel.jcsb.qiaoLiangFenLei}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="桥梁用途" />
+        <cn.com.lxsoft.bdasphone.ui.component.EditTextDict
+            style="@style/ContentItemTextEdit"
+            lx:dict="m1.6"
+            android:text="@={viewModel.jcsb.qiaoLiangYongtu}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="设计荷载等级" />
+        <cn.com.lxsoft.bdasphone.ui.component.EditTextDict
+            style="@style/ContentItemTextEdit"
+            lx:dict="m1.7"
+            android:text="@={viewModel.jcsb.sheJiHeZaiDengJi}"/>
+    </LinearLayout>
+</LinearLayout>
+</android.support.v4.widget.NestedScrollView>
+</layout>

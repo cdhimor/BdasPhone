@@ -3,6 +3,7 @@ package cn.com.lxsoft.bdasphone.ui.browse;
 import android.app.DatePickerDialog;
 import android.arch.lifecycle.Observer;
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.Observable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,8 +23,10 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import cn.com.lxsoft.bdasphone.app.SystemConfig;
+import cn.com.lxsoft.bdasphone.ui.component.ToolBarBdas;
+import cn.com.lxsoft.bdasphone.utils.ActivityUtils;
 import cn.com.lxsoft.bdasphone.utils.BottomNavigationViewHelper;
 import cn.com.lxsoft.bdasphone.utils.RadioGroupUtils;
 import cn.com.lxsoft.bdasphone.utils.StatusBarUtils;
@@ -33,6 +36,7 @@ import cn.com.lxsoft.bdasphone.BR;
 import cn.com.lxsoft.bdasphone.databinding.FragmentBrowseBinding;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 
+import static android.app.Activity.RESULT_OK;
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
 
@@ -54,6 +58,7 @@ public class BrowseFragment extends BaseFragment<FragmentBrowseBinding, BrowseFr
 
     @Override
     public void initData() {
+        //获取列表传入的实体
         /*
         ToolBarPanelChooseClickListener toolBarPanelChooseClickListener=new ToolBarPanelChooseClickListener();
         binding.qlListToobarPaiXu.setOnClickListener(toolBarPanelChooseClickListener);
@@ -64,22 +69,56 @@ public class BrowseFragment extends BaseFragment<FragmentBrowseBinding, BrowseFr
         */
         StatusBarUtils.setBar(this.getActivity(),R.color.colorPrimary,false);
 
-        RecyclerView recyclerView = binding.idRecyclerview;
-        //recyclerView.setAdapter(adapter);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        DividerItemDecoration dv=new DividerItemDecoration(this.getContext(),DividerItemDecoration.VERTICAL);
-        //dv.setDrawable(ContextCompat.getDrawable(this,R.drawable.shape_line_qllist));
-        recyclerView.addItemDecoration(dv);
+        ActivityUtils.initRecyclerView(binding.idRecyclerview,this.getContext());
+
+        ActivityUtils.initRecyclerView(binding.layoutSlideList.idDrawerList,this.getContext());
 
         RadioGroupUtils rGU=new RadioGroupUtils(binding.rdoGpQuickChoose);
         rGU.supportNest();
 
         BottomNavigationViewHelper.disableShiftMode((BottomNavigationView) binding.navigation);
+
+        BrowseFragment bf=this;
+        binding.qlListToolbarLuXian.setOnClickListener(new TextView.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                viewModel.slideBrowseViewModel.initData(SystemConfig.SlideList_Type_Path);
+                ActivityUtils.showDrawerPanel(binding.drawerLayout,bf.getActivity(),true);
+            }
+        });
+        binding.qlListToobarDanWei.setOnClickListener(new TextView.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                viewModel.slideBrowseViewModel.initData(SystemConfig.SlideList_Type_Dept);
+                ActivityUtils.showDrawerPanel(binding.drawerLayout,bf.getActivity(),true);
+            }
+        });
+
+        binding.layoutToolbarTitle.setSearchListener(new ToolBarBdas.OnSetSearchOK() {
+            @Override
+            public void onSearch(String name,String sSearch) {
+                viewModel.setSearchData(sSearch);
+                viewModel.setSearchHistoryData(name,sSearch);
+                viewModel.dealMainDataBinding(0);
+            }
+        });
+
+        //桥梁类型 是 小桥╳//m1.1┬1┼m1.2┬01
+        Bundle mBundle = getArguments();
+        if (mBundle != null) {
+            String[] res=SystemConfig.parseBundleSearchData(mBundle);
+            binding.layoutToolbarTitle.addSearchInfo(res[0],res[1]);
+        }
+        else
+            viewModel.dealMainDataBinding(0);
+
+        binding.layoutToolbarTitle.setViewModel(viewModel);
     }
 
     @Override
     public void initViewObservable() {
+
+        BrowseFragment bf=this;
         viewModel.oIntToolbarSelectedPanel.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
@@ -102,38 +141,28 @@ public class BrowseFragment extends BaseFragment<FragmentBrowseBinding, BrowseFr
                         rgPaiXu.setVisibility(View.GONE);
                         rgZK.setVisibility(View.VISIBLE);
                         break;
-                    case 4://danwei:
-                        binding.idLayoutDWChoose.setVisibility(View.VISIBLE);
-                        binding.idLayoutLXChoose.setVisibility(View.GONE);
-                        //ShowDrawerPanel(true);
-                        break;
-                    case 5://luxian
-                        binding.idLayoutDWChoose.setVisibility(View.GONE);
-                        binding.idLayoutLXChoose.setVisibility(View.VISIBLE);
-                        ShowDrawerPanel(true);
-                        break;
                 }
             }
         });
 
-        viewModel.pageIndexQiaoLiang.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+        viewModel.pageIndexMain.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
                 //结束刷新
-                ToastUtils.showLong("第"+(viewModel.pageIndexQiaoLiang.get()+1)+"页");
+                ToastUtils.showLong("第"+(viewModel.pageIndexMain.get()+1)+"页");
                 binding.twinklingRefreshLayout.finishLoadmore();
             }
         });
 
 
-        viewModel.oBoolQiaoLiangOrderUp.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+        viewModel.oBoolMainOrderUp.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
                 RadioButton btn=getActivity().findViewById(binding.idRadioGpPaiXu.getCheckedRadioButtonId());
                 if(btn==null)
                     return;
                 String text=btn.getText().toString();
-                if(viewModel.oBoolQiaoLiangOrderUp.get()) {
+                if(viewModel.oBoolMainOrderUp.get()) {
                     btn.setText(text.substring(0, text.length() - 1).concat("▲"));
                 }
                 else {
@@ -141,26 +170,27 @@ public class BrowseFragment extends BaseFragment<FragmentBrowseBinding, BrowseFr
                 }
             }
         });
+
+        viewModel.slideBrowseViewModel.bSlideOpen.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                if(!viewModel.slideBrowseViewModel.bSlideOpen.get())
+                    ActivityUtils.showDrawerPanel(binding.drawerLayout,bf.getActivity(),false);
+            }
+        });
     }
 
-
-    boolean bLuXianListInit=false;
-    protected void ShowDrawerPanel(boolean bShow){
-        if(!bLuXianListInit){
-            RecyclerView recyclerView = binding.idDrawerListLuXian;
-            //recyclerView.setAdapter(adapter);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
-            recyclerView.setLayoutManager(layoutManager);
-            DividerItemDecoration dv=new DividerItemDecoration(this.getContext(),DividerItemDecoration.VERTICAL);
-            //dv.setDrawable(ContextCompat.getDrawable(this,R.drawable.shape_line_qllist));
-            recyclerView.addItemDecoration(dv);
-            bLuXianListInit=true;
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case 1:
+                if (resultCode == RESULT_OK) {
+                    String returnedData = data.getStringExtra("data_return");
+                    String[] res=returnedData.split("#");
+                    binding.layoutToolbarTitle.addSearchInfo(res[0],res[1]);
+                }
+                    break;
+            default:
         }
-        DrawerLayout mDrawerLayout=binding.drawerLayout;
-        if(bShow  && !mDrawerLayout.isDrawerOpen(Gravity.END))
-            mDrawerLayout.openDrawer(Gravity.END);
-        else if(!bShow && mDrawerLayout.isDrawerOpen(Gravity.END))
-            mDrawerLayout.closeDrawer(Gravity.END);
-        ((InputMethodManager)this.getActivity().getSystemService(INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(this.getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 }

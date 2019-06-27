@@ -13,7 +13,8 @@
     android:layout_height="72dp"
     android:layout_marginTop="12dp"
     android:layout_marginBottom="12dp"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    binding:onClickCommand="@{viewModel.itemClick}">
     <ImageButton
         android:id="@+id/butIcon"
         style="@style/QLIconButton"
@@ -69,7 +70,7 @@
                 android:paddingBottom="2dp"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
-                android:text="@{viewModel.danWei}"/>
+                android:text="@{viewModel.info4}"/>
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"/>

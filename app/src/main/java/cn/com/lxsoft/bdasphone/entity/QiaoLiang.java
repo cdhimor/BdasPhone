@@ -1,13 +1,25 @@
 package cn.com.lxsoft.bdasphone.entity;
 
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.os.Parcelable;
+import android.support.v4.content.ContextCompat;
+
 import org.greenrobot.greendao.annotation.*;
 
 import com.google.gson.annotations.SerializedName;
 import org.greenrobot.greendao.DaoException;
+
+import cn.com.lxsoft.bdasphone.R;
 import cn.com.lxsoft.bdasphone.database.greendao.DaoSession;
 import cn.com.lxsoft.bdasphone.database.greendao.LuXianDao;
 import cn.com.lxsoft.bdasphone.database.greendao.DanWeiDao;
 import cn.com.lxsoft.bdasphone.database.greendao.QiaoLiangDao;
+import cn.com.lxsoft.bdasphone.database.greendao.PatrolDao;
+import cn.com.lxsoft.bdasphone.database.greendao.UserDao;
+import cn.com.lxsoft.bdasphone.database.greendao.CheckDao;
+import cn.com.lxsoft.bdasphone.database.greendao.YearTestDao;
 
 
 
@@ -40,12 +52,8 @@ import cn.com.lxsoft.bdasphone.database.greendao.QiaoLiangDao;
  */
 
 @Entity
-public class QiaoLiang {
-    @Id(autoincrement = true)
-    private Long id;
-
-    @NotNull
-    @Unique
+public class QiaoLiang {//当前状态
+    @Id
     private String daiMa;
 
     @SerializedName("mC")
@@ -72,6 +80,25 @@ public class QiaoLiang {
     @SerializedName("qG")
     private float qiaoGao;
 
+    private int pingJi;
+
+    private String workerID;
+    @ToOne(joinProperty ="workerID")
+    private User worker;
+
+    private String ownerID;
+    @ToOne(joinProperty ="ownerID")
+    private User owner;
+
+    public String patrolID;
+    @ToOne(joinProperty ="patrolID")
+    private Patrol patrol;
+
+    public String yearTestID;
+    @ToOne(joinProperty ="patrolID")
+    private YearTest yearTest;
+
+
     public String getleiXingInfo(){
         return DataDict.getDict("1.1",leiXing);
     }
@@ -80,12 +107,115 @@ public class QiaoLiang {
         return DataDict.getDict("1.2",jieGou.substring(jieGou.length()-3));
     }
 
-    public Long getId() {
-        return this.id;
+    public String examineTime;//DMWY3
+
+    private double lat;
+    private double lng;
+
+
+    public String checkID;
+    @ToOne(joinProperty ="checkID")
+    private Check check;
+
+    /** Used to resolve relations */
+    @Generated(hash = 2040040024)
+    private transient DaoSession daoSession;
+
+    /** Used for active entity operations. */
+    @Generated(hash = 164110102)
+    private transient QiaoLiangDao myDao;
+
+
+    @Generated(hash = 294152822)
+    public QiaoLiang(String daiMa, String mingCheng, String leiXing, String jieGou, String danWeiID, String luXianID,
+            float zhuangHao, float qiaoChang, float qiaoKuan, float qiaoGao, int pingJi, String workerID, String ownerID,
+            String patrolID, String yearTestID, String examineTime, double lat, double lng, String checkID) {
+        this.daiMa = daiMa;
+        this.mingCheng = mingCheng;
+        this.leiXing = leiXing;
+        this.jieGou = jieGou;
+        this.danWeiID = danWeiID;
+        this.luXianID = luXianID;
+        this.zhuangHao = zhuangHao;
+        this.qiaoChang = qiaoChang;
+        this.qiaoKuan = qiaoKuan;
+        this.qiaoGao = qiaoGao;
+        this.pingJi = pingJi;
+        this.workerID = workerID;
+        this.ownerID = ownerID;
+        this.patrolID = patrolID;
+        this.yearTestID = yearTestID;
+        this.examineTime = examineTime;
+        this.lat = lat;
+        this.lng = lng;
+        this.checkID = checkID;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    @Generated(hash = 1604867976)
+    public QiaoLiang() {
+    }
+
+    @Generated(hash = 1456009866)
+    private transient String danWei__resolvedKey;
+
+    @Generated(hash = 1233672073)
+    private transient String luXian__resolvedKey;
+
+    @Generated(hash = 1791517005)
+    private transient String worker__resolvedKey;
+
+    @Generated(hash = 1407767798)
+    private transient String owner__resolvedKey;
+
+    @Generated(hash = 1788412596)
+    private transient String patrol__resolvedKey;
+
+    @Generated(hash = 1464487730)
+    private transient String yearTest__resolvedKey;
+
+    @Generated(hash = 693484506)
+    private transient String check__resolvedKey;
+
+
+    public Drawable getBridgeDrawable(){
+        int color=0xFF00CC00;
+        switch (getPingJi()) {
+            case 2:
+                color=0xff0000CC;
+                break;
+            case 3:
+                color=0xffFFFF00;
+                break;
+            case 4:
+                color=0xffff6600;
+                break;
+            case 5:
+                color=0xffFF3300;
+                break;
+        }
+        GradientDrawable grad = new GradientDrawable(GradientDrawable.Orientation.TL_BR,new int[]{color, Color.WHITE});
+        grad.setCornerRadius(24);
+        return grad;
+    }
+
+    public int getIconNum(){
+        int iconID=R.mipmap.ic_qiaoxing_liang;
+        switch (Float.floatToIntBits(getZhuangHao())%5){
+            case 1:
+                iconID=R.mipmap.ic_qiaoxing_gong;
+                break;
+            case 2:
+                iconID=R.mipmap.ic_qiaoxing_xiela;
+                break;
+            case 3:
+                iconID=R.mipmap.ic_qiaoxing_xuansuo;
+                break;
+            case 4:
+                iconID=R.mipmap.ic_qiaoxing_zhuhe;
+                break;
+        }
+        return iconID;
+        //drawableIcon=ContextCompat.getDrawable(viewModel.getApplication(),iconID);
     }
 
     public String getDaiMa() {
@@ -176,6 +306,70 @@ public class QiaoLiang {
         this.pingJi = pingJi;
     }
 
+    public String getWorkerID() {
+        return this.workerID;
+    }
+
+    public void setWorkerID(String workerID) {
+        this.workerID = workerID;
+    }
+
+    public String getOwnerID() {
+        return this.ownerID;
+    }
+
+    public void setOwnerID(String ownerID) {
+        this.ownerID = ownerID;
+    }
+
+    public String getPatrolID() {
+        return this.patrolID;
+    }
+
+    public void setPatrolID(String patrolID) {
+        this.patrolID = patrolID;
+    }
+
+    public String getYearTestID() {
+        return this.yearTestID;
+    }
+
+    public void setYearTestID(String yearTestID) {
+        this.yearTestID = yearTestID;
+    }
+
+    public String getExamineTime() {
+        return this.examineTime;
+    }
+
+    public void setExamineTime(String examineTime) {
+        this.examineTime = examineTime;
+    }
+
+    public double getLat() {
+        return this.lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return this.lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
+    }
+
+    public String getCheckID() {
+        return this.checkID;
+    }
+
+    public void setCheckID(String checkID) {
+        this.checkID = checkID;
+    }
+
     /** To-one relationship, resolved on first access. */
     @Generated(hash = 790888800)
     public DanWei getDanWei() {
@@ -234,6 +428,151 @@ public class QiaoLiang {
         }
     }
 
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 741428595)
+    public User getWorker() {
+        String __key = this.workerID;
+        if (worker__resolvedKey == null || worker__resolvedKey != __key) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            UserDao targetDao = daoSession.getUserDao();
+            User workerNew = targetDao.load(__key);
+            synchronized (this) {
+                worker = workerNew;
+                worker__resolvedKey = __key;
+            }
+        }
+        return worker;
+    }
+
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 1849089738)
+    public void setWorker(User worker) {
+        synchronized (this) {
+            this.worker = worker;
+            workerID = worker == null ? null : worker.getLoginName();
+            worker__resolvedKey = workerID;
+        }
+    }
+
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 1377745454)
+    public User getOwner() {
+        String __key = this.ownerID;
+        if (owner__resolvedKey == null || owner__resolvedKey != __key) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            UserDao targetDao = daoSession.getUserDao();
+            User ownerNew = targetDao.load(__key);
+            synchronized (this) {
+                owner = ownerNew;
+                owner__resolvedKey = __key;
+            }
+        }
+        return owner;
+    }
+
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 1708933489)
+    public void setOwner(User owner) {
+        synchronized (this) {
+            this.owner = owner;
+            ownerID = owner == null ? null : owner.getLoginName();
+            owner__resolvedKey = ownerID;
+        }
+    }
+
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 718638389)
+    public Patrol getPatrol() {
+        String __key = this.patrolID;
+        if (patrol__resolvedKey == null || patrol__resolvedKey != __key) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            PatrolDao targetDao = daoSession.getPatrolDao();
+            Patrol patrolNew = targetDao.load(__key);
+            synchronized (this) {
+                patrol = patrolNew;
+                patrol__resolvedKey = __key;
+            }
+        }
+        return patrol;
+    }
+
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 2036975652)
+    public void setPatrol(Patrol patrol) {
+        synchronized (this) {
+            this.patrol = patrol;
+            patrolID = patrol == null ? null : patrol.getExamineID();
+            patrol__resolvedKey = patrolID;
+        }
+    }
+
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 1720453772)
+    public YearTest getYearTest() {
+        String __key = this.patrolID;
+        if (yearTest__resolvedKey == null || yearTest__resolvedKey != __key) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            YearTestDao targetDao = daoSession.getYearTestDao();
+            YearTest yearTestNew = targetDao.load(__key);
+            synchronized (this) {
+                yearTest = yearTestNew;
+                yearTest__resolvedKey = __key;
+            }
+        }
+        return yearTest;
+    }
+
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 1627988904)
+    public void setYearTest(YearTest yearTest) {
+        synchronized (this) {
+            this.yearTest = yearTest;
+            patrolID = yearTest == null ? null : yearTest.getExamineID();
+            yearTest__resolvedKey = patrolID;
+        }
+    }
+
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 2076208756)
+    public Check getCheck() {
+        String __key = this.checkID;
+        if (check__resolvedKey == null || check__resolvedKey != __key) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            CheckDao targetDao = daoSession.getCheckDao();
+            Check checkNew = targetDao.load(__key);
+            synchronized (this) {
+                check = checkNew;
+                check__resolvedKey = __key;
+            }
+        }
+        return check;
+    }
+
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 1253036697)
+    public void setCheck(Check check) {
+        synchronized (this) {
+            this.check = check;
+            checkID = check == null ? null : check.getExamineID();
+            check__resolvedKey = checkID;
+        }
+    }
+
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
      * Entity must attached to an entity context.
@@ -277,44 +616,4 @@ public class QiaoLiang {
         myDao = daoSession != null ? daoSession.getQiaoLiangDao() : null;
     }
 
-
-    private int pingJi;
-
-    /** Used to resolve relations */
-    @Generated(hash = 2040040024)
-    private transient DaoSession daoSession;
-
-    /** Used for active entity operations. */
-    @Generated(hash = 164110102)
-    private transient QiaoLiangDao myDao;
-
-    @Generated(hash = 19433828)
-    public QiaoLiang(Long id, @NotNull String daiMa, String mingCheng,
-            String leiXing, String jieGou, String danWeiID, String luXianID,
-            float zhuangHao, float qiaoChang, float qiaoKuan, float qiaoGao,
-            int pingJi) {
-        this.id = id;
-        this.daiMa = daiMa;
-        this.mingCheng = mingCheng;
-        this.leiXing = leiXing;
-        this.jieGou = jieGou;
-        this.danWeiID = danWeiID;
-        this.luXianID = luXianID;
-        this.zhuangHao = zhuangHao;
-        this.qiaoChang = qiaoChang;
-        this.qiaoKuan = qiaoKuan;
-        this.qiaoGao = qiaoGao;
-        this.pingJi = pingJi;
-    }
-
-    @Generated(hash = 1604867976)
-    public QiaoLiang() {
-    }
-
-
-    @Generated(hash = 1456009866)
-    private transient String danWei__resolvedKey;
-
-    @Generated(hash = 1233672073)
-    private transient String luXian__resolvedKey;
 }

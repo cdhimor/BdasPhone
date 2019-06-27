@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <import type="cn.com.lxsoft.bdasphone.ui.examine.FragmentCheckItemViewModel" />
+        <variable
+            name="viewModel"
+            type="FragmentCheckItemViewModel" />
+    </data>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:binding="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="有无异常变形异常振动及其他异常状况"
+                android:checked="true"/>
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="存在异常情况，尚未危及桥梁安全" />
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="存在异常变形、异常振动及其他异常状况，危及桥梁安全"/>
+        </RadioGroup>
+        <ImageView
+            android:id="@+id/but_addDisease"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:src="@drawable/ic_add_circle"
+            android:layout_marginTop="8dp"
+            binding:onClickCommand="@{viewModel.onAddDiseaseClick}"/>
+        <LinearLayout
+            android:id="@+id/layout_disease_picList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"></LinearLayout>
+    </LinearLayout>
+</layout>

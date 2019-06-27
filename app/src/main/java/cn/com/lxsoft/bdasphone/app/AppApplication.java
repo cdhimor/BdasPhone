@@ -1,15 +1,18 @@
 package cn.com.lxsoft.bdasphone.app;
 
-import cn.com.lxsoft.bdasphone.BuildConfig;
+import org.greenrobot.greendao.query.QueryBuilder;
+
 import cn.com.lxsoft.bdasphone.R;
 //import cn.com.lxsoft.bdasphone.ui.login.LoginActivity;
 
 import cn.com.lxsoft.bdasphone.database.DataBase;
 import cn.com.lxsoft.bdasphone.database.DataBaseGreenImpl;
+import cn.com.lxsoft.bdasphone.database.DataSession;
+import cn.com.lxsoft.bdasphone.entity.DanWei;
 import cn.com.lxsoft.bdasphone.entity.DataDict;
+import cn.com.lxsoft.bdasphone.entity.User;
 import me.goldze.mvvmhabit.base.BaseApplication;
 import me.goldze.mvvmhabit.crash.CaocConfig;
-import me.goldze.mvvmhabit.utils.KLog;
 
 /**
  * Created by goldze on 2017/7/16.
@@ -30,13 +33,22 @@ public class AppApplication extends BaseApplication {
 //            LeakCanary.install(this);
 //        }
 
-
         //数据库初始化
         dataBase=DataBaseGreenImpl.getInstance();
         dataBase.init(this);
-        dataBase.initTestData();
 
         DataDict.init(getApplicationContext());
+
+        DataSession.init(this);
+
+        SystemConfig.init(this);
+
+        //测试数据
+        //dataBase.initTestData();
+        QueryBuilder.LOG_SQL = true;
+        QueryBuilder.LOG_VALUES = true;
+        DataSession.setCurrentDanWei(new DanWei("1111000000000","北京市交委会路政局"));
+        DataSession.setCurrentUser(new User("测试用户","1111000000000"));
   }
 
     private void initCrash() {

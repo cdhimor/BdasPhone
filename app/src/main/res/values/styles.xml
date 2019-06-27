@@ -3,31 +3,39 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="android:background">@color/white</item>
         <item name="android:textSize">14sp</item>
     </style>
+
     <style name="TopBarPrimary">
         <item name="android:background">@color/colorPrimary</item>
         <item name="android:textColor">@color/colorText</item>
         <item name="android:color">@color/colorPrimary</item>
         <item name="android:gravity">center</item>
     </style>
+
     <style name="TopBarEditTextSearch">
         <item name="android:background">@drawable/shape_rect_noborder_whitecolor</item>
         <item name="android:textColor">@color/colorTextDark</item>
         <item name="android:layout_marginLeft">16dp</item>
         <item name="android:layout_marginRight">16dp</item>
     </style>
+
+    <style name="MainIconText">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">14dp</item>
+    </style>
+
     <style name="viewWeight">
         <item name="android:layout_height">4dp</item>
         <item name="android:layout_width">4dp</item>
         <item name="android:layout_weight">1</item>
     </style>
+
     <style name="TopBarQuickChoose">
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:paddingLeft">12dp</item>
-        <item name="android:paddingRight">12dp</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
     </style>
 
     <style name="TopBarLightFunc">
@@ -53,5 +61,111 @@
     <style name="QLListItem">
         <item name="android:textColor">@color/colorLightBlack</item>
         <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="DiseaseItem">
+        <item name="android:textColor">@color/colorLightBlack</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:background">@drawable/shape_rect_noborder_lightgray</item>
+    </style>
+
+    <style name="ContentItem">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:textColor">@color/colorLightBlack</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:background">@drawable/shape_rect_botomline_lightgray</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="ContentItemTextView">
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:textColor">@color/colorLightBlack</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="ContentItemTextEdit">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:textColor">@color/colorLightBlack</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="ToolBarTitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="ContentCollapsedTitleText">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="TopBarChartFunc">
+        <item name="android:layout_height">32dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:button">@null</item>
+        <item name="android:background">@drawable/sel_radio_chartfunc</item>
+        <item name="android:textColor">@drawable/sel_radio_chartfunc</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+    </style>
+
+    <style name="TopBarChartType">
+        <item name="android:layout_height">32dp</item>
+        <item name="android:layout_width">148dp</item>
+        <item name="android:button">@null</item>
+        <item name="android:background">@drawable/sel_radio_border_lightgray</item>
+        <item name="android:textColor">@drawable/sel_radio_border_lightgray</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+    </style>
+
+    <style name="SearchInfoItem">
+        <item name="android:textColor">@color/colorLightBlack</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:paddingLeft">4dp</item>
+        <item name="android:paddingRight">4dp</item>
+        <item name="android:background">@drawable/shape_rect_noborder_darkgreen</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="SearchRadioFunc">
+        <item name="android:layout_height">32dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:button">@null</item>
+        <item name="android:background">@drawable/sel_radio_search_func</item>
+        <item name="android:textColor">@drawable/sel_radio_search_func</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+    </style>
+
+    <style name="SearchHistoryItem">
+        <item name="android:textColor">@color/colorLightBlack</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:paddingLeft">4dp</item>
+        <item name="android:paddingRight">4dp</item>
+        <item name="android:background">@drawable/shape_rect_noborder_lightgray</item>
     </style>
 </resources>

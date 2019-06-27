@@ -24,6 +24,16 @@ public class DaoMaster extends AbstractDaoMaster {
         DanWeiDao.createTable(db, ifNotExists);
         LuXianDao.createTable(db, ifNotExists);
         QiaoLiangDao.createTable(db, ifNotExists);
+        UserDao.createTable(db, ifNotExists);
+        PatrolDao.createTable(db, ifNotExists);
+        ChartDao.createTable(db, ifNotExists);
+        CheckDao.createTable(db, ifNotExists);
+        DectectDao.createTable(db, ifNotExists);
+        BridgeJCSBDao.createTable(db, ifNotExists);
+        SearchHistoryDao.createTable(db, ifNotExists);
+        ConstructDao.createTable(db, ifNotExists);
+        DiseaseDao.createTable(db, ifNotExists);
+        YearTestDao.createTable(db, ifNotExists);
     }
 
     /** Drops underlying database table using DAOs. */
@@ -31,6 +41,16 @@ public class DaoMaster extends AbstractDaoMaster {
         DanWeiDao.dropTable(db, ifExists);
         LuXianDao.dropTable(db, ifExists);
         QiaoLiangDao.dropTable(db, ifExists);
+        UserDao.dropTable(db, ifExists);
+        PatrolDao.dropTable(db, ifExists);
+        ChartDao.dropTable(db, ifExists);
+        CheckDao.dropTable(db, ifExists);
+        DectectDao.dropTable(db, ifExists);
+        BridgeJCSBDao.dropTable(db, ifExists);
+        SearchHistoryDao.dropTable(db, ifExists);
+        ConstructDao.dropTable(db, ifExists);
+        DiseaseDao.dropTable(db, ifExists);
+        YearTestDao.dropTable(db, ifExists);
     }
 
     /**
@@ -52,6 +72,16 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(DanWeiDao.class);
         registerDaoClass(LuXianDao.class);
         registerDaoClass(QiaoLiangDao.class);
+        registerDaoClass(UserDao.class);
+        registerDaoClass(PatrolDao.class);
+        registerDaoClass(ChartDao.class);
+        registerDaoClass(CheckDao.class);
+        registerDaoClass(DectectDao.class);
+        registerDaoClass(BridgeJCSBDao.class);
+        registerDaoClass(SearchHistoryDao.class);
+        registerDaoClass(ConstructDao.class);
+        registerDaoClass(DiseaseDao.class);
+        registerDaoClass(YearTestDao.class);
     }
 
     public DaoSession newSession() {

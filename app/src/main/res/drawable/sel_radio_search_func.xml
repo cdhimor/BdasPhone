@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true" android:drawable="@drawable/shape_rect_noborder_primarycolor_12rd" android:color="@color/colorLightGray"></item>
+    <item android:drawable="@drawable/shape_rect_border_primarycolor" android:color="@color/black"></item>
+</selector>

@@ -11,28 +11,30 @@ import cn.com.lxsoft.bdasphone.database.greendao.ConstructDao;
 
 @Entity
 public class Construct {
-    @Id
+    @Id(autoincrement = true)
     private Long id;
 
-    @SerializedName("ql")
+    @SerializedName("桥梁代码")
     private String BridgeID;
 
-    @SerializedName("bj")
+    @SerializedName("序号")
+    private String xuHao;
+
+    @SerializedName("桥梁部件")
     private String buJian;
 
-    @SerializedName("cz")
+    @SerializedName("部件材质")
     private String caiZhi;
 
-    @SerializedName("gj")
+    @SerializedName("桥梁构件")
     private String gouJian;
 
-
-
-    @Generated(hash = 753413919)
-    public Construct(Long id, String BridgeID, String buJian, String caiZhi,
-            String gouJian) {
+    @Generated(hash = 623566956)
+    public Construct(Long id, String BridgeID, String xuHao, String buJian,
+            String caiZhi, String gouJian) {
         this.id = id;
         this.BridgeID = BridgeID;
+        this.xuHao = xuHao;
         this.buJian = buJian;
         this.caiZhi = caiZhi;
         this.gouJian = gouJian;
@@ -58,12 +60,20 @@ public class Construct {
         this.BridgeID = BridgeID;
     }
 
-    public String getGouJian() {
-        return this.gouJian;
+    public String getXuHao() {
+        return this.xuHao;
     }
 
-    public void setGouJian(String gouJian) {
-        this.gouJian = gouJian;
+    public void setXuHao(String xuHao) {
+        this.xuHao = xuHao;
+    }
+
+    public String getBuJian() {
+        return this.buJian;
+    }
+
+    public void setBuJian(String buJian) {
+        this.buJian = buJian;
     }
 
     public String getCaiZhi() {
@@ -74,12 +84,13 @@ public class Construct {
         this.caiZhi = caiZhi;
     }
 
-    public String getBuJian() {
-        return this.buJian;
+    public String getGouJian() {
+        return this.gouJian;
     }
 
-    public void setBuJian(String buJian) {
-        this.buJian = buJian;
+    public void setGouJian(String gouJian) {
+        this.gouJian = gouJian;
     }
-    
+
+
 }

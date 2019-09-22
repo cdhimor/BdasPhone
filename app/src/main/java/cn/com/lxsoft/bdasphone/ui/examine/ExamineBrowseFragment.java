@@ -1,21 +1,18 @@
 package cn.com.lxsoft.bdasphone.ui.examine;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.Observable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import cn.com.lxsoft.bdasphone.BR;
 import cn.com.lxsoft.bdasphone.R;
@@ -24,6 +21,7 @@ import cn.com.lxsoft.bdasphone.databinding.FragmentBrowseBinding;
 import cn.com.lxsoft.bdasphone.databinding.FragmentExamineBrowseBinding;
 import cn.com.lxsoft.bdasphone.ui.browse.BrowseFragmentViewModel;
 import cn.com.lxsoft.bdasphone.ui.component.ToolBarBdas;
+import cn.com.lxsoft.bdasphone.utils.ActivityUtils;
 import cn.com.lxsoft.bdasphone.utils.BottomNavigationViewHelper;
 import cn.com.lxsoft.bdasphone.utils.RadioGroupUtils;
 import cn.com.lxsoft.bdasphone.utils.StatusBarUtils;
@@ -69,6 +67,8 @@ public class ExamineBrowseFragment extends BaseFragment<FragmentExamineBrowseBin
         StatusBarUtils.setBar(this.getActivity(),R.color.colorPrimary,false);
         BottomNavigationViewHelper.disableShiftMode((BottomNavigationView) binding.navigation);
 
+        //ActivityUtils.initRecyclerView(binding.layoutSlideList.idDrawerList,this.getContext());
+
         RecyclerView recyclerView = binding.idRecyclerview;
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -76,7 +76,22 @@ public class ExamineBrowseFragment extends BaseFragment<FragmentExamineBrowseBin
         //dv.setDrawable(ContextCompat.getDrawable(this,R.drawable.shape_line_qllist));
         recyclerView.addItemDecoration(dv);
 
-
+        /*
+        binding.qlListToolbarLuXian.setOnClickListener(new TextView.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                viewModel.slideBrowseViewModel.initData(SystemConfig.SlideList_Type_Path);
+                ActivityUtils.showDrawerPanel(binding.drawerLayout,ExamineBrowseFragment.this.getActivity(),true);
+            }
+        });
+        binding.qlListToobarDanWei.setOnClickListener(new TextView.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                viewModel.slideBrowseViewModel.initData(SystemConfig.SlideList_Type_Dept);
+                ActivityUtils.showDrawerPanel(binding.drawerLayout,ExamineBrowseFragment.this.getActivity(),true);
+            }
+        });
+        */
     }
 
     @Override
@@ -84,13 +99,15 @@ public class ExamineBrowseFragment extends BaseFragment<FragmentExamineBrowseBin
         ToolBarBdas barBdas= binding.layoutToolbarTitle;
         switch(viewModel.nBrowseType){
             case SystemConfig.ExamineStyle_Patrol:
-                barBdas.setType(1);
                 barBdas.setName("日常巡查");
                 barBdas.setContent();
                 break;
             case SystemConfig.ExamineStyle_Check:
-                barBdas.setType(1);
                 barBdas.setName("经常检查");
+                barBdas.setContent();
+                break;
+            case SystemConfig.ExamineStyle_Test:
+                barBdas.setName("定期检查");
                 barBdas.setContent();
                 break;
         }
@@ -100,10 +117,27 @@ public class ExamineBrowseFragment extends BaseFragment<FragmentExamineBrowseBin
             @Override
             public void onPropertyChanged(Observable observable, int i) {
                 //结束刷新
-                ToastUtils.showLong("第"+(viewModel.pageIndexMain.get()+1)+"页");
+                int pageIndex=viewModel.pageIndexMain.get();
+                if(pageIndex==-1)
+                    return;
+                if(pageIndex==0)
+                    ToastUtils.showLong("共"+viewModel.dataNum+"条数据，"+viewModel.pageCount+"页");
+                else
+                    ToastUtils.showLong("第"+(viewModel.pageIndexMain.get()+1)+"页");
                 binding.twinklingRefreshLayout.finishLoadmore();
             }
         });
+
+
+        /*
+        viewModel.slideBrowseViewModel.bSlideOpen.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                if(!viewModel.slideBrowseViewModel.bSlideOpen.get())
+                    ActivityUtils.showDrawerPanel(binding.drawerLayout,ExamineBrowseFragment.this.getActivity(),false);
+            }
+        });
+        */
     }
 
 }

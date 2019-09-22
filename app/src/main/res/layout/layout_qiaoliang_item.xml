@@ -22,33 +22,37 @@
         android:scaleType="centerCrop"
         android:background="@{viewModel.drawableBack}"
         android:src="@{viewModel.drawableIcon}"/>
-    <TableLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:stretchColumns="3">
-        <TableRow>
-            <TextView
-                android:id="@+id/textMingCheng"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="@color/colorTextDark"
-                android:layout_span="4"
-                android:text="@{viewModel.mingCheng}"/>
-        </TableRow>
-        <TableRow
-            android:layout_marginTop="8dp">
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/textMingCheng"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@color/colorTextDark"
+            android:layout_span="4"
+            android:text="@{viewModel.mingCheng}"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
             <TextView
                 android:id="@+id/textLuXian"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:maxWidth="100dp"
                 android:background="@drawable/shape_rect_noborder_lightgray"
                 android:layout_marginRight="8dp"
                 android:paddingTop="2dp"
                 android:paddingBottom="2dp"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
+                android:ellipsize="end"
+                android:singleLine="true"
                 android:text="@{viewModel.luXian}"/>
             <TextView
                 android:id="@+id/textLeiXing"
@@ -70,21 +74,17 @@
                 android:paddingBottom="2dp"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
+                android:ellipsize="end"
+                android:singleLine="true"
                 android:text="@{viewModel.info4}"/>
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"/>
-        </TableRow>
-        <TableRow
-            android:layout_marginTop="8dp">
+        </LinearLayout>
             <TextView
                 android:id="@+id/textCKG"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_span="4"
+                android:layout_marginTop="8dp"
                 android:drawableLeft="@drawable/ic_dot_green"
                 android:text="@{viewModel.jieGou}"/>
-        </TableRow>
-    </TableLayout>
+    </LinearLayout>
 </LinearLayout>
 </layout>

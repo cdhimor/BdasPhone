@@ -11,9 +11,9 @@ public class DiseaseInfo {
 
     private String bianMa;
 
-    private String dingLiangMiaoShu;
+    private String dingLiangMiaoShu="";
 
-    private String dingXingMiaoShu;
+    private String dingXingMiaoShu="";
 
     public DiseaseInfo() {
     }
@@ -40,7 +40,7 @@ public class DiseaseInfo {
     }
 
     public void setDingLiangMiaoShu(String dingLiangMiaoShu) {
-        this.dingLiangMiaoShu = dingLiangMiaoShu;
+        this.dingLiangMiaoShu = "["+getBiaoDu().toString()+"]"+dingLiangMiaoShu;
     }
 
     public String getDingXingMiaoShu() {
@@ -48,7 +48,7 @@ public class DiseaseInfo {
     }
 
     public void setDingXingMiaoShu(String dingXingMiaoShu) {
-        this.dingXingMiaoShu = dingXingMiaoShu;
+        this.dingXingMiaoShu = "["+getBiaoDu().toString()+"]"+dingXingMiaoShu;
     }
 
     public String getBianMa() {

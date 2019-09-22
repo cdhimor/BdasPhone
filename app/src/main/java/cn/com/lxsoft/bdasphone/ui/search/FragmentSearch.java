@@ -66,7 +66,11 @@ public class FragmentSearch extends BaseFragment<FragmentSearchBinding, BaseView
         checkBoxList=new ArrayList<>();
 
         addSearchPanelItem("1.1","桥梁类型");
-        addSearchPanelItem("1.4","公路等级");
+        addSearchPanelItem("6.0","技术状况评级");
+        addSearchPanelItem("1.7","设计荷载等级");
+        addSearchPanelItem("1.3","跨越地物类型");
+        addSearchPanelItem("1.4","公路技术等级");
+
 
         binding.buttonSearchOK.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,7 +88,8 @@ public class FragmentSearch extends BaseFragment<FragmentSearchBinding, BaseView
                     }
                 }
                 if(num>0) {
-                    resName += num + "条件";
+                    if(num>1)
+                        resName += num + "条件";
                     //resCode = resCode.substring(0, resCode.length() - 1);
                     startContainerActivity(BrowseFragment.class.getCanonicalName(),SystemConfig.buildBundleSearchData(resName,resCode));
                 }

@@ -12,26 +12,29 @@ import android.view.View;
 
 import java.util.concurrent.TimeUnit;
 
-import cn.com.lxsoft.bdasphone.ui.browse.BrowseActivity;
-import cn.com.lxsoft.bdasphone.ui.browse.ContentFragment;
-import cn.com.lxsoft.bdasphone.ui.examine.FragmentPatrol;
-import cn.com.lxsoft.bdasphone.ui.examine.FragmentPatrolViewModel;
+import cn.com.lxsoft.bdasphone.app.AppApplication;
+import cn.com.lxsoft.bdasphone.app.BridgeBaseViewModel;
+import cn.com.lxsoft.bdasphone.database.DataBase;
+import cn.com.lxsoft.bdasphone.database.greendao.DataSession;
+import cn.com.lxsoft.bdasphone.entity.User;
+import cn.com.lxsoft.bdasphone.net.BridegeNetObserver;
+import cn.com.lxsoft.bdasphone.net.ResponseBase;
+import cn.com.lxsoft.bdasphone.net.ResponseInfo;
+import cn.com.lxsoft.bdasphone.net.ResponseLogin;
+import cn.com.lxsoft.bdasphone.net.SubscribeBase;
 import cn.com.lxsoft.bdasphone.ui.main.MainActivity;
-import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import me.goldze.mvvmhabit.base.BaseViewModel;
+import me.goldze.mvvmhabit.base.AppManager;
 import me.goldze.mvvmhabit.binding.command.BindingAction;
 import me.goldze.mvvmhabit.binding.command.BindingCommand;
 import me.goldze.mvvmhabit.binding.command.BindingConsumer;
-import me.goldze.mvvmhabit.utils.RxUtils;
+import me.goldze.mvvmhabit.utils.SPUtils;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 
 /**
  * Created by goldze on 2017/7/17.
  */
 
-public class LoginViewModel extends BaseViewModel {
+public class LoginViewModel extends BridgeBaseViewModel {
     //用户名的绑定
     public ObservableField<String> userName = new ObservableField<>("");
     //密码的绑定
@@ -43,13 +46,24 @@ public class LoginViewModel extends BaseViewModel {
 
 
 
+
+
     public class UIChangeObservable {
         //密码开关观察者
         public ObservableBoolean pSwitchObservable = new ObservableBoolean(false);
+
+        public ObservableBoolean checkAutoLogin=new ObservableBoolean(true);
     }
 
     public LoginViewModel(@NonNull Application application) {
         super(application);
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        //userName.set("admin");
+        //password.set("123456");
     }
 
     //清除用户名的点击事件, 逻辑从View层转换到ViewModel层
@@ -59,6 +73,7 @@ public class LoginViewModel extends BaseViewModel {
             userName.set("");
         }
     });
+
     //密码显示开关  (你可以尝试着狂按这个按钮,会发现它有防多次点击的功能)
     public BindingCommand passwordShowSwitchOnClickCommand = new BindingCommand(new BindingAction() {
         @Override
@@ -90,43 +105,53 @@ public class LoginViewModel extends BaseViewModel {
      * 网络模拟一个登陆操作
      **/
     private void login() {
-        /*
-        if (TextUtils.isEmpty(userName.get())) {
-            ToastUtils.showShort("请输入账号！");
-            return;
-        }
-        if (TextUtils.isEmpty(password.get())) {
-            ToastUtils.showShort("请输入密码！");
-            return;
-        }
-        */
-        //RxJava模拟一个延迟操作
-        Observable.just("")
-                .delay(3, TimeUnit.SECONDS) //延迟3秒
-                .compose(RxUtils.bindToLifecycle(getLifecycleProvider()))//界面关闭自动取消
-                .compose(RxUtils.schedulersTransformer()) //线程调度
-                .doOnSubscribe(new Consumer<Disposable>() {
+        subscribeBase.checkLogin(userName.get(), password.get())
+                .subscribe(new BridegeNetObserver<ResponseLogin>(){
                     @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        showDialog();
-                    }
-                })
-                .subscribe(new Consumer<Object>() {
-                    @Override
-                    public void accept(Object o) throws Exception {
-                        dismissDialog();
-                        //进入DemoActivity页面
-                        startActivity(MainActivity.class);
-                        //startContainerActivity(ContentFragment.class.getCanonicalName());
-                        //startContainerActivity(FragmentPatrol.class.getCanonicalName());
-                        //关闭页面
-                        finish();
+                    public void onNext(ResponseLogin rx) {
+                        if(rx.state.equals("success")) {
+                            User user=new User();
+                            user.setLoginName(userName.get());
+                            user.setDanWeiID(rx.dept);
+                            user.setName(rx.name);
+                            user.setRoleID(Integer.parseInt(rx.role));
+                            DataSession.setCurrentUser(user);
+                            DataSession.setbInitLoginData(true);
+                            SPUtils sp=SPUtils.getInstance("userinfo");
+
+                            if(sp.contains("prev_login_name") && !sp.getString("prev_login_name").equals(userName.get()))
+                                AppApplication.dataBase.initData();
+
+                            sp.put("prev_login_name",userName.get());
+                            if(uc.checkAutoLogin.get()){
+                                sp.put("user_login_name",userName.get());
+                                sp.put("user_password",password.get());
+                                sp.put("user_department",user.getDanWeiID());
+                                sp.put("user_true_name",user.getName());
+                                sp.put("role_id",Integer.parseInt(rx.role));
+                            }
+                            else
+                                sp.clear();
+
+                            startActivity(MainActivity.class);
+                        }
+                        else{
+                            ToastUtils.showShort(rx.message);
+                        }
                     }
                 });
+
+        //startActivity(MainActivity.class);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+
+    }
+
+    @Override
+    public void onStop() {
+        AppManager.getAppManager().finishActivity(LoginActivity.class);
     }
 }

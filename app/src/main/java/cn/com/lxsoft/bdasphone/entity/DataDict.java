@@ -65,6 +65,13 @@ public class DataDict {
             return "";
     }
 
+    public static String getMultDict(String mold,String code){
+        if(instance!=null)
+            return instance.getMultDictData(mold,code);
+        else
+            return "";
+    }
+
     public static HashMap<String,String> getDictMap(String mold){
         if(instance!=null)
             return instance.getDictMold(mold);
@@ -98,11 +105,40 @@ public class DataDict {
             return res;
     }
 
+    public String getMultDictData(String mold,String code){
+        HashMap<String,String> map=getDictMold(mold);
+        if(code==null)
+            return "";
+        if(code.indexOf(",")>0){
+            String mres="";
+            String[] tplist=code.split(",");
+            for(int i=0;i<tplist.length;i++){
+                if(i>0)
+                    mres+=",";
+                mres+=getDictMold(mold).get(code);
+            }
+            return mres;
+        }
+        else {
+            String res = getDictMold(mold).get(code);
+            if (res == null)
+                return "";
+            else
+                return res;
+        }
+    }
+
     private HashMap<String,String> loadMoldData(String mCode)
     {
         HashMap<String,String> hashData=new HashMap<>();
         hashMold.put(mCode,hashData);
         String xCode="m".concat(mCode);
+        boolean bPJMap=false;  //处理映射（桥梁结构）
+        if(mCode.equals("1.2x")) {
+            xCode = "m1.2";
+            bPJMap = true;
+        }
+
         String tpName = null;
         boolean bFind=false;
         try {
@@ -110,13 +146,19 @@ public class DataDict {
             while (xmlParser.getEventType() != XmlResourceParser.END_DOCUMENT) {  //XML开始解析
                 tpName = xmlParser.getName();//标签的名字
                 if (xmlParser.getEventType() == XmlResourceParser.START_TAG) {      //标签开头
+                    if(tpName.equals("6.4"))
+                        break;
                     if (bFind == false) {
                         if (tpName.trim().equals(xCode)) {  //找到字典
                             bFind = true;
                         }
                     }
-                    else if (tpName.trim().equals("it"))
-                        hashData.put(xmlParser.getAttributeValue(0), xmlParser.getAttributeValue(1));
+                    else if (tpName.trim().equals("it")) {
+                        if(bPJMap==false)
+                            hashData.put(xmlParser.getAttributeValue(0), xmlParser.getAttributeValue(1));
+                        else
+                            hashData.put(xmlParser.getAttributeValue(0), xmlParser.getAttributeValue(null,"pjjg"));
+                    }
                 }else if (xmlParser.getEventType() == XmlResourceParser.END_TAG  && tpName.trim().equals(xCode)){
                     xmlParser.close();
                         break;
@@ -180,8 +222,11 @@ public class DataDict {
                             if (xmlParser.getAttributeValue(null, "bj").indexOf(buJian) >= 0){
                                 if(caiZhi==null || caiZhi.isEmpty())
                                     bFindStart = true;
-                                else if(xmlParser.getAttributeValue(null, "mt").replaceFirst("/", "").equals(caiZhi))
-                                    bFindStart = true;
+                                else{
+                                    String tpx=xmlParser.getAttributeValue(null, "mt");
+                                    if(tpx!=null && tpx.replaceFirst("/", "").equals(caiZhi))
+                                        bFindStart = true;
+                                }
                             }
                         }
                     }
@@ -350,6 +395,8 @@ public class DataDict {
             while (xmlParser.getEventType() != XmlResourceParser.END_DOCUMENT) {  //XML开始解析
                 tpName = xmlParser.getName();//标签的名字
                 if (xmlParser.getEventType() == XmlResourceParser.START_TAG) {      //标签开头
+                    if(tpName.equals("m5.1"))
+                        break;
                     if (tpName.substring(0,1).equals("m")){
                         parentName=xmlParser.getAttributeValue(0);
                         parentCode=tpName;

@@ -1,0 +1,175 @@
+[
+  //用户登录
+  //URL:app_check_login?username=admin&password=123456
+  //接收数据：
+  {
+    "CODE":"check_login",
+    "state":"error",
+    "message":"",
+    "dept":"1000000000",
+    "name":"张强生",
+    "role":1
+  },
+
+  //单位数据
+  //URL:app_department_list
+  //接收数据：
+{
+  "CODE":"dept_list",
+  "DATA":[{"DM":"1000000000","MC":"长沙市公路管理局"}]
+},
+  //用户数据
+  //URL:app_user_list
+  //接收数据：
+  {
+    "CODE":"user_list",
+    "DATA":[
+      {
+        "ID": 1388007065,
+        "NM": "张强生",
+        "DW": "1000000000",
+        //role
+        "RL": 1,
+        //phone
+        "PH": 13880070065
+      }]
+  },
+
+  //路线数据
+  //URL:app_road_list
+  //接收数据：
+  {
+    "CODE":"road_list",
+    "DATA":[
+      {
+        "BH": "G101",
+        "MC": "京沈线",
+        "DJ": "0"
+      }]
+  },
+
+//URL:app_bridge_list?page=1&rows=100
+//接收数据：
+{
+  "CODE":"bridge_list",
+  "DATA":[
+    {
+      "DM": "X301110112L0010",
+      "MC": "采林桥",
+      "LX": "X301",
+      "DW": "2111010000000",
+      "LEX": "4",
+      //jiegou
+      "JG": "101",
+      //zhong xin zhuang hao
+      "ZH": 8.750,
+      "QC": 26.04,
+      "QK": 17.00,
+      "QG": 5.00,
+      //pingJi
+      "PJ": 1,
+      //patrolID
+      "PI": "",
+      //checkID
+      "CI": "",
+      //yearTestID
+      "TI": "",
+      //workerID
+      "WK": 13880070065,
+      //latitute,langitute
+      "LT": 134.345,
+      "LG": 51.234,
+      //create date
+      "NY": "20010203",
+      //jiao tong liu liang
+      "JT": 325.4,
+      //he zai deng ji
+      "HZ": "01",
+      //kua yue di wu
+      "KD": "01",
+      //yong tu
+      "YT": "1"
+    }]
+},
+
+  //URL:app_bridge_update_gis
+  //发送数据：
+  {
+    "CODE":"bridge_update_gis",
+    "DM":"G12345678",
+    "LAT":51.123,
+    "LNG":33.33
+  },
+  //接收数据：
+  {
+    "CODE":"bridge_update_gis",
+    "STATE":"success"
+  },
+
+  //URL:app_patrol_list
+  //接收数据：
+  {
+    "CODE":"patrol_list",
+    "DATA":[
+      {
+        "ID": "XG123456789-20190102",
+        "RQ": "2019-01-02",
+        //ownerID
+        "OW": "13880070065",
+        //workid
+        "WK": "12345678901",
+        "DA": "",
+        //桥路连接处
+        "DB": "",
+        //桥面铺装或伸缩缝
+        "DC": "",
+        //栏杆或护栏
+        "DD": "",
+        //标志标牌
+        "DE": "",
+        //桥梁线性
+        //下次检查日期
+        "ND": "2018-01-01",
+        //备注
+        "RM": "",
+        "IM": ""
+      }]
+  },
+
+  //URL:app_patrol_update
+  //上传数据：
+  {
+    "CODE":"patrol_update",
+    "ID": "XG123456789-20190102",
+    "RQ": "2019-01-02",
+    //ownerID
+    "OW": "13880070065",
+    //workid
+    "WK": "12345678901",
+    "DA": "",
+    //桥路连接处
+    "DB": "",
+    //桥面铺装或伸缩缝
+    "DC": "",
+    //栏杆或护栏
+    "DD": "",
+    //标志标牌
+    "DE": "",
+    //桥梁线性
+    //下次检查日期
+    "ND": "2018-01-01",
+    //备注
+    "RM": "",
+    "IM": ""
+  },
+  //接收数据
+  {
+    "CODE":"patrol_update",
+    "STATE":"success"
+  },
+
+
+  {"单位编号":"1115000000000","名称":"内蒙古自治区公路局",
+    "特大桥":28,"延米a":53541.35,"特大桥":1436,"延米b":322559.78,
+    "中桥":2796,"延米c":180053.71,"数量d":8306,"延米d":147851.25,"数量e":0,"延米e":0.0,"数量合计":12566,"延米合计":704006.09}
+]

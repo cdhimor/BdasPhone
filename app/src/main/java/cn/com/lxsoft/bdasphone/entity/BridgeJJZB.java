@@ -3,10 +3,10 @@ package cn.com.lxsoft.bdasphone.entity;
 import com.google.gson.annotations.SerializedName;
 
 public class BridgeJJZB {
-    @SerializedName("A")
+    @SerializedName("桥梁代码")
     public String qiaoLiangDaiMa;
 
-    @SerializedName("B")
+    @SerializedName("是否经常检查")
     public String zongZaoJia;
 
     @SerializedName("C")

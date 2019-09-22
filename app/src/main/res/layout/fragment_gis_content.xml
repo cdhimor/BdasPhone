@@ -6,11 +6,40 @@
         name="viewModel"
         type="ContentViewPagerViewModel" />
 </data>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:binding="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/button_location"
+                android:layout_width="120dp"
+                android:layout_height="24dp"
+                android:gravity="center"
+                android:background="@drawable/shape_rect_border_primarycolor"
+                android:text="标注当前位置"
+                />
+            <TextView
+                android:id="@+id/button_gis_navigate"
+                android:layout_width="120dp"
+                android:layout_height="24dp"
+                android:gravity="center"
+                android:background="@drawable/shape_rect_border_primarycolor"
+                android:layout_marginLeft="24dp"
+                android:text="导航到该桥梁"
+                />
+        </LinearLayout>
         <com.amap.api.maps2d.MapView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:binding="http://schemas.android.com/apk/res-auto"
             android:id="@+id/gis_map"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+    </LinearLayout>
 </layout>

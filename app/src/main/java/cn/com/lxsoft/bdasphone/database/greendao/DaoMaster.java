@@ -21,36 +21,42 @@ public class DaoMaster extends AbstractDaoMaster {
 
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(Database db, boolean ifNotExists) {
-        DanWeiDao.createTable(db, ifNotExists);
-        LuXianDao.createTable(db, ifNotExists);
-        QiaoLiangDao.createTable(db, ifNotExists);
-        UserDao.createTable(db, ifNotExists);
-        PatrolDao.createTable(db, ifNotExists);
+        BridgeChartDao.createTable(db, ifNotExists);
+        BridgeMaintainDao.createTable(db, ifNotExists);
         ChartDao.createTable(db, ifNotExists);
         CheckDao.createTable(db, ifNotExists);
-        DectectDao.createTable(db, ifNotExists);
-        BridgeJCSBDao.createTable(db, ifNotExists);
-        SearchHistoryDao.createTable(db, ifNotExists);
         ConstructDao.createTable(db, ifNotExists);
+        DanWeiDao.createTable(db, ifNotExists);
+        DectectDao.createTable(db, ifNotExists);
         DiseaseDao.createTable(db, ifNotExists);
+        LuXianDao.createTable(db, ifNotExists);
+        PatrolDao.createTable(db, ifNotExists);
+        PatrolTempDao.createTable(db, ifNotExists);
+        QiaoLiangDao.createTable(db, ifNotExists);
+        SearchHistoryDao.createTable(db, ifNotExists);
+        UserDao.createTable(db, ifNotExists);
         YearTestDao.createTable(db, ifNotExists);
+        CheckTempDao.createTable(db, ifNotExists);
     }
 
     /** Drops underlying database table using DAOs. */
     public static void dropAllTables(Database db, boolean ifExists) {
-        DanWeiDao.dropTable(db, ifExists);
-        LuXianDao.dropTable(db, ifExists);
-        QiaoLiangDao.dropTable(db, ifExists);
-        UserDao.dropTable(db, ifExists);
-        PatrolDao.dropTable(db, ifExists);
+        BridgeChartDao.dropTable(db, ifExists);
+        BridgeMaintainDao.dropTable(db, ifExists);
         ChartDao.dropTable(db, ifExists);
         CheckDao.dropTable(db, ifExists);
-        DectectDao.dropTable(db, ifExists);
-        BridgeJCSBDao.dropTable(db, ifExists);
-        SearchHistoryDao.dropTable(db, ifExists);
         ConstructDao.dropTable(db, ifExists);
+        DanWeiDao.dropTable(db, ifExists);
+        DectectDao.dropTable(db, ifExists);
         DiseaseDao.dropTable(db, ifExists);
+        LuXianDao.dropTable(db, ifExists);
+        PatrolDao.dropTable(db, ifExists);
+        PatrolTempDao.dropTable(db, ifExists);
+        QiaoLiangDao.dropTable(db, ifExists);
+        SearchHistoryDao.dropTable(db, ifExists);
+        UserDao.dropTable(db, ifExists);
         YearTestDao.dropTable(db, ifExists);
+        CheckTempDao.dropTable(db, ifExists);
     }
 
     /**
@@ -69,19 +75,22 @@ public class DaoMaster extends AbstractDaoMaster {
 
     public DaoMaster(Database db) {
         super(db, SCHEMA_VERSION);
-        registerDaoClass(DanWeiDao.class);
-        registerDaoClass(LuXianDao.class);
-        registerDaoClass(QiaoLiangDao.class);
-        registerDaoClass(UserDao.class);
-        registerDaoClass(PatrolDao.class);
+        registerDaoClass(BridgeChartDao.class);
+        registerDaoClass(BridgeMaintainDao.class);
         registerDaoClass(ChartDao.class);
         registerDaoClass(CheckDao.class);
-        registerDaoClass(DectectDao.class);
-        registerDaoClass(BridgeJCSBDao.class);
-        registerDaoClass(SearchHistoryDao.class);
         registerDaoClass(ConstructDao.class);
+        registerDaoClass(DanWeiDao.class);
+        registerDaoClass(DectectDao.class);
         registerDaoClass(DiseaseDao.class);
+        registerDaoClass(LuXianDao.class);
+        registerDaoClass(PatrolDao.class);
+        registerDaoClass(PatrolTempDao.class);
+        registerDaoClass(QiaoLiangDao.class);
+        registerDaoClass(SearchHistoryDao.class);
+        registerDaoClass(UserDao.class);
         registerDaoClass(YearTestDao.class);
+        registerDaoClass(CheckTempDao.class);
     }
 
     public DaoSession newSession() {

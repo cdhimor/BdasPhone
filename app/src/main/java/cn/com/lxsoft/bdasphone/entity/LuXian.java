@@ -1,5 +1,7 @@
 package cn.com.lxsoft.bdasphone.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Unique;
@@ -12,14 +14,20 @@ import org.greenrobot.greendao.annotation.Generated;
 @Entity
 public class LuXian {
     @Id
+    @SerializedName("BH")
     private String bianHao;
 
+    @SerializedName("MC")
     private String mingCheng;
 
-    @Generated(hash = 1744651780)
-    public LuXian(String bianHao, String mingCheng) {
+    @SerializedName("DJ")
+    private String dengJi;
+
+    @Generated(hash = 149713271)
+    public LuXian(String bianHao, String mingCheng, String dengJi) {
         this.bianHao = bianHao;
         this.mingCheng = mingCheng;
+        this.dengJi = dengJi;
     }
 
     @Generated(hash = 862110456)
@@ -40,6 +48,14 @@ public class LuXian {
 
     public void setMingCheng(String mingCheng) {
         this.mingCheng = mingCheng;
+    }
+
+    public String getDengJi() {
+        return this.dengJi;
+    }
+
+    public void setDengJi(String dengJi) {
+        this.dengJi = dengJi;
     }
 
 }

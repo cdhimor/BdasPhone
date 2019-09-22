@@ -3,6 +3,8 @@ package cn.com.lxsoft.bdasphone.entity;
 /**
  * Created by Administrator on 2018/12/20.
  */
+import com.google.gson.annotations.SerializedName;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Unique;
@@ -11,8 +13,10 @@ import org.greenrobot.greendao.annotation.Generated;
 @Entity
 public class DanWei {
     @Id
+    @SerializedName("DM")
     private String daiMa;
 
+    @SerializedName("MC")
     private String mingCheng;
 
     @Generated(hash = 1132150992)

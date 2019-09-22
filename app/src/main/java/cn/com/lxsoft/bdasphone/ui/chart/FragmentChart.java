@@ -12,21 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RadioGroup;
 
-import com.github.mikephil.charting.animation.Easing;
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.PercentFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
-import com.github.mikephil.charting.utils.MPPointF;
-import com.zhihu.matisse.Matisse;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import cn.com.lxsoft.bdasphone.BR;
 import cn.com.lxsoft.bdasphone.R;
@@ -35,16 +22,10 @@ import cn.com.lxsoft.bdasphone.databinding.FragmentChartBinding;
 import cn.com.lxsoft.bdasphone.entity.Chart;
 import cn.com.lxsoft.bdasphone.utils.ActivityUtils;
 import cn.com.lxsoft.bdasphone.utils.BottomNavigationViewHelper;
-import cn.com.lxsoft.bdasphone.utils.RadioGroupUtils;
-import cn.com.lxsoft.bdasphone.utils.StatusBarUtils;
 import me.goldze.mvvmhabit.base.BaseFragment;
-import q.rorbin.verticaltablayout.VerticalTabLayout;
-import q.rorbin.verticaltablayout.widget.TabView;
-
-import static android.app.Activity.RESULT_OK;
-
 
 public class FragmentChart extends BaseFragment<FragmentChartBinding, FragmentChartViewModel> {
+
     @Override
     public void initParam() {
 
@@ -93,6 +74,7 @@ public class FragmentChart extends BaseFragment<FragmentChartBinding, FragmentCh
 
 
 
+
         //Chart.setRotationAngle(0);
         // enable rotation of the Chart by touch
         //Chart.setRotationEnabled(true);
@@ -100,8 +82,6 @@ public class FragmentChart extends BaseFragment<FragmentChartBinding, FragmentCh
 
         //Chart.setOnChartValueSelectedListener(this);
         //Chart.animateY(1400, Easing.EaseInOutQuad);
-
-
 
         Activity activity=this.getActivity();
         binding.floatButtonChartSelect.setOnClickListener(new View.OnClickListener(){
@@ -111,6 +91,15 @@ public class FragmentChart extends BaseFragment<FragmentChartBinding, FragmentCh
             }
         });
 
+        binding.tableLayoutChartSelect.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                String  leftChart=SystemConfig.Chart_Left_Qlfl;
+                if(checkedId==R.id.rdbt_chart_pingJia)
+                    leftChart=SystemConfig.Chart_Left_qljspj;
+                viewModel.onChartIDSelected(leftChart);
+            }
+        });
     }
 
     @Override
@@ -133,6 +122,14 @@ public class FragmentChart extends BaseFragment<FragmentChartBinding, FragmentCh
             }
         });
 
-        viewModel.layoutChartViewModel.dealChartData();
+        viewModel.obChartTypeName.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable sender, int propertyId) {
+                binding.tvChartInfo.setText(viewModel.obChartTypeName.get());
+            }
+        });
+
+        viewModel.layoutChartViewModel.dealChartData(true);
+        viewModel.setChartName();
     }
 }

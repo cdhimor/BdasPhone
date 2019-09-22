@@ -9,44 +9,86 @@
     android:paddingLeft="8dp">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="32dp"
+        android:layout_height="42dp"
         android:orientation="horizontal"
         android:layout_marginTop="4dp">
         <TextView
             android:layout_width="64dp"
-            android:layout_height="wrap_content"
-            android:minHeight="32dp"
+            android:layout_height="42dp"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="8dp"
             android:text="构件编号"
+            android:gravity="center_vertical"
             />
         <TextView
             android:id="@+id/test_add_gouJian"
             android:layout_width="match_parent"
             android:layout_height="32dp"
             android:layout_weight="1"
-            android:background="@drawable/shape_rect_border_primarycolor"/>
+            android:background="@drawable/shape_rect_border_primarycolor"
+            android:paddingTop="6dp"
+            android:textAlignment="center"
+            android:textColor="@color/black"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="8dp">
-        <TextView
-            android:layout_width="64dp"
-            android:layout_height="wrap_content"
-            android:minHeight="32dp"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="8dp"
-            android:text="病害"
-            />
+        android:orientation="vertical"
+        android:layout_marginTop="4dp">
         <cn.com.lxsoft.bdasphone.ui.component.DiseaseInput
             android:id="@+id/test_add_disease"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:minHeight="32dp"
             android:padding="4dp"
-            android:layout_weight="1"
+            android:paddingBottom="0dp"
             android:orientation="vertical"
-            android:background="@drawable/shape_rect_border_primarycolor"/>
+            android:background="@drawable/shape_rect_border_primarycolor" />
+    </LinearLayout>
+    <cn.com.lxsoft.bdasphone.ui.component.BridgeImagePanel
+        android:id="@+id/test_image_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:id="@+id/test_add_remark_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="8dp"
+        android:visibility="gone">
+        <EditText
+            android:id="@+id/test_remark_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="32dp"
+            android:background="@drawable/shape_rect_border_primarycolor"
+            android:paddingTop="4dp"
+            android:paddingLeft="8dp"
+            android:hint="备注"
+            android:textColor="@color/black"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+        <ImageView
+            android:id="@+id/test_add_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_addphoto_gray_24dp"
+            android:layout_marginRight="8dp"/>
+        <ImageView
+            android:id="@+id/test_add_remark"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:src="@drawable/ic_disease_remark_gray_24dp"
+            android:layout_marginRight="2dp"/>
+        <ImageView
+            android:id="@+id/test_delete_disease"
+            android:layout_width="wrap_content"
+            android:layout_height="26dp"
+            android:src="@drawable/ic_delete_gray_24dp"/>
     </LinearLayout>
 </LinearLayout>

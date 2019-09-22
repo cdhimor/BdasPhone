@@ -5,29 +5,40 @@
             name="viewModel"
             type="cn.com.lxsoft.bdasphone.ui.login.LoginViewModel" />
     </data>
-    <RelativeLayout
+    <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:binding="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
-
+    android:background="@color/white"
+        android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1">
+<ImageView
+    android:layout_width="170dp"
+    android:layout_height="148dp"
+    android:src="@mipmap/logo"
+    android:layout_gravity="center"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="20dp">
-
+            android:padding="20dp"
+            android:layout_marginBottom="102dp"
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
                 android:background="@drawable/shape_rect_border_primarycolor"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:padding="16sp">
+                android:padding="12sp">
 
                 <ImageView
                     android:layout_width="24dp"
@@ -69,7 +80,7 @@
                 android:background="@drawable/shape_rect_border_primarycolor"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:padding="16sp">
+                android:padding="12sp">
 
                 <ImageView
                     android:layout_width="22dp"
@@ -110,14 +121,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp">
 
-                <TextView
+                <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="8dp"
-                    android:text="忘记密码"
+                    android:text="自动登录"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:checked="@={viewModel.uc.checkAutoLogin}"/>
             </RelativeLayout>
 
             <LinearLayout
@@ -130,7 +142,7 @@
 
                 <Button
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:background="@drawable/shape_rect_noborder_primarycolor"
                     android:text="登录"
                     android:textColor="@color/white"
@@ -139,5 +151,5 @@
             </LinearLayout>
 
         </LinearLayout>
-    </RelativeLayout>
+    </LinearLayout>
 </layout>

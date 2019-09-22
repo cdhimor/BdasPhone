@@ -1,5 +1,7 @@
 package cn.com.lxsoft.bdasphone.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
@@ -14,14 +16,22 @@ import cn.com.lxsoft.bdasphone.database.greendao.UserDao;
 @Entity
 public class User {
     @Id
+    @SerializedName("ID")
     private String loginName;
 
+    @SerializedName("NM")
     private String name;
+
+    @SerializedName("PH")
     private String phoneNumber;
 
+    @SerializedName("DW")
     private String danWeiID;
     @ToOne(joinProperty ="danWeiID")
     private DanWei danWei;
+
+    @SerializedName("RL")
+    private int roleID;
 
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
@@ -31,33 +41,18 @@ public class User {
     @Generated(hash = 1507654846)
     private transient UserDao myDao;
 
-    @Generated(hash = 1456009866)
-    private transient String danWei__resolvedKey;
-
-    public User(String name, String danweiID) {
-        this.name = name;
-        this.danWeiID = danweiID;
-    }
-
-    @Generated(hash = 1139842356)
-    public User(String loginName, String name, String phoneNumber,
-            String danWeiID) {
+    @Generated(hash = 792468687)
+    public User(String loginName, String name, String phoneNumber, String danWeiID,
+            int roleID) {
         this.loginName = loginName;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.danWeiID = danWeiID;
+        this.roleID = roleID;
     }
 
     @Generated(hash = 586692638)
     public User() {
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getLoginName() {
@@ -66,6 +61,14 @@ public class User {
 
     public void setLoginName(String loginName) {
         this.loginName = loginName;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPhoneNumber() {
@@ -83,6 +86,17 @@ public class User {
     public void setDanWeiID(String danWeiID) {
         this.danWeiID = danWeiID;
     }
+
+    public int getRoleID() {
+        return this.roleID;
+    }
+
+    public void setRoleID(int roleID) {
+        this.roleID = roleID;
+    }
+
+    @Generated(hash = 1456009866)
+    private transient String danWei__resolvedKey;
 
     /** To-one relationship, resolved on first access. */
     @Generated(hash = 790888800)
@@ -155,4 +169,5 @@ public class User {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getUserDao() : null;
     }
+
 }

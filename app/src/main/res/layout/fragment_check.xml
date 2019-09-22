@@ -17,6 +17,7 @@
         android:background="@color/white">
 
         <cn.com.lxsoft.bdasphone.ui.component.ToolBarBdas
+            android:id="@+id/toolbar_check"
             xmlns:lx="http://schemas.android.com/apk/res/cn.com.lxsoft.bdasphone"
             lx:name="经常检查"
             style="@style/ToolBarTitle" />
@@ -66,7 +67,7 @@
             android:layout_weight="1"
             binding:adapter="@{viewModel.adapter}"
             binding:itemBinding="@{viewModel.itemBinding}"
-            binding:items="@{viewModel.items}"
+            binding:items="@{viewModel.viewModelsItems}"
             binding:onPageSelectedCommand="@{viewModel.onPageSelectedCommand}"
             binding:pageTitles="@{viewModel.pageTitles}" />
         </LinearLayout>

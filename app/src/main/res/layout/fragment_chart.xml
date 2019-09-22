@@ -61,11 +61,6 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="8dp">
                         <TextView style="@style/viewWeight"/>
-                        <Button
-                            android:id="@+id/button_chartSel_year"
-                            style="@style/TopBarChartFunc"
-                            android:text="建桥年月"/>
-                        <TextView style="@style/viewWeight"/>
                     <Button
                         android:id="@+id/button_chartSel_path"
                         style="@style/TopBarChartFunc"
@@ -90,32 +85,23 @@
                 android:orientation="vertical"
                 android:gravity="top"
                 app:layout_collapseMode="pin">
+                <TextView
+                    android:id="@+id/tv_chart_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/black"/>
             </LinearLayout>
         </android.support.design.widget.AppBarLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:paddingBottom="160dp">
+            android:paddingBottom="170dp">
+
             <include
                 android:id="@+id/includeChart"
                 layout="@layout/layout_chart"
                 binding:viewModel="@{viewModel.layoutChartViewModel}" />
-            <Switch
-                android:id="@+id/switch_numOrLen"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:showText="true"
-                android:switchMinWidth="40dp"
-                android:textOff="数量"
-                android:textOn="延米"
-                android:checked="@={viewModel.bNumOrLen}"
-                android:thumb="@drawable/sel_thumb_chart"
-                android:track="@drawable/sel_track_chart"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="16dp"
-                />
         </RelativeLayout>
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/floatButton_chart_select"
@@ -133,15 +119,18 @@
             android:id="@+id/navigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
             android:background="?android:attr/windowBackground"
+            android:layout_gravity="bottom"
             app:menu="@menu/navigation"
             app:itemIconTint="@color/sel_navmenu"
-            app:itemTextColor="@color/sel_navmenu" />
+            app:itemTextColor="@color/sel_navmenu"
+            android:fitsSystemWindows="true"
+            binding:selectedID="@{viewModel.nActivityPosition}"
+            binding:onNavigationItemSelected="@{viewModel.onNavigationItemSelected}"/>
     </android.support.design.widget.CoordinatorLayout>
     <LinearLayout
         android:id="@+id/layoutDrawer_chart_select"
-        android:layout_width="240dp"
+        android:layout_width="200dp"
         android:layout_height="match_parent"
         android:background="#fff"
         android:layout_gravity="start"
@@ -150,23 +139,58 @@
             android:layout_width="match_parent"
             android:layout_height="32dp"
             android:background="@color/colorPrimary"/>
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:gravity="center_vertical"
-            android:text="请选择图表类型"/>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:layout_marginTop="16dp"
+            >
+            <TextView
+                android:layout_width="8dp"
+                android:layout_height="32dp"
+                android:layout_marginRight="16dp"
+                android:background="@color/colorPrimary"></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="请选择图表类型"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
+        </LinearLayout>
         <RadioGroup
             android:id="@+id/tableLayout_chart_select"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1">
                 <RadioButton
+                    android:id="@+id/rdbt_chart_leiXing"
                     style="@style/TopBarChartType"
-                    android:text="按桥梁类型统计"/>
+                    android:text="按桥梁类型统计"
+                    android:checked="true"
+                    android:layout_marginBottom="16dp"/>
                 <RadioButton
+                    android:id="@+id/rdbt_chart_pingJia"
                     style="@style/TopBarChartType"
                     android:text="按桥梁技术状况统计"/>
         </RadioGroup>
+        <Switch
+            android:id="@+id/switch_numOrLen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:showText="true"
+            android:switchMinWidth="40dp"
+            android:textOff="数量"
+            android:textOn="延米"
+            android:checked="@={viewModel.bNumOrLen}"
+            android:thumb="@drawable/sel_thumb_chart"
+            android:track="@drawable/sel_track_chart"
+            android:layout_marginBottom="64dp"
+            android:layout_gravity="center"
+            />
     </LinearLayout>
     <include
         android:id="@+id/layout_slide_list"

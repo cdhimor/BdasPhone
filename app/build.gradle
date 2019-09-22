@@ -32,6 +32,17 @@ android {
         daoPackage 'cn.com.lxsoft.bdasphone.database.greendao'
         targetGenDir 'src/main/java'
     }
+
+    packagingOptions {
+        exclude 'META-INF/proguard/androidx-annotations.pro'
+    }
+
+    android.applicationVariants.all {
+        variant ->
+            variant.outputs.all {
+                outputFileName = "Bdas_${rootProject.ext.android.versionName}.apk"
+            }
+    }
 }
 
 dependencies {
@@ -53,6 +64,9 @@ dependencies {
     implementation rootProject.ext.dependencies["FlycoTabLayout"]
     implementation rootProject.ext.dependencies["glide"]
     implementation rootProject.ext.dependencies["matisse"]
+    implementation rootProject.ext.dependencies["NiceImageView"]
+    implementation rootProject.ext.dependencies["zxing"]
+    //implementation rootProject.ext.dependencies["okhttp-logging"]
     implementation 'com.lcodecorex:tkrefreshlayout:1.0.7'
     implementation project(':mvvmhabit')
     implementation 'com.alibaba:fastjson:1.1.55.android'

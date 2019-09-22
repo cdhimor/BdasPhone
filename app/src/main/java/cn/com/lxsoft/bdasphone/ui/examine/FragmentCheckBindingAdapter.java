@@ -32,6 +32,8 @@ import com.zhihu.matisse.internal.entity.CaptureStrategy;
 import cn.com.lxsoft.bdasphone.R;
 import cn.com.lxsoft.bdasphone.app.SystemConfig;
 import cn.com.lxsoft.bdasphone.databinding.LayoutCheckViewpagerItemBinding;
+import cn.com.lxsoft.bdasphone.entity.ImageData;
+import cn.com.lxsoft.bdasphone.ui.component.BridgeImagePanel;
 import cn.com.lxsoft.bdasphone.utils.ActivityUtils;
 import cn.com.lxsoft.bdasphone.utils.GlideEnginex;
 import io.reactivex.functions.Consumer;
@@ -43,6 +45,9 @@ import q.rorbin.verticaltablayout.widget.TabView;
 import android.net.Uri;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
+
+import java.util.List;
 
 /**
  * Created by goldze on 2018/6/21.
@@ -52,96 +57,69 @@ public class FragmentCheckBindingAdapter extends BindingViewPagerAdapter<Fragmen
     public FragmentCheckViewModel fragmentCheckViewModel;
     public FragmentCheck fragmentCheck;
 
-
-
     @Override
-    public void onBindBinding(final ViewDataBinding binding, int variableId, int layoutRes, final int position, FragmentCheckItemViewModel item) {
-        super.onBindBinding(binding, variableId, layoutRes, position, item);
+    public void onBindBinding(final ViewDataBinding _binding, int variableId, int layoutRes, final int position, FragmentCheckItemViewModel viewModel) {
+        super.onBindBinding(_binding, variableId, layoutRes, position, viewModel);
+        if(position==0)
+            return;
 
-        LayoutCheckViewpagerItemBinding _binding = (LayoutCheckViewpagerItemBinding) binding;
-        Context context=_binding.getRoot().getContext();
+        LayoutCheckViewpagerItemBinding binding = (LayoutCheckViewpagerItemBinding) _binding;
+        //Context context=binding.getRoot().getContext();
 
-        item.oALDiseasePicList.addOnListChangedCallback(new ObservableList.OnListChangedCallback<ObservableList<Uri>>() {
+        RadioGroup rdGroup=binding.checkSelectRdGroup;
+
+        switch (viewModel.disease.get()) {
+            case "1":
+                rdGroup.check(R.id.check_select_A);
+                break;
+            case "2":
+                rdGroup.check(R.id.check_select_1);
+                break;
+            case "3":
+                rdGroup.check(R.id.check_select_2);
+                break;
+        }
+
+        BridgeImagePanel imgPanel=binding.checkImagePanel;
+        imgPanel.init(fragmentCheck);
+
+        imgPanel.onLoadImageOK=new BridgeImagePanel.OnLoadImage() {
             @Override
-            public void onChanged(ObservableList<Uri> sender){}
-
-
-            public void onItemRangeChanged(ObservableList<Uri> sender, int positionStart, int itemCount){
-
+            public boolean onLoad(List<Uri> tplist) {
+                viewModel.imageList.addAll(ImageData.createImageList(tplist,true));
+                return true;
             }
+        };
+        imgPanel.showImage(viewModel.imageList);
 
-            public void onItemRangeInserted(ObservableList<Uri> sender, int positionStart, int itemCount)
-            {
-                if(sender.size()==0)
-                    return;
-                ImageView imageView = new ImageView(fragmentCheck.getContext());
-                LinearLayout.LayoutParams para=new LinearLayout.LayoutParams(300,300);
-                //ViewGroup.LayoutParams para = imageView.getLayoutParams();
-                para.height = 300;
-                para.width = 300;
-                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                imageView.setLayoutParams(para);
-                _binding.layoutDiseasePicList.addView(imageView);
-                for(int i=0;i<sender.size();i++) {
-                    Glide.with(fragmentCheck)
-                            .asBitmap() // some .jpeg files are actually gif
-                            .load(sender.get(i))
-                            .centerCrop()
-                            .into(imageView);
-                }
-            }
-
-            public void onItemRangeMoved(ObservableList<Uri> sender, int fromPosition, int toPosition,int itemCount){}
-
-            public void onItemRangeRemoved(ObservableList<Uri> sender, int positionStart, int itemCount){}
-
-            });
-
-        item.clickEvent.observe((LifecycleOwner) context, new Observer<String>() {
+        rdGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onChanged(@Nullable String s) {
-                /*
-                if(ContextCompat.checkSelfPermission(_binding.getRoot().getContext(),Manifest.permission.READ_EXTERNAL_STORAGE )!= PackageManager.PERMISSION_GRANTED
-                   || ContextCompat.checkSelfPermission(_binding.getRoot().getContext(),Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED ) {
-                    ActivityCompat.requestPermissions(ActivityUtils.getActivityFromView(_binding.getRoot()), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-                    return;
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                int pos=position;
+                String code="1";
+                switch (checkedId){
+                    case R.id.check_select_1:
+                        code="2";
+                        break;
+                    case R.id.check_select_2:
+                        code="3";
+                        break;
                 }
-                */
-
-                RxPermissions rxPermissions = new RxPermissions(fragmentCheck.getActivity());
-                rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE/*,Manifest.permission.CAMERA*/)
-                        .subscribe(new Consumer<Boolean>() {
-                            @Override
-                            public void accept(Boolean aBoolean) throws Exception {
-                                if (aBoolean) {
-                                    Matisse.from(fragmentCheck)
-                                            .choose(MimeType.ofAll(), false) // 选择 mime 的类型
-                                            .countable(true)
-                                            //.capture(true)//选择照片时，是否显示拍照
-                                            //.captureStrategy(new CaptureStrategy(true, "cn.com.lxsoft.bdasphone"))//参数1 true表示拍照存储在共有目录，false表示存储在私有目录；参数2与 AndroidManifest中authorities值相同，用于适配7.0系统 必须设置
-                                            .maxSelectable(9) // 图片选择的最多数量
-                                            .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                                            .thumbnailScale(0.85f) // 缩略图的比例
-                                            .imageEngine(new GlideEnginex()) // 使用的图片加载引擎
-                                            .forResult(SystemConfig.MATISSE_REQUEST_CODE_CHOOSE); // 设置作为标记的请求码
-                                } else {
-                                    ToastUtils.showShort("权限被拒绝");
-                                }
-                            }
-                        });
+                viewModel.disease.set(code);
+                fragmentCheck.setBadgeColor(pos,fragmentCheckViewModel.getPageTitleBadgeColor(pos));
             }
         });
 
-        return;
     }
 
 
 
     @Override
     public TabView.TabBadge getBadge(int position) {
-        //if (position == 2) return new TabView.TabBadge.Builder().setBadgeNumber(666)
-          //      .setExactMode(true).build();
-        return null;
+        int color=fragmentCheckViewModel.getPageTitleBadgeColor(position);
+        if(color==0)
+            return null;
+        return new TabView.TabBadge.Builder().setBadgeNumber(-1).setExactMode(true).setBackgroundColor(color).build();
     }
 
     @Override
@@ -153,7 +131,7 @@ public class FragmentCheckBindingAdapter extends BindingViewPagerAdapter<Fragmen
     @Override
     public TabView.TabTitle getTitle(int position) {
 
-        String title=fragmentCheckViewModel.getTitles().get(position);
+        String title=fragmentCheckViewModel.getPageTitle(position);
         return new TabView.TabTitle.Builder()
                 .setContent(title)
                 .setTextColor(0xFF009900, Color.BLACK)
@@ -167,14 +145,14 @@ public class FragmentCheckBindingAdapter extends BindingViewPagerAdapter<Fragmen
 
     @Override
     public int getCount() {
-        return fragmentCheckViewModel.getTitles().size();
+        return fragmentCheckViewModel.viewModelsItems.size();
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
 
-        String title=fragmentCheckViewModel.getTitles().get(position);
-        return title;
+        //String title=fragmentCheckViewModel.getTitles().get(position);
+        return "";
     }
 
 

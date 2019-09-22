@@ -14,35 +14,32 @@
         android:orientation="vertical"
         android:gravity="center_horizontal">
         <RadioGroup
+            android:id="@+id/check_select_rdGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <RadioButton
+                android:id="@+id/check_select_A"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="有无异常变形异常振动及其他异常状况"
+                android:text="@{viewModel.selectStrA}"
                 android:checked="true"/>
             <RadioButton
+                android:id="@+id/check_select_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="存在异常情况，尚未危及桥梁安全" />
+                android:text="@{viewModel.selectStr1}"
+                android:layout_marginTop="8dp"/>
             <RadioButton
+                android:id="@+id/check_select_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="存在异常变形、异常振动及其他异常状况，危及桥梁安全"/>
+                android:text="@{viewModel.selectStr2}"
+                android:layout_marginTop="8dp"/>
         </RadioGroup>
-        <ImageView
-            android:id="@+id/but_addDisease"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="6dp"
-            android:src="@drawable/ic_add_circle"
-            android:layout_marginTop="8dp"
-            binding:onClickCommand="@{viewModel.onAddDiseaseClick}"/>
-        <LinearLayout
-            android:id="@+id/layout_disease_picList"
+        <cn.com.lxsoft.bdasphone.ui.component.BridgeImagePanel
+            android:id="@+id/check_image_panel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"></LinearLayout>
+            android:layout_margin="16dp"/>
     </LinearLayout>
 </layout>

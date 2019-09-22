@@ -11,7 +11,10 @@ import org.greenrobot.greendao.annotation.*;
 import com.google.gson.annotations.SerializedName;
 import org.greenrobot.greendao.DaoException;
 
+import java.util.Date;
+
 import cn.com.lxsoft.bdasphone.R;
+import cn.com.lxsoft.bdasphone.app.SystemConfig;
 import cn.com.lxsoft.bdasphone.database.greendao.DaoSession;
 import cn.com.lxsoft.bdasphone.database.greendao.LuXianDao;
 import cn.com.lxsoft.bdasphone.database.greendao.DanWeiDao;
@@ -54,68 +57,108 @@ import cn.com.lxsoft.bdasphone.database.greendao.YearTestDao;
 @Entity
 public class QiaoLiang {//当前状态
     @Id
+    @SerializedName("DM")
     private String daiMa;
 
-    @SerializedName("mC")
+    @SerializedName("MC")
     private String mingCheng;
 
-    private String leiXing;
-
-    private String jieGou;
-
-    private String danWeiID;
-    @ToOne(joinProperty ="danWeiID")
-    private DanWei danWei;
-
+    @SerializedName("LX")
     private String luXianID;
     @ToOne(joinProperty ="luXianID")
     private LuXian luXian;
 
-    @SerializedName("zHao")
+    @SerializedName("DW")
+    private String danWeiID;
+    @ToOne(joinProperty ="danWeiID")
+    private DanWei danWei;
+
+    @SerializedName("LEX")
+    private String leiXing;
+
+    @SerializedName("JG")
+    private String jieGou;
+
+    @SerializedName("ZH")
     private float zhuangHao;
-    @SerializedName("qC")
+    @SerializedName("QC")
     private float qiaoChang;
-    @SerializedName("qK")
+    @SerializedName("QK")
     private float qiaoKuan;
-    @SerializedName("qG")
+    @SerializedName("QG")
     private float qiaoGao;
 
+    @SerializedName("PJ")
     private int pingJi;
 
+    @SerializedName("WK")
     private String workerID;
     @ToOne(joinProperty ="workerID")
     private User worker;
 
-    private String ownerID;
-    @ToOne(joinProperty ="ownerID")
-    private User owner;
-
+    @SerializedName("PI")
     public String patrolID;
     @ToOne(joinProperty ="patrolID")
     private Patrol patrol;
 
+    @SerializedName("TI")
     public String yearTestID;
-    @ToOne(joinProperty ="patrolID")
+    @ToOne(joinProperty ="yearTestID")
     private YearTest yearTest;
 
+    @SerializedName("CK")
+    public String checkID;
+    @ToOne(joinProperty ="checkID")
+    private Check check;
+
+    @SerializedName("LT")
+    private double lat;
+
+    @SerializedName("LG")
+    private double lng;
+
+    @SerializedName("NY")
+    private Date jianQiaoNianYue;
+
+    @SerializedName("JT")
+    private float jiaoTongLiuLiang;
+
+    @SerializedName("HZ")
+    private String heZaiDengJi;
+
+    @SerializedName("KD")
+    private String kuaYueDiWu;
+
+    @SerializedName("YT")
+    private String yongTu;
 
     public String getleiXingInfo(){
         return DataDict.getDict("1.1",leiXing);
     }
 
     public String getjieGouInfo(){
-        return DataDict.getDict("1.2",jieGou.substring(jieGou.length()-3));
+        return DataDict.getMultDict("1.2",jieGou);
     }
 
-    public String examineTime;//DMWY3
+    public String getjieGouPJInfo(){
+        return DataDict.getMultDict("1.2x",jieGou);
+    }
 
-    private double lat;
-    private double lng;
 
+    public int getExamineLevel(){
+        int iQ=Integer.parseInt(getLeiXing())-1;
+        int iL=0;
+        switch (getLuXianID()){
+            case "S":
+               iL=1;
+               break;
+            case "X":
+                iL=3;
+                break;
+        }
+        return SystemConfig.ExamineLevel[iL][iQ];
+    }
 
-    public String checkID;
-    @ToOne(joinProperty ="checkID")
-    private Check check;
 
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
@@ -126,29 +169,33 @@ public class QiaoLiang {//当前状态
     private transient QiaoLiangDao myDao;
 
 
-    @Generated(hash = 294152822)
-    public QiaoLiang(String daiMa, String mingCheng, String leiXing, String jieGou, String danWeiID, String luXianID,
-            float zhuangHao, float qiaoChang, float qiaoKuan, float qiaoGao, int pingJi, String workerID, String ownerID,
-            String patrolID, String yearTestID, String examineTime, double lat, double lng, String checkID) {
+    @Generated(hash = 1961210338)
+    public QiaoLiang(String daiMa, String mingCheng, String luXianID, String danWeiID, String leiXing, String jieGou,
+            float zhuangHao, float qiaoChang, float qiaoKuan, float qiaoGao, int pingJi, String workerID, String patrolID,
+            String yearTestID, String checkID, double lat, double lng, Date jianQiaoNianYue, float jiaoTongLiuLiang,
+            String heZaiDengJi, String kuaYueDiWu, String yongTu) {
         this.daiMa = daiMa;
         this.mingCheng = mingCheng;
+        this.luXianID = luXianID;
+        this.danWeiID = danWeiID;
         this.leiXing = leiXing;
         this.jieGou = jieGou;
-        this.danWeiID = danWeiID;
-        this.luXianID = luXianID;
         this.zhuangHao = zhuangHao;
         this.qiaoChang = qiaoChang;
         this.qiaoKuan = qiaoKuan;
         this.qiaoGao = qiaoGao;
         this.pingJi = pingJi;
         this.workerID = workerID;
-        this.ownerID = ownerID;
         this.patrolID = patrolID;
         this.yearTestID = yearTestID;
-        this.examineTime = examineTime;
+        this.checkID = checkID;
         this.lat = lat;
         this.lng = lng;
-        this.checkID = checkID;
+        this.jianQiaoNianYue = jianQiaoNianYue;
+        this.jiaoTongLiuLiang = jiaoTongLiuLiang;
+        this.heZaiDengJi = heZaiDengJi;
+        this.kuaYueDiWu = kuaYueDiWu;
+        this.yongTu = yongTu;
     }
 
     @Generated(hash = 1604867976)
@@ -163,9 +210,6 @@ public class QiaoLiang {//当前状态
 
     @Generated(hash = 1791517005)
     private transient String worker__resolvedKey;
-
-    @Generated(hash = 1407767798)
-    private transient String owner__resolvedKey;
 
     @Generated(hash = 1788412596)
     private transient String patrol__resolvedKey;
@@ -314,14 +358,6 @@ public class QiaoLiang {//当前状态
         this.workerID = workerID;
     }
 
-    public String getOwnerID() {
-        return this.ownerID;
-    }
-
-    public void setOwnerID(String ownerID) {
-        this.ownerID = ownerID;
-    }
-
     public String getPatrolID() {
         return this.patrolID;
     }
@@ -336,14 +372,6 @@ public class QiaoLiang {//当前状态
 
     public void setYearTestID(String yearTestID) {
         this.yearTestID = yearTestID;
-    }
-
-    public String getExamineTime() {
-        return this.examineTime;
-    }
-
-    public void setExamineTime(String examineTime) {
-        this.examineTime = examineTime;
     }
 
     public double getLat() {
@@ -458,35 +486,6 @@ public class QiaoLiang {//当前状态
     }
 
     /** To-one relationship, resolved on first access. */
-    @Generated(hash = 1377745454)
-    public User getOwner() {
-        String __key = this.ownerID;
-        if (owner__resolvedKey == null || owner__resolvedKey != __key) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            UserDao targetDao = daoSession.getUserDao();
-            User ownerNew = targetDao.load(__key);
-            synchronized (this) {
-                owner = ownerNew;
-                owner__resolvedKey = __key;
-            }
-        }
-        return owner;
-    }
-
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1708933489)
-    public void setOwner(User owner) {
-        synchronized (this) {
-            this.owner = owner;
-            ownerID = owner == null ? null : owner.getLoginName();
-            owner__resolvedKey = ownerID;
-        }
-    }
-
-    /** To-one relationship, resolved on first access. */
     @Generated(hash = 718638389)
     public Patrol getPatrol() {
         String __key = this.patrolID;
@@ -506,19 +505,19 @@ public class QiaoLiang {//当前状态
     }
 
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 2036975652)
+    @Generated(hash = 1266084540)
     public void setPatrol(Patrol patrol) {
         synchronized (this) {
             this.patrol = patrol;
-            patrolID = patrol == null ? null : patrol.getExamineID();
+            patrolID = patrol == null ? null : patrol.getBridgeCode();
             patrol__resolvedKey = patrolID;
         }
     }
 
     /** To-one relationship, resolved on first access. */
-    @Generated(hash = 1720453772)
+    @Generated(hash = 20364898)
     public YearTest getYearTest() {
-        String __key = this.patrolID;
+        String __key = this.yearTestID;
         if (yearTest__resolvedKey == null || yearTest__resolvedKey != __key) {
             final DaoSession daoSession = this.daoSession;
             if (daoSession == null) {
@@ -535,12 +534,12 @@ public class QiaoLiang {//当前状态
     }
 
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1627988904)
+    @Generated(hash = 1283386284)
     public void setYearTest(YearTest yearTest) {
         synchronized (this) {
             this.yearTest = yearTest;
-            patrolID = yearTest == null ? null : yearTest.getExamineID();
-            yearTest__resolvedKey = patrolID;
+            yearTestID = yearTest == null ? null : yearTest.getBridgeID();
+            yearTest__resolvedKey = yearTestID;
         }
     }
 
@@ -615,5 +614,46 @@ public class QiaoLiang {//当前状态
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getQiaoLiangDao() : null;
     }
+
+    public Date getJianQiaoNianYue() {
+        return this.jianQiaoNianYue;
+    }
+
+    public void setJianQiaoNianYue(Date jianQiaoNianYue) {
+        this.jianQiaoNianYue = jianQiaoNianYue;
+    }
+
+    public float getJiaoTongLiuLiang() {
+        return this.jiaoTongLiuLiang;
+    }
+
+    public void setJiaoTongLiuLiang(float jiaoTongLiuLiang) {
+        this.jiaoTongLiuLiang = jiaoTongLiuLiang;
+    }
+
+    public String getHeZaiDengJi() {
+        return this.heZaiDengJi;
+    }
+
+    public void setHeZaiDengJi(String heZaiDengJi) {
+        this.heZaiDengJi = heZaiDengJi;
+    }
+
+    public String getKuaYueDiWu() {
+        return this.kuaYueDiWu;
+    }
+
+    public void setKuaYueDiWu(String kuaYueDiWu) {
+        this.kuaYueDiWu = kuaYueDiWu;
+    }
+
+    public String getYongTu() {
+        return this.yongTu;
+    }
+
+    public void setYongTu(String yongTu) {
+        this.yongTu = yongTu;
+    }
+
 
 }

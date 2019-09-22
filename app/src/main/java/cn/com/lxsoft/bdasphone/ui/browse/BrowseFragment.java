@@ -73,8 +73,8 @@ public class BrowseFragment extends BaseFragment<FragmentBrowseBinding, BrowseFr
 
         ActivityUtils.initRecyclerView(binding.layoutSlideList.idDrawerList,this.getContext());
 
-        RadioGroupUtils rGU=new RadioGroupUtils(binding.rdoGpQuickChoose);
-        rGU.supportNest();
+        //RadioGroupUtils rGU=new RadioGroupUtils(binding.rdoGpQuickChoose);
+        //rGU.supportNest();
 
         BottomNavigationViewHelper.disableShiftMode((BottomNavigationView) binding.navigation);
 
@@ -103,14 +103,17 @@ public class BrowseFragment extends BaseFragment<FragmentBrowseBinding, BrowseFr
             }
         });
 
+
         //桥梁类型 是 小桥╳//m1.1┬1┼m1.2┬01
         Bundle mBundle = getArguments();
         if (mBundle != null) {
             String[] res=SystemConfig.parseBundleSearchData(mBundle);
             binding.layoutToolbarTitle.addSearchInfo(res[0],res[1]);
         }
-        else
+        else {
+            viewModel.setOrderData("m0.1",true);
             viewModel.dealMainDataBinding(0);
+        }
 
         binding.layoutToolbarTitle.setViewModel(viewModel);
     }
@@ -122,8 +125,8 @@ public class BrowseFragment extends BaseFragment<FragmentBrowseBinding, BrowseFr
         viewModel.oIntToolbarSelectedPanel.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
-                LinearLayout rgLeXing = binding.layoutPanelLeiXing;
-                LinearLayout rgZK = binding.layoutPanelPingJia;
+                RadioGroup rgLeXing = binding.rdoGpQuickChooseLX;
+                RadioGroup rgZK = binding.rdoGpQuickChooseDJ;
                 RadioGroup rgPaiXu = binding.idRadioGpPaiXu;
                 switch(viewModel.oIntToolbarSelectedPanel.get()) {
                     case 1://paixu
@@ -135,6 +138,7 @@ public class BrowseFragment extends BaseFragment<FragmentBrowseBinding, BrowseFr
                         rgZK.setVisibility(View.GONE);
                         rgPaiXu.setVisibility(View.GONE);
                         rgLeXing.setVisibility(View.VISIBLE);
+                        //rgZK.clearCheck();
                         break;
                     case 3://zhuangkuang
                         rgLeXing.setVisibility(View.GONE);
@@ -145,31 +149,49 @@ public class BrowseFragment extends BaseFragment<FragmentBrowseBinding, BrowseFr
             }
         });
 
+        viewModel.oIntClearCheck.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable sender, int propertyId) {
+                if(viewModel.oIntClearCheck.get()==1)
+                    binding.rdoGpQuickChooseDJ.clearCheck();
+                else
+                    binding.rdoGpQuickChooseLX.clearCheck();
+            }
+        });
+
         viewModel.pageIndexMain.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
                 //结束刷新
-                ToastUtils.showLong("第"+(viewModel.pageIndexMain.get()+1)+"页");
+                int pageIndex=viewModel.pageIndexMain.get();
+                if(pageIndex==-1)
+                    return;
+                if(pageIndex==0)
+                    ToastUtils.showLong("共"+viewModel.dataNum+"条数据，"+viewModel.pageCount+"页");
+                else
+                    ToastUtils.showLong("第"+(viewModel.pageIndexMain.get()+1)+"页");
                 binding.twinklingRefreshLayout.finishLoadmore();
             }
         });
 
 
-        viewModel.oBoolMainOrderUp.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
-            @Override
-            public void onPropertyChanged(Observable observable, int i) {
-                RadioButton btn=getActivity().findViewById(binding.idRadioGpPaiXu.getCheckedRadioButtonId());
-                if(btn==null)
-                    return;
-                String text=btn.getText().toString();
-                if(viewModel.oBoolMainOrderUp.get()) {
-                    btn.setText(text.substring(0, text.length() - 1).concat("▲"));
+        for(int i=0;i<viewModel.oOrderList.size();i++) {
+            int pos=i;
+            viewModel.oOrderList.get(i).addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+                @Override
+                public void onPropertyChanged(Observable observable, int i) {
+                    RadioButton btn = getActivity().findViewById(binding.idRadioGpPaiXu.getCheckedRadioButtonId());
+                    if (btn == null)
+                        return;
+                    String text = btn.getText().toString();
+                    if (viewModel.oOrderList.get(pos).get()) {
+                        btn.setText(text.substring(0, text.length() - 1).concat("▲"));
+                    } else {
+                        btn.setText(text.substring(0, text.length() - 1).concat("▼"));
+                    }
                 }
-                else {
-                    btn.setText(text.substring(0, text.length() - 1).concat("▼"));
-                }
-            }
-        });
+            });
+        }
 
         viewModel.slideBrowseViewModel.bSlideOpen.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override

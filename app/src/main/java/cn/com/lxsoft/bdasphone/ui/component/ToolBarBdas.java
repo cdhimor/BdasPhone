@@ -23,6 +23,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.uuzuche.lib_zxing.activity.CaptureActivity;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -32,6 +34,7 @@ import cn.com.lxsoft.bdasphone.app.SystemConfig;
 import cn.com.lxsoft.bdasphone.databinding.FragmentBrowseBinding;
 import cn.com.lxsoft.bdasphone.entity.DataDict;
 import cn.com.lxsoft.bdasphone.ui.browse.BrowseFragment;
+import cn.com.lxsoft.bdasphone.ui.main.MainActivity;
 import cn.com.lxsoft.bdasphone.ui.search.FragmentSearch;
 import cn.com.lxsoft.bdasphone.ui.search.SearchActivity;
 import cn.com.lxsoft.bdasphone.utils.ActivityUtils;
@@ -41,15 +44,17 @@ import me.goldze.mvvmhabit.base.ContainerActivity;
 
 public class ToolBarBdas extends Toolbar {
     String name;
-    int type=1;//1:title 2:search
+    int type=1;//1:title 2:search;3:title without button
     boolean bInit=true;
     Context myContext;
     EditText editText;
     LinearLayout panelSearchInfo;
     ListPopupWindow listPopupWindow;
     ImageButton advSearchButton;
+    public ImageButton qRCodeButton;
     private List<String> listSearchDataCode;
     private List<String> listSearchDataName;
+    public Boolean bOpenNew=false;
 
     public interface OnSetSearchOK {
         // 回调方法
@@ -111,9 +116,10 @@ public class ToolBarBdas extends Toolbar {
     }
 
     public void setContent(){
-        if(type==1) {
+        if(type==1 || type==3) {
             LayoutInflater.from(myContext).inflate(R.layout.layout_toolbar, this, true);
-            ((TextView) findViewById(R.id.tv_toolbar_title)).setText(name);
+            TextView tv=(TextView) findViewById(R.id.tv_toolbar_title);
+            tv.setText(name);
 
             ImageView ivBack=findViewById(R.id.tv_toolbar_back);
 
@@ -126,20 +132,26 @@ public class ToolBarBdas extends Toolbar {
             });
 
             ImageView ivOK=findViewById(R.id.toolbar_iv_ok);
-
-            ivOK.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(mOnConfirmOK!=null)
-                        mOnConfirmOK.onConfirmOK();
-                }
-            });
+            if(type==3) {
+                ivOK.setVisibility(GONE);
+            }
+            else {
+                ivOK.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mOnConfirmOK != null)
+                            mOnConfirmOK.onConfirmOK();
+                    }
+                });
+            }
         }
-        else {
+
+        if(type==2) {
             LayoutInflater.from(myContext).inflate(R.layout.layout_toolbar_search, this, true);
             editText=findViewById(R.id.editText_topSearch);
             panelSearchInfo=findViewById(R.id.panel_searchInfo);
             advSearchButton=findViewById(R.id.button_toolbar_advSearch);
+            qRCodeButton=findViewById(R.id.button_toolbar_qrCode);
 
             panelSearchInfo.setVisibility(GONE);
 
@@ -219,11 +231,16 @@ public class ToolBarBdas extends Toolbar {
                         viewModel.startContainerActivity(FragmentSearch.class.getCanonicalName());
                 }
             });
+
         }
     }
 
     public void addSearchInfo(String name,String code)
     {
+        if(bOpenNew){
+            viewModel.startContainerActivity(BrowseFragment.class.getCanonicalName(),SystemConfig.buildBundleSearchData(name,code));
+            return;
+        }
         panelSearchInfo.removeAllViews();
         LayoutInflater inflater = LayoutInflater.from(panelSearchInfo.getContext());
         ViewGroup view=(ViewGroup)inflater.inflate(R.layout.layout_search_info_item,panelSearchInfo,false);
@@ -243,7 +260,10 @@ public class ToolBarBdas extends Toolbar {
         editText.setVisibility(GONE);
         panelSearchInfo.setVisibility(VISIBLE);
 
-        mOnSetSearchOK.onSearch(name,code);
+        if(mOnSetSearchOK!=null)
+            mOnSetSearchOK.onSearch(name,code);
+
+
     }
 
     public void setSearchListener(OnSetSearchOK onItemClickListener ){

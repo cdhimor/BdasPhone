@@ -6,147 +6,166 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
 
-@Entity
+import java.util.Date;
+
+import cn.com.lxsoft.bdasphone.utils.ConvertUtils;
+
 public class BridgeJCSB {
-    @SerializedName("A")
+    @SerializedName("桥梁代码")
     @Id
     private String qiaoLiangDaiMa;
 
-    @SerializedName("B")
+    @SerializedName("桥梁名称")
     private String qiaoLiangMingCheng;
 
-    @SerializedName("C")
+    @SerializedName("路线号")
     private String luXianHao;
 
-    @SerializedName("D")
+    @SerializedName("路线名称")
     private String luXianMingCheng;
 
-    @SerializedName("E")
+    @SerializedName("路线类型")
     private String luXianLeiXing;
 
-    @SerializedName("F")
+    @SerializedName("路线等级")
+    private String luXianDengJi;
+
+    @SerializedName("行政等级")
+    private String xingZhengDengJi;
+
+    @SerializedName("顺序号")
     private String shunXuHao;
 
-    @SerializedName("G")
+    @SerializedName("所在地")
     private String suoZaiDi;
 
-    @SerializedName("H")
-    private String  zhongXinZhuangHao;
+    @SerializedName("中心桩号")
+    private float  zhongXinZhuangHao;
 
-    @SerializedName("I")
+    @SerializedName("管养单位")
     private String guanYangDanWei;
 
-    @SerializedName("J")
+    @SerializedName("跨越地物类型")
     private String kuaYueDiWuLeiXing;
 
-    @SerializedName("K")
+    @SerializedName("跨越地物名称")
     private String kuaYueDiWuMingCheng;
 
-    @SerializedName("L")
-    private String gongLuJiShuDengJi;
-
-    @SerializedName("M")
+    @SerializedName("桥梁性质")
     private String qiaoLiangXingZhi;
 
-    @SerializedName("N")
+    @SerializedName("所在位置")
+    private String suoZaiWeiZhi;
+
+    @SerializedName("桥梁分类")
     private String qiaoLiangFenLei;
 
-    @SerializedName("O")
-    private String qiaoLiangZhuangTai;
+    @SerializedName("桥梁类型")
+    private String qiaoLiangLeiXing;
 
-    @SerializedName("P")
-    private String qiaoLiangYongtu;
+    @SerializedName("抗震等级")
+    private String kangZhengDengJi;
 
-    @SerializedName("Q")
+    @SerializedName("通航等级")
+    private String tongHangDengJi;
+
+    @SerializedName("设计载荷")
     private String sheJiHeZaiDengJi;
 
-    @SerializedName("R")
+    @SerializedName("通行荷载")
     private String muQianHeZai;
 
-    @SerializedName("S")
-    private String zhuQiaoShangBuJieGou;
+    @SerializedName("弯斜坡度")
+    private String wanPoXieDu;
 
-    @SerializedName("T")
-    private String qiaoDunLeiXing;
 
-    @SerializedName("U")
-    private String qiaoTaiLeiXing;
+    @SerializedName("修建年度")
+    private Date xiuJianNianDu;
 
-    @SerializedName("V")
-    private String zhiZuoLeiXing;
+    @SerializedName("建成通车日期")
+    private Date tongCheRiQi;
 
-    @SerializedName("W")
-    private String qiaoDunJiChuLeiXing;
+    @SerializedName("业主单位")
+    private String yeZhuDanWei;
 
-    @SerializedName("X")
-    private String qiaoTaiJiChuLeiXing;
+    @SerializedName("设计单位")
+    private String sheJiDanWei;
 
-    @SerializedName("Y")
-    private String qiaoMianPuZhuangLeiXing;
+    @SerializedName("施工单位")
+    private String shiGongDanWei;
 
-    @SerializedName("Z")
-    private String shenShuoFengLeiXing;
+    @SerializedName("监理单位")
+    private String jianLiDanWei;
 
-    @SerializedName("AA")
-    private String yinQiaoShangBuJieGou;
 
-    @SerializedName("AB")
-    private String  siGongZhuangHao;
-
-    @SerializedName("AC")
-    private String guanLiXingShiMa;
-
-    @SerializedName("AD")
-    private String muQiaoDaiMa;
-
-    @Generated(hash = 1553517806)
+    @Generated(hash = 744236622)
     public BridgeJCSB(String qiaoLiangDaiMa, String qiaoLiangMingCheng,
             String luXianHao, String luXianMingCheng, String luXianLeiXing,
-            String shunXuHao, String suoZaiDi, String zhongXinZhuangHao,
-            String guanYangDanWei, String kuaYueDiWuLeiXing,
-            String kuaYueDiWuMingCheng, String gongLuJiShuDengJi,
-            String qiaoLiangXingZhi, String qiaoLiangFenLei,
-            String qiaoLiangZhuangTai, String qiaoLiangYongtu,
-            String sheJiHeZaiDengJi, String muQianHeZai,
-            String zhuQiaoShangBuJieGou, String qiaoDunLeiXing,
-            String qiaoTaiLeiXing, String zhiZuoLeiXing, String qiaoDunJiChuLeiXing,
-            String qiaoTaiJiChuLeiXing, String qiaoMianPuZhuangLeiXing,
-            String shenShuoFengLeiXing, String yinQiaoShangBuJieGou,
-            String siGongZhuangHao, String guanLiXingShiMa, String muQiaoDaiMa) {
+            String luXianDengJi, String xingZhengDengJi, String shunXuHao,
+            String suoZaiDi, float zhongXinZhuangHao, String guanYangDanWei,
+            String kuaYueDiWuLeiXing, String kuaYueDiWuMingCheng,
+            String qiaoLiangXingZhi, String suoZaiWeiZhi, String qiaoLiangFenLei,
+            String qiaoLiangLeiXing, String kangZhengDengJi, String tongHangDengJi,
+            String sheJiHeZaiDengJi, String muQianHeZai, String wanPoXieDu,
+            Date xiuJianNianDu, Date tongCheRiQi, String yeZhuDanWei,
+            String sheJiDanWei, String shiGongDanWei, String jianLiDanWei) {
         this.qiaoLiangDaiMa = qiaoLiangDaiMa;
         this.qiaoLiangMingCheng = qiaoLiangMingCheng;
         this.luXianHao = luXianHao;
         this.luXianMingCheng = luXianMingCheng;
         this.luXianLeiXing = luXianLeiXing;
+        this.luXianDengJi = luXianDengJi;
+        this.xingZhengDengJi = xingZhengDengJi;
         this.shunXuHao = shunXuHao;
         this.suoZaiDi = suoZaiDi;
         this.zhongXinZhuangHao = zhongXinZhuangHao;
         this.guanYangDanWei = guanYangDanWei;
         this.kuaYueDiWuLeiXing = kuaYueDiWuLeiXing;
         this.kuaYueDiWuMingCheng = kuaYueDiWuMingCheng;
-        this.gongLuJiShuDengJi = gongLuJiShuDengJi;
         this.qiaoLiangXingZhi = qiaoLiangXingZhi;
+        this.suoZaiWeiZhi = suoZaiWeiZhi;
         this.qiaoLiangFenLei = qiaoLiangFenLei;
-        this.qiaoLiangZhuangTai = qiaoLiangZhuangTai;
-        this.qiaoLiangYongtu = qiaoLiangYongtu;
+        this.qiaoLiangLeiXing = qiaoLiangLeiXing;
+        this.kangZhengDengJi = kangZhengDengJi;
+        this.tongHangDengJi = tongHangDengJi;
         this.sheJiHeZaiDengJi = sheJiHeZaiDengJi;
         this.muQianHeZai = muQianHeZai;
-        this.zhuQiaoShangBuJieGou = zhuQiaoShangBuJieGou;
-        this.qiaoDunLeiXing = qiaoDunLeiXing;
-        this.qiaoTaiLeiXing = qiaoTaiLeiXing;
-        this.zhiZuoLeiXing = zhiZuoLeiXing;
-        this.qiaoDunJiChuLeiXing = qiaoDunJiChuLeiXing;
-        this.qiaoTaiJiChuLeiXing = qiaoTaiJiChuLeiXing;
-        this.qiaoMianPuZhuangLeiXing = qiaoMianPuZhuangLeiXing;
-        this.shenShuoFengLeiXing = shenShuoFengLeiXing;
-        this.yinQiaoShangBuJieGou = yinQiaoShangBuJieGou;
-        this.siGongZhuangHao = siGongZhuangHao;
-        this.guanLiXingShiMa = guanLiXingShiMa;
-        this.muQiaoDaiMa = muQiaoDaiMa;
+        this.wanPoXieDu = wanPoXieDu;
+        this.xiuJianNianDu = xiuJianNianDu;
+        this.tongCheRiQi = tongCheRiQi;
+        this.yeZhuDanWei = yeZhuDanWei;
+        this.sheJiDanWei = sheJiDanWei;
+        this.shiGongDanWei = shiGongDanWei;
+        this.jianLiDanWei = jianLiDanWei;
     }
 
     @Generated(hash = 612018682)
     public BridgeJCSB() {
+    }
+
+
+    public String getZhongXinZhuangHaoInfo() {
+        return String.valueOf(this.zhongXinZhuangHao);
+    }
+
+    public void setZhongXinZhuangHaoInfo(String zhuanghao) {
+        //return "";//String.valueOf(this.zhongXinZhuangHao);
+    }
+
+    public String getXiuJianNianDuInfo() {
+        return ConvertUtils.getDateName(this.xiuJianNianDu);
+    }
+
+    public void setXiuJianNianDuInfo(String xiuJianNianDu) {
+        //this.xiuJianNianDu = xiuJianNianDu;
+    }
+
+    public String getTongCheRiQiInfo() {
+        return ConvertUtils.getDateName(this.tongCheRiQi);
+    }
+
+    public void setTongCheRiQiInfo(String tongCheRiQi) {
+        //this.tongCheRiQi = tongCheRiQi;
     }
 
     public String getQiaoLiangDaiMa() {
@@ -189,6 +208,22 @@ public class BridgeJCSB {
         this.luXianLeiXing = luXianLeiXing;
     }
 
+    public String getLuXianDengJi() {
+        return this.luXianDengJi;
+    }
+
+    public void setLuXianDengJi(String luXianDengJi) {
+        this.luXianDengJi = luXianDengJi;
+    }
+
+    public String getXingZhengDengJi() {
+        return this.xingZhengDengJi;
+    }
+
+    public void setXingZhengDengJi(String xingZhengDengJi) {
+        this.xingZhengDengJi = xingZhengDengJi;
+    }
+
     public String getShunXuHao() {
         return this.shunXuHao;
     }
@@ -205,11 +240,11 @@ public class BridgeJCSB {
         this.suoZaiDi = suoZaiDi;
     }
 
-    public String getZhongXinZhuangHao() {
+    public float getZhongXinZhuangHao() {
         return this.zhongXinZhuangHao;
     }
 
-    public void setZhongXinZhuangHao(String zhongXinZhuangHao) {
+    public void setZhongXinZhuangHao(float zhongXinZhuangHao) {
         this.zhongXinZhuangHao = zhongXinZhuangHao;
     }
 
@@ -237,14 +272,6 @@ public class BridgeJCSB {
         this.kuaYueDiWuMingCheng = kuaYueDiWuMingCheng;
     }
 
-    public String getGongLuJiShuDengJi() {
-        return this.gongLuJiShuDengJi;
-    }
-
-    public void setGongLuJiShuDengJi(String gongLuJiShuDengJi) {
-        this.gongLuJiShuDengJi = gongLuJiShuDengJi;
-    }
-
     public String getQiaoLiangXingZhi() {
         return this.qiaoLiangXingZhi;
     }
@@ -261,20 +288,28 @@ public class BridgeJCSB {
         this.qiaoLiangFenLei = qiaoLiangFenLei;
     }
 
-    public String getQiaoLiangZhuangTai() {
-        return this.qiaoLiangZhuangTai;
+    public String getQiaoLiangLeiXing() {
+        return this.qiaoLiangLeiXing;
     }
 
-    public void setQiaoLiangZhuangTai(String qiaoLiangZhuangTai) {
-        this.qiaoLiangZhuangTai = qiaoLiangZhuangTai;
+    public void setQiaoLiangLeiXing(String qiaoLiangLeiXing) {
+        this.qiaoLiangLeiXing = qiaoLiangLeiXing;
     }
 
-    public String getQiaoLiangYongtu() {
-        return this.qiaoLiangYongtu;
+    public String getKangZhengDengJi() {
+        return this.kangZhengDengJi;
     }
 
-    public void setQiaoLiangYongtu(String qiaoLiangYongtu) {
-        this.qiaoLiangYongtu = qiaoLiangYongtu;
+    public void setKangZhengDengJi(String kangZhengDengJi) {
+        this.kangZhengDengJi = kangZhengDengJi;
+    }
+
+    public String getTongHangDengJi() {
+        return this.tongHangDengJi;
+    }
+
+    public void setTongHangDengJi(String tongHangDengJi) {
+        this.tongHangDengJi = tongHangDengJi;
     }
 
     public String getSheJiHeZaiDengJi() {
@@ -293,99 +328,69 @@ public class BridgeJCSB {
         this.muQianHeZai = muQianHeZai;
     }
 
-    public String getZhuQiaoShangBuJieGou() {
-        return this.zhuQiaoShangBuJieGou;
+    public Date getXiuJianNianDu() {
+        return this.xiuJianNianDu;
     }
 
-    public void setZhuQiaoShangBuJieGou(String zhuQiaoShangBuJieGou) {
-        this.zhuQiaoShangBuJieGou = zhuQiaoShangBuJieGou;
+    public void setXiuJianNianDu(Date xiuJianNianDu) {
+        this.xiuJianNianDu = xiuJianNianDu;
     }
 
-    public String getQiaoDunLeiXing() {
-        return this.qiaoDunLeiXing;
+    public Date getTongCheRiQi() {
+        return this.tongCheRiQi;
     }
 
-    public void setQiaoDunLeiXing(String qiaoDunLeiXing) {
-        this.qiaoDunLeiXing = qiaoDunLeiXing;
+    public void setTongCheRiQi(Date tongCheRiQi) {
+        this.tongCheRiQi = tongCheRiQi;
     }
 
-    public String getQiaoTaiLeiXing() {
-        return this.qiaoTaiLeiXing;
+    public String getYeZhuDanWei() {
+        return this.yeZhuDanWei;
     }
 
-    public void setQiaoTaiLeiXing(String qiaoTaiLeiXing) {
-        this.qiaoTaiLeiXing = qiaoTaiLeiXing;
+    public void setYeZhuDanWei(String yeZhuDanWei) {
+        this.yeZhuDanWei = yeZhuDanWei;
     }
 
-    public String getZhiZuoLeiXing() {
-        return this.zhiZuoLeiXing;
+    public String getSheJiDanWei() {
+        return this.sheJiDanWei;
     }
 
-    public void setZhiZuoLeiXing(String zhiZuoLeiXing) {
-        this.zhiZuoLeiXing = zhiZuoLeiXing;
+    public void setSheJiDanWei(String sheJiDanWei) {
+        this.sheJiDanWei = sheJiDanWei;
     }
 
-    public String getQiaoDunJiChuLeiXing() {
-        return this.qiaoDunJiChuLeiXing;
+    public String getShiGongDanWei() {
+        return this.shiGongDanWei;
     }
 
-    public void setQiaoDunJiChuLeiXing(String qiaoDunJiChuLeiXing) {
-        this.qiaoDunJiChuLeiXing = qiaoDunJiChuLeiXing;
+    public void setShiGongDanWei(String shiGongDanWei) {
+        this.shiGongDanWei = shiGongDanWei;
     }
 
-    public String getQiaoTaiJiChuLeiXing() {
-        return this.qiaoTaiJiChuLeiXing;
+    public String getJianLiDanWei() {
+        return this.jianLiDanWei;
     }
 
-    public void setQiaoTaiJiChuLeiXing(String qiaoTaiJiChuLeiXing) {
-        this.qiaoTaiJiChuLeiXing = qiaoTaiJiChuLeiXing;
+    public void setJianLiDanWei(String jianLiDanWei) {
+        this.jianLiDanWei = jianLiDanWei;
     }
 
-    public String getQiaoMianPuZhuangLeiXing() {
-        return this.qiaoMianPuZhuangLeiXing;
+    public String getSuoZaiWeiZhi() {
+        return this.suoZaiWeiZhi;
     }
 
-    public void setQiaoMianPuZhuangLeiXing(String qiaoMianPuZhuangLeiXing) {
-        this.qiaoMianPuZhuangLeiXing = qiaoMianPuZhuangLeiXing;
+    public void setSuoZaiWeiZhi(String suoZaiWeiZhi) {
+        this.suoZaiWeiZhi = suoZaiWeiZhi;
     }
 
-    public String getShenShuoFengLeiXing() {
-        return this.shenShuoFengLeiXing;
+    public String getWanPoXieDu() {
+        return this.wanPoXieDu;
     }
 
-    public void setShenShuoFengLeiXing(String shenShuoFengLeiXing) {
-        this.shenShuoFengLeiXing = shenShuoFengLeiXing;
+    public void setWanPoXieDu(String wanPoXieDu) {
+        this.wanPoXieDu = wanPoXieDu;
     }
 
-    public String getYinQiaoShangBuJieGou() {
-        return this.yinQiaoShangBuJieGou;
-    }
 
-    public void setYinQiaoShangBuJieGou(String yinQiaoShangBuJieGou) {
-        this.yinQiaoShangBuJieGou = yinQiaoShangBuJieGou;
-    }
-
-    public String getSiGongZhuangHao() {
-        return this.siGongZhuangHao;
-    }
-
-    public void setSiGongZhuangHao(String siGongZhuangHao) {
-        this.siGongZhuangHao = siGongZhuangHao;
-    }
-
-    public String getGuanLiXingShiMa() {
-        return this.guanLiXingShiMa;
-    }
-
-    public void setGuanLiXingShiMa(String guanLiXingShiMa) {
-        this.guanLiXingShiMa = guanLiXingShiMa;
-    }
-
-    public String getMuQiaoDaiMa() {
-        return this.muQiaoDaiMa;
-    }
-
-    public void setMuQiaoDaiMa(String muQiaoDaiMa) {
-        this.muQiaoDaiMa = muQiaoDaiMa;
-    }
 }

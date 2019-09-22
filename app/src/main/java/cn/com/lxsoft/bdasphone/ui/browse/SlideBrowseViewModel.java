@@ -71,7 +71,9 @@ public class SlideBrowseViewModel extends BaseBrowseFragmentViewModel {
                 sSearchHint="单位";
             }
             showListType=tptype;
+            observableListMain.clear();
             dealMainDataBinding(0);
+
         }
         bSlideOpen.set(true);
     }

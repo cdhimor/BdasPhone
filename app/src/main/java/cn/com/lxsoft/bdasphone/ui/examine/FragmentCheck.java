@@ -1,5 +1,6 @@
 package cn.com.lxsoft.bdasphone.ui.examine;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -8,16 +9,25 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
+import com.amap.api.location.CoordinateConverter;
+import com.amap.api.location.DPoint;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.zhihu.matisse.Matisse;
 
 
-
+import java.text.DecimalFormat;
 import java.util.List;
 
 import cn.com.lxsoft.bdasphone.BR;
 import cn.com.lxsoft.bdasphone.R;
 import cn.com.lxsoft.bdasphone.app.SystemConfig;
 import cn.com.lxsoft.bdasphone.databinding.FragmentCheckBinding;
+import cn.com.lxsoft.bdasphone.ui.component.ToolBarBdas;
+import io.reactivex.functions.Consumer;
 import me.goldze.mvvmhabit.base.BaseFragment;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 import q.rorbin.verticaltablayout.*;
@@ -44,21 +54,18 @@ public class FragmentCheck extends BaseFragment<FragmentCheckBinding, FragmentCh
 
     @Override
     public void initData() {
-                /*
-
-            */
-
         //MyPagerAdapter mAdapter = new MyPagerAdapter(getFragmentManager());
-        viewModel.addPage();
         binding.viewPager.setAdapter(viewModel.adapter);
         binding.verTablayout.setupWithViewPager(binding.viewPager);
         viewModel.adapter.fragmentCheck=this;
-        //
 
-        //binding.patrolViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.patrolVerticalTabLayout));
-
-
-        //binding.tabLayout.setViewPager(binding.viewPager);
+        binding.toolbarCheck.setConfirmOKListener(new ToolBarBdas.OnConfirmOK() {
+            @Override
+            public void onConfirmOK() {
+                viewModel.saveData();
+                //checkPositionData();
+            }
+        });
 
         binding.verTablayout.addOnTabSelectedListener(new VerticalTabLayout.OnTabSelectedListener() {
             int prevIndex=-1;
@@ -75,20 +82,17 @@ public class FragmentCheck extends BaseFragment<FragmentCheckBinding, FragmentCh
                 tab.setBackground(getContext().getResources().getDrawable(R.drawable.shape_rect_botomrightline_lightgray));
             }
         });
+
+        viewModel.initCheckData();
+
+    }
+
+    public void setBadgeColor(int pos,int color){
+        binding.verTablayout.getTabAt(pos).getBadgeView().setBadgeNumber(-1).setBadgeBackgroundColor(color);
     }
 
     @Override
     public void initViewObservable() {
 
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        super.onActivityResult(requestCode, resultCode, intent);
-        if (requestCode == SystemConfig.MATISSE_REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
-            List<Uri> list=Matisse.obtainResult(intent);
-            viewModel.getCurrentItemViewModel().oALDiseasePicList.addAll(list);
-        }
-        this.getContext();
     }
 }

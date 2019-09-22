@@ -8,6 +8,7 @@
         <attr name="type">
             <enum name="title" value="1"/>
             <enum name="search" value="2"/>
+            <enum name="title_back" value="3"/>
         </attr>
         <attr name="init" format="boolean"></attr>
     </declare-styleable>

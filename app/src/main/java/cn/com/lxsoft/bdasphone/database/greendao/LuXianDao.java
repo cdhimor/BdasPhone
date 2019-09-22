@@ -26,6 +26,7 @@ public class LuXianDao extends AbstractDao<LuXian, String> {
     public static class Properties {
         public final static Property BianHao = new Property(0, String.class, "bianHao", true, "BIAN_HAO");
         public final static Property MingCheng = new Property(1, String.class, "mingCheng", false, "MING_CHENG");
+        public final static Property DengJi = new Property(2, String.class, "dengJi", false, "DENG_JI");
     }
 
 
@@ -42,7 +43,8 @@ public class LuXianDao extends AbstractDao<LuXian, String> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"LU_XIAN\" (" + //
                 "\"BIAN_HAO\" TEXT PRIMARY KEY NOT NULL ," + // 0: bianHao
-                "\"MING_CHENG\" TEXT);"); // 1: mingCheng
+                "\"MING_CHENG\" TEXT," + // 1: mingCheng
+                "\"DENG_JI\" TEXT);"); // 2: dengJi
     }
 
     /** Drops the underlying database table. */
@@ -64,6 +66,11 @@ public class LuXianDao extends AbstractDao<LuXian, String> {
         if (mingCheng != null) {
             stmt.bindString(2, mingCheng);
         }
+ 
+        String dengJi = entity.getDengJi();
+        if (dengJi != null) {
+            stmt.bindString(3, dengJi);
+        }
     }
 
     @Override
@@ -79,6 +86,11 @@ public class LuXianDao extends AbstractDao<LuXian, String> {
         if (mingCheng != null) {
             stmt.bindString(2, mingCheng);
         }
+ 
+        String dengJi = entity.getDengJi();
+        if (dengJi != null) {
+            stmt.bindString(3, dengJi);
+        }
     }
 
     @Override
@@ -90,7 +102,8 @@ public class LuXianDao extends AbstractDao<LuXian, String> {
     public LuXian readEntity(Cursor cursor, int offset) {
         LuXian entity = new LuXian( //
             cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // bianHao
-            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1) // mingCheng
+            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // mingCheng
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2) // dengJi
         );
         return entity;
     }
@@ -99,6 +112,7 @@ public class LuXianDao extends AbstractDao<LuXian, String> {
     public void readEntity(Cursor cursor, LuXian entity, int offset) {
         entity.setBianHao(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
         entity.setMingCheng(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
+        entity.setDengJi(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
      }
     
     @Override

@@ -10,12 +10,29 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import com.google.gson.JsonSyntaxException;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import me.goldze.mvvmhabit.utils.CloseUtils;
 import me.goldze.mvvmhabit.utils.Utils;
@@ -604,7 +621,7 @@ public final class ConvertUtils {
      * @param s 待校验字符串
      * @return {@code true}: null或全空白字符<br> {@code false}: 不为null且不全空白字符
      */
-    private static boolean isSpace(final String s) {
+    public static boolean isSpace(final String s) {
         if (s == null) return true;
         for (int i = 0, len = s.length(); i < len; ++i) {
             if (!Character.isWhitespace(s.charAt(i))) {
@@ -613,4 +630,82 @@ public final class ConvertUtils {
         }
         return true;
     }
+
+    public static String joinStr(String splitStr,List<String> tplist){
+        String tpres="";
+        for(int i=0;i<tplist.size();i++){
+            if(i!=0)
+                tpres+="|";
+            tpres+=tplist.get(i);
+        }
+        return tpres;
+    }
+
+    public static Date getNewDate(int day) {
+        long time = 0;
+        Date today = new Date();
+        time = (today.getTime() / 1000) + 60 * 60 * 24 * day;
+        Date newDate = new Date();
+        newDate.setTime(time * 1000);
+        return newDate;
+    }
+
+    public static String getDateSimpleName(Date date) {
+        Format format = new SimpleDateFormat("yyyyMMdd");
+        return format.format(date);
+    }
+
+    public static String getDateName(Date date) {
+        if(date==null)
+            return "";
+        Format format = new SimpleDateFormat("yyyy年MM月dd日");
+        return format.format(date);
+    }
+
+    public static String getDateNameNoYear(Date date) {
+        if(date==null)
+            return "";
+        Format format = new SimpleDateFormat("MM月dd日");
+        return format.format(date);
+    }
+
+    public static String getDateNameOnlyYear(Date date) {
+        if(date==null)
+            return "";
+        Format format = new SimpleDateFormat("yyyy");
+        return format.format(date);
+    }
+
+
+    public static String getMD5Str(String str)  {
+        try {
+            // 生成一个MD5加密计算摘要
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            // 计算md5函数
+            md.update(str.getBytes());
+            // digest()最后确定返回md5 hash值，返回值为8为字符串。因为md5 hash值是16位的hex值，实际上就是8位的字符
+            // BigInteger函数则将8位的字符串转换成16位hex值，用字符串来表示；得到字符串形式的hash值
+            return new BigInteger(1, md.digest()).toString(16);
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    public static int getYearSpace(Date date1, Date date2){
+
+        int result = 0;
+
+        //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        Calendar c1 = Calendar.getInstance();
+        Calendar c2 = Calendar.getInstance();
+
+        c1.setTime(date1);
+        c2.setTime(date2);
+
+        result = c2.get(Calendar.YEAR) - c1.get(Calendar.YEAR);
+
+        return result == 0 ? 1 : Math.abs(result);
+    }
+
 }

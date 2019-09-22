@@ -1,4 +1,4 @@
-package cn.com.lxsoft.bdasphone.database;
+package cn.com.lxsoft.bdasphone.database.greendao;
 
 import android.content.Context;
 
@@ -28,6 +28,7 @@ public class DataSession {
     private DanWei currentDanWei;
     private User currentUser;
     private QiaoLiang currentQiaoLiang;
+    private Boolean bInitLoginData=false;
     private String currentPatrolID;
     private List<BridgeJCSB> testJCSB;
     private List<BridgeJJZB> testJJZB;
@@ -171,5 +172,13 @@ public class DataSession {
 
     public static void setSimpleSearchInfo(HashMap<String, String> simpleSearchInfo) {
         instance.simpleSearchInfo = simpleSearchInfo;
+    }
+
+    public static Boolean getbInitLoginData() {
+        return instance.bInitLoginData;
+    }
+
+    public static void setbInitLoginData(Boolean bInitLoginData) {
+        instance.bInitLoginData = bInitLoginData;
     }
 }

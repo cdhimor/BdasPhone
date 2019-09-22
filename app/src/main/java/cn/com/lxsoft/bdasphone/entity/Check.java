@@ -1,10 +1,14 @@
 package cn.com.lxsoft.bdasphone.entity;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToOne;
+import org.greenrobot.greendao.annotation.Transient;
 
 import java.util.Date;
 
@@ -14,108 +18,108 @@ import cn.com.lxsoft.bdasphone.database.greendao.QiaoLiangDao;
 import cn.com.lxsoft.bdasphone.database.greendao.UserDao;
 import cn.com.lxsoft.bdasphone.database.greendao.CheckDao;
 
-@Entity
+@Entity(nameInDb="WEEKCHECK")
 public class Check {
     @Id
+    @SerializedName("F_Id")
     public String examineID;
 
+    @SerializedName("桥梁代码")
     private String BridgeID;
+
     @ToOne(joinProperty ="BridgeID")
     private QiaoLiang bridge;
 
+    @SerializedName("桥梁名称")
+    @Transient
+    private String bridgeName;
+
+    @SerializedName("日期")
     private Date date;
 
+    @SerializedName("记录人")
     private String workerID;
     @ToOne(joinProperty ="workerID")
     private User worker;
 
+    @SerializedName("负责人")
     private String ownerID;
     @ToOne(joinProperty ="ownerID")
     private User owner;
 
-    private String qiaoLiangJieGou;//桥梁结构
-    private String qiaoLiangWaiGuan;//桥梁外观
-    private String zhuLiang;//主梁
-    private String xieLaSuo;//斜拉索/杆
-    private String qiaoMianPuZhuang;//桥面铺装
-    private String shenSuoFeng;//伸缩缝;
-    private String renXingDao;//人行道;
-    private String lanGanHuLan;// 栏杆护栏;
-    private String paiShuiSheShi;//排水设施
-    private String dunTai;//墩台;
-    private String yiQiangHuPo;//翼墙护坡;
-    private String jiaoTongSheShi;//交通设施;
-    private String guanCeDian;//观测点;
     private String beiZhu;//备注;
+
+    @Expose(serialize = false, deserialize = false)
+    private Boolean bHistory=false;
+
+    @SerializedName("bh101")
+    private String qiaoLiangJieGou;//桥梁结构
+    @SerializedName("bh102")
+    private String qiaoLiangWaiGuan;//桥梁外观
+    @SerializedName("bh103")
+    private String zhuLiang;//主梁
+    @SerializedName("bh104")
+    private String xieLaSuo;//斜拉索/杆
+    @SerializedName("bh105")
+    private String qiaoMianPuZhuang;//桥面铺装
+    @SerializedName("bh106")
+    private String shenSuoFeng;//伸缩缝;
+    @SerializedName("bh107")
+    private String renXingDao;//人行道;
+    @SerializedName("bh108")
+    private String lanGanHuLan;// 栏杆护栏;
+    @SerializedName("bh109")
+    private String paiShuiSheShi;//排水设施
+    @SerializedName("bh110")
+    private String dunTai;//墩台;
+    @SerializedName("bh111")
+    private String yiQiangHuPo;//翼墙护坡;
+    @SerializedName("bh112")
+    private String jiaoTongSheShi;//交通设施;
+    @SerializedName("bh113")
+    private String guanCeDian;//观测点;
+
+    @SerializedName("下次日期")
+    private Date nextDate;
+
+    public Boolean beNewCheck(){
+        if(new Date().getTime()<nextDate.getTime()){
+            return false;
+        }
+        else
+            return true;
+    }
+
 
     public String getDiseaseInfo(){
         String res="";
-        if(!qiaoLiangJieGou.equals("A"))
-            res=res.concat("桥梁结构 ∙ ");
-        if(!qiaoLiangWaiGuan.equals("A"))
-            res=res.concat("桥梁外观 ∙ ");
-        if(!zhuLiang.equals("A"))
-            res=res.concat("主梁 ∙ ");
-        if(!xieLaSuo.equals("A"))
-            res=res.concat("斜拉索 ∙ ");
-        if(!qiaoMianPuZhuang.equals("A"))
-            res=res.concat("桥面铺装 ∙ ");
-        if(!shenSuoFeng.equals("A"))
-            res=res.concat("伸缩缝 ∙ ");
-        if(!renXingDao.equals("A"))
-            res=res.concat("人行道 ∙ ");
-        if(!lanGanHuLan.equals("A"))
-            res=res.concat("栏杆护栏 ∙ ");
-        if(!paiShuiSheShi.equals("A"))
-            res=res.concat("排水设施 ∙ ");
-        if(!dunTai.equals("A"))
-            res=res.concat("墩台 ∙ ");
-        if(!yiQiangHuPo.equals("A"))
-            res=res.concat("翼墙护坡 ∙ ");
-        if(!jiaoTongSheShi.equals("A"))
-            res=res.concat("交通设施 ∙ ");
-        if(!guanCeDian.equals("A"))
-            res=res.concat("观测点 ∙ ");
-        return res;
-    }
-
-
-    /** Used to resolve relations */
-    @Generated(hash = 2040040024)
-    private transient DaoSession daoSession;
-
-    /** Used for active entity operations. */
-    @Generated(hash = 1858097680)
-    private transient CheckDao myDao;
-    @Generated(hash = 565278369)
-    public Check(String examineID, String BridgeID, Date date, String workerID,
-            String ownerID, String qiaoLiangJieGou, String qiaoLiangWaiGuan,
-            String zhuLiang, String xieLaSuo, String qiaoMianPuZhuang,
-            String shenSuoFeng, String renXingDao, String lanGanHuLan,
-            String paiShuiSheShi, String dunTai, String yiQiangHuPo,
-            String jiaoTongSheShi, String guanCeDian, String beiZhu) {
-        this.examineID = examineID;
-        this.BridgeID = BridgeID;
-        this.date = date;
-        this.workerID = workerID;
-        this.ownerID = ownerID;
-        this.qiaoLiangJieGou = qiaoLiangJieGou;
-        this.qiaoLiangWaiGuan = qiaoLiangWaiGuan;
-        this.zhuLiang = zhuLiang;
-        this.xieLaSuo = xieLaSuo;
-        this.qiaoMianPuZhuang = qiaoMianPuZhuang;
-        this.shenSuoFeng = shenSuoFeng;
-        this.renXingDao = renXingDao;
-        this.lanGanHuLan = lanGanHuLan;
-        this.paiShuiSheShi = paiShuiSheShi;
-        this.dunTai = dunTai;
-        this.yiQiangHuPo = yiQiangHuPo;
-        this.jiaoTongSheShi = jiaoTongSheShi;
-        this.guanCeDian = guanCeDian;
-        this.beiZhu = beiZhu;
-    }
-    @Generated(hash = 1080183208)
-    public Check() {
+        if(qiaoLiangJieGou!=null && !qiaoLiangJieGou.equals("1"))
+            res=res.concat("结构▪");
+        if(qiaoLiangWaiGuan!=null && !qiaoLiangWaiGuan.equals("1"))
+            res=res.concat("外观▪");
+        if(zhuLiang!=null && !zhuLiang.equals("1"))
+            res=res.concat("主梁▪");
+        if(xieLaSuo!=null && !xieLaSuo.equals("1"))
+            res=res.concat("斜拉索▪");
+        if(qiaoMianPuZhuang!=null && !qiaoMianPuZhuang.equals("1"))
+            res=res.concat("铺装▪");
+        if(shenSuoFeng!=null && !shenSuoFeng.equals("1"))
+            res=res.concat("伸缩缝▪");
+        if(renXingDao!=null && !renXingDao.equals("1"))
+            res=res.concat("人行道▪");
+        if(lanGanHuLan!=null && !lanGanHuLan.equals("1"))
+            res=res.concat("栏杆▪");
+        if(paiShuiSheShi!=null && !paiShuiSheShi.equals("1"))
+            res=res.concat("排水▪");
+        if(dunTai!=null && !dunTai.equals("1"))
+            res=res.concat("墩台▪");
+        if(yiQiangHuPo!=null && !yiQiangHuPo.equals("1"))
+            res=res.concat("翼墙护坡▪");
+        if(jiaoTongSheShi!=null && !jiaoTongSheShi.equals("1"))
+            res=res.concat("交通设施▪");
+        if(guanCeDian!=null && !guanCeDian.equals("1"))
+            res=res.concat("观测点▪");
+        return res.equals("")?res:res.substring(0,res.length()-1);
     }
     public String getExamineID() {
         return this.examineID;
@@ -146,6 +150,12 @@ public class Check {
     }
     public void setOwnerID(String ownerID) {
         this.ownerID = ownerID;
+    }
+    public String getBeiZhu() {
+        return this.beiZhu;
+    }
+    public void setBeiZhu(String beiZhu) {
+        this.beiZhu = beiZhu;
     }
     public String getQiaoLiangJieGou() {
         return this.qiaoLiangJieGou;
@@ -225,14 +235,90 @@ public class Check {
     public void setGuanCeDian(String guanCeDian) {
         this.guanCeDian = guanCeDian;
     }
-    public String getBeiZhu() {
-        return this.beiZhu;
+    public Date getNextDate() {
+        return this.nextDate;
     }
-    public void setBeiZhu(String beiZhu) {
-        this.beiZhu = beiZhu;
+    public void setNextDate(Date nextDate) {
+        this.nextDate = nextDate;
     }
-    @Generated(hash = 761162677)
-    private transient String bridge__resolvedKey;
+    public String getQiaoLiangJieGouImg() {
+        return this.qiaoLiangJieGouImg;
+    }
+    public void setQiaoLiangJieGouImg(String qiaoLiangJieGouImg) {
+        this.qiaoLiangJieGouImg = qiaoLiangJieGouImg;
+    }
+    public String getQiaoLiangWaiGuanImg() {
+        return this.qiaoLiangWaiGuanImg;
+    }
+    public void setQiaoLiangWaiGuanImg(String qiaoLiangWaiGuanImg) {
+        this.qiaoLiangWaiGuanImg = qiaoLiangWaiGuanImg;
+    }
+    public String getZhuLiangImg() {
+        return this.zhuLiangImg;
+    }
+    public void setZhuLiangImg(String zhuLiangImg) {
+        this.zhuLiangImg = zhuLiangImg;
+    }
+    public String getXieLaSuoImg() {
+        return this.xieLaSuoImg;
+    }
+    public void setXieLaSuoImg(String xieLaSuoImg) {
+        this.xieLaSuoImg = xieLaSuoImg;
+    }
+    public String getQiaoMianPuZhuangImg() {
+        return this.qiaoMianPuZhuangImg;
+    }
+    public void setQiaoMianPuZhuangImg(String qiaoMianPuZhuangImg) {
+        this.qiaoMianPuZhuangImg = qiaoMianPuZhuangImg;
+    }
+    public String getShenSuoFengImg() {
+        return this.shenSuoFengImg;
+    }
+    public void setShenSuoFengImg(String shenSuoFengImg) {
+        this.shenSuoFengImg = shenSuoFengImg;
+    }
+    public String getRenXingDaoImg() {
+        return this.renXingDaoImg;
+    }
+    public void setRenXingDaoImg(String renXingDaoImg) {
+        this.renXingDaoImg = renXingDaoImg;
+    }
+    public String getLanGanHuLanImg() {
+        return this.lanGanHuLanImg;
+    }
+    public void setLanGanHuLanImg(String lanGanHuLanImg) {
+        this.lanGanHuLanImg = lanGanHuLanImg;
+    }
+    public String getPaiShuiSheShiImg() {
+        return this.paiShuiSheShiImg;
+    }
+    public void setPaiShuiSheShiImg(String paiShuiSheShiImg) {
+        this.paiShuiSheShiImg = paiShuiSheShiImg;
+    }
+    public String getDunTaiImg() {
+        return this.dunTaiImg;
+    }
+    public void setDunTaiImg(String dunTaiImg) {
+        this.dunTaiImg = dunTaiImg;
+    }
+    public String getYiQiangHuPoImg() {
+        return this.yiQiangHuPoImg;
+    }
+    public void setYiQiangHuPoImg(String yiQiangHuPoImg) {
+        this.yiQiangHuPoImg = yiQiangHuPoImg;
+    }
+    public String getJiaoTongSheShiImg() {
+        return this.jiaoTongSheShiImg;
+    }
+    public void setJiaoTongSheShiImg(String jiaoTongSheShiImg) {
+        this.jiaoTongSheShiImg = jiaoTongSheShiImg;
+    }
+    public String getGuanCeDianImg() {
+        return this.guanCeDianImg;
+    }
+    public void setGuanCeDianImg(String guanCeDianImg) {
+        this.guanCeDianImg = guanCeDianImg;
+    }
     /** To-one relationship, resolved on first access. */
     @Generated(hash = 1078728531)
     public QiaoLiang getBridge() {
@@ -260,8 +346,6 @@ public class Check {
             bridge__resolvedKey = BridgeID;
         }
     }
-    @Generated(hash = 1791517005)
-    private transient String worker__resolvedKey;
     /** To-one relationship, resolved on first access. */
     @Generated(hash = 741428595)
     public User getWorker() {
@@ -289,8 +373,6 @@ public class Check {
             worker__resolvedKey = workerID;
         }
     }
-    @Generated(hash = 1407767798)
-    private transient String owner__resolvedKey;
     /** To-one relationship, resolved on first access. */
     @Generated(hash = 1377745454)
     public User getOwner() {
@@ -358,5 +440,132 @@ public class Check {
         myDao = daoSession != null ? daoSession.getCheckDao() : null;
     }
 
+    @SerializedName("bh101img")
+    private String qiaoLiangJieGouImg;//桥梁结构
+
+    @SerializedName("bh102img")
+    private String qiaoLiangWaiGuanImg;//桥梁外观
+
+    @SerializedName("bh103img")
+    private String zhuLiangImg;//主梁
+
+    @SerializedName("bh104img")
+    private String xieLaSuoImg;//斜拉索/杆
+
+    @SerializedName("bh105img")
+    private String qiaoMianPuZhuangImg;//桥面铺装
+
+    @SerializedName("bh106img")
+    private String shenSuoFengImg;//伸缩缝;
+
+    @SerializedName("bh107img")
+    private String renXingDaoImg;//人行道;
+
+    @SerializedName("bh108img")
+    private String lanGanHuLanImg;// 栏杆护栏;
+
+    @SerializedName("bh109img")
+    private String paiShuiSheShiImg;//排水设施
+
+    @SerializedName("bh110img")
+    private String dunTaiImg;//墩台;
+
+    @SerializedName("bh111img")
+    private String yiQiangHuPoImg;//翼墙护坡;
+
+    @SerializedName("bh112img")
+    private String jiaoTongSheShiImg;//交通设施;
+
+    @SerializedName("bh113img")
+    private String guanCeDianImg;//观测点;
+
+    /** Used to resolve relations */
+    @Generated(hash = 2040040024)
+    private transient DaoSession daoSession;
+
+    /** Used for active entity operations. */
+    @Generated(hash = 1858097680)
+    private transient CheckDao myDao;
+
+
+    @Generated(hash = 1386618912)
+    public Check(String examineID, String BridgeID, Date date, String workerID,
+            String ownerID, String beiZhu, Boolean bHistory, String qiaoLiangJieGou,
+            String qiaoLiangWaiGuan, String zhuLiang, String xieLaSuo,
+            String qiaoMianPuZhuang, String shenSuoFeng, String renXingDao,
+            String lanGanHuLan, String paiShuiSheShi, String dunTai, String yiQiangHuPo,
+            String jiaoTongSheShi, String guanCeDian, Date nextDate,
+            String qiaoLiangJieGouImg, String qiaoLiangWaiGuanImg, String zhuLiangImg,
+            String xieLaSuoImg, String qiaoMianPuZhuangImg, String shenSuoFengImg,
+            String renXingDaoImg, String lanGanHuLanImg, String paiShuiSheShiImg,
+            String dunTaiImg, String yiQiangHuPoImg, String jiaoTongSheShiImg,
+            String guanCeDianImg) {
+        this.examineID = examineID;
+        this.BridgeID = BridgeID;
+        this.date = date;
+        this.workerID = workerID;
+        this.ownerID = ownerID;
+        this.beiZhu = beiZhu;
+        this.bHistory = bHistory;
+        this.qiaoLiangJieGou = qiaoLiangJieGou;
+        this.qiaoLiangWaiGuan = qiaoLiangWaiGuan;
+        this.zhuLiang = zhuLiang;
+        this.xieLaSuo = xieLaSuo;
+        this.qiaoMianPuZhuang = qiaoMianPuZhuang;
+        this.shenSuoFeng = shenSuoFeng;
+        this.renXingDao = renXingDao;
+        this.lanGanHuLan = lanGanHuLan;
+        this.paiShuiSheShi = paiShuiSheShi;
+        this.dunTai = dunTai;
+        this.yiQiangHuPo = yiQiangHuPo;
+        this.jiaoTongSheShi = jiaoTongSheShi;
+        this.guanCeDian = guanCeDian;
+        this.nextDate = nextDate;
+        this.qiaoLiangJieGouImg = qiaoLiangJieGouImg;
+        this.qiaoLiangWaiGuanImg = qiaoLiangWaiGuanImg;
+        this.zhuLiangImg = zhuLiangImg;
+        this.xieLaSuoImg = xieLaSuoImg;
+        this.qiaoMianPuZhuangImg = qiaoMianPuZhuangImg;
+        this.shenSuoFengImg = shenSuoFengImg;
+        this.renXingDaoImg = renXingDaoImg;
+        this.lanGanHuLanImg = lanGanHuLanImg;
+        this.paiShuiSheShiImg = paiShuiSheShiImg;
+        this.dunTaiImg = dunTaiImg;
+        this.yiQiangHuPoImg = yiQiangHuPoImg;
+        this.jiaoTongSheShiImg = jiaoTongSheShiImg;
+        this.guanCeDianImg = guanCeDianImg;
+    }
+
+
+    @Generated(hash = 1080183208)
+    public Check() {
+    }
+
+    @Generated(hash = 761162677)
+    private transient String bridge__resolvedKey;
+
+    @Generated(hash = 1791517005)
+    private transient String worker__resolvedKey;
+
+    @Generated(hash = 1407767798)
+    private transient String owner__resolvedKey;
+
+    public String getBridgeName() {
+        return bridgeName;
+    }
+
+    public void setBridgeName(String bridgeName) {
+        this.bridgeName = bridgeName;
+    }
+
+
+    public Boolean getBHistory() {
+        return this.bHistory;
+    }
+
+
+    public void setBHistory(Boolean bHistory) {
+        this.bHistory = bHistory;
+    }
 
 }

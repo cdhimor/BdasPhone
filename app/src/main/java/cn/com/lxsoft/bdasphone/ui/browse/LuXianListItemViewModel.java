@@ -26,9 +26,10 @@ public class LuXianListItemViewModel extends ItemViewModel<BaseViewModel> {
     {
         super(viewModel);
         entity.set(tpEntity);
-        showName="[".concat(tpEntity.getBianHao())
-                .concat("]")
-                .concat(tpEntity.getMingCheng());
+        if(tpEntity.getBianHao()!=null)
+            showName="[".concat(tpEntity.getBianHao()).concat("]");
+        if(tpEntity.getMingCheng()!=null)
+            showName=showName.concat(tpEntity.getMingCheng());
     }
 
     public void setItemClickListener(OnItemClickListener onItemClickListener ){

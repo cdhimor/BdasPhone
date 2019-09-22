@@ -53,20 +53,20 @@
                 xmlns:lx="http://schemas.android.com/apk/res/cn.com.lxsoft.bdasphone"
                 lx:type="search"
                 style="@style/ToolBarTitle"/>
-
                     <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_height="36dp"
                     style="@style/TopBarPrimary"
-                    android:paddingLeft="16dp">
-
+                        android:gravity="center_vertical"
+                    android:paddingLeft="16dp"
+                        android:orientation="horizontal">
                     <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_user_lightgray"
-                        android:layout_centerInParent="true"
-                        android:layout_alignParentLeft="true"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@mipmap/ic_launcher"
+                        android:scaleType="centerInside"
                         android:background="@android:color/transparent"
+                        binding:onClickCommand="@{viewModel.getInitData}"
                         />
                     <TextView
                         android:layout_width="wrap_content"
@@ -76,7 +76,9 @@
                         android:gravity="left"
                         android:text="@{viewModel.userDanWeiInfo}"
                         android:textSize="16sp"
-                        android:layout_marginLeft="16dp"/>
+                        android:layout_marginLeft="16dp"
+                        binding:onClickCommand="@{viewModel.dealLogin}"
+                        />
                 </LinearLayout>
             </LinearLayout>
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -97,26 +99,83 @@
         android:layout_marginTop="16dp">
         <TableRow>
             <ImageButton
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:src="@drawable/ic_browse_primary_64"
+                android:background="@android:color/transparent"
+                android:onClick="@{()->viewModel.onIconSelect(&quot;browse&quot;)}"/>
+            <ImageButton
+                android:layout_width="42dp"
+                android:layout_height="42dp"
                 android:src="@drawable/ic_patrol_primary_64"
                 android:background="@android:color/transparent"
                 android:onClick="@{()->viewModel.onIconSelect(&quot;patrol&quot;)}"/>
             <ImageButton
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="@drawable/ic_browse_primary_64"
+                android:src="@drawable/ic_check_primary_64"
                 android:background="@android:color/transparent"
-                android:onClick="@{()->viewModel.onIconSelect(&quot;browse&quot;)}"/>
+                android:onClick="@{()->viewModel.onIconSelect(&quot;check&quot;)}"/>
             <ImageButton
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:src="@drawable/ic_test_primary_64"
+                android:onClick="@{()->viewModel.onIconSelect(&quot;test&quot;)}"
+                android:background="@android:color/transparent" />
+        </TableRow>
+
+        <TableRow android:orientation="vertical">
+            <TextView
+                style="@style/MainIconText"
+                android:layout_width="56dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:onClick="@{()->viewModel.onIconSelect(&quot;browse&quot;)}"
+                android:text="桥梁浏览" />
+            <TextView
+                style="@style/MainIconText"
+                android:layout_width="56dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:onClick="@{()->viewModel.onIconSelect(&quot;patrol&quot;)}"
+                android:text="日常巡查" />
+            <TextView
+                style="@style/MainIconText"
+                android:layout_width="56dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:onClick="@{()->viewModel.onIconSelect(&quot;check&quot;)}"
+                android:text="经常检查" />
+            <TextView
+                style="@style/MainIconText"
+                android:layout_width="56dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="定期检查" />
+        </TableRow>
+        <TableRow
+            android:layout_marginTop="8dp">
+            <ImageButton
+                android:layout_width="42dp"
+                android:layout_height="42dp"
                 android:src="@drawable/ic_count_primary_64"
                 android:background="@android:color/transparent"
                 android:onClick="@{()->viewModel.onIconSelect(&quot;chart&quot;)}"/>
             <ImageButton
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:src="@drawable/ic_gis_primary_48"
+                android:background="@android:color/transparent"
+                android:onClick="@{()->viewModel.onIconSelect(&quot;gis&quot;)}"/>
+            <ImageButton
+                android:id="@+id/icon_test"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:src="@drawable/ic_datum_primary_64"
+                android:background="@android:color/transparent" />
+            <ImageButton
+                android:layout_width="42dp"
+                android:layout_height="42dp"
                 android:src="@drawable/ic_info_primary_64"
                 android:background="@android:color/transparent" />
         </TableRow>
@@ -125,19 +184,21 @@
                 android:layout_height="wrap_content"
                 android:layout_width="56dp"
                 android:gravity="center"
-                android:text="日常巡查"
+                android:text="统计信息"
+                android:onClick="@{()->viewModel.onIconSelect(&quot;chart&quot;)}"
                 style="@style/MainIconText"/>
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="56dp"
                 android:gravity="center"
-                android:text="桥梁浏览"
+                android:text="地理信息"
+                android:onClick="@{()->viewModel.onIconSelect(&quot;gis&quot;)}"
                 style="@style/MainIconText"/>
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="56dp"
                 android:gravity="center"
-                android:text="统计查询"
+                android:text="资料信息"
                 style="@style/MainIconText"/>
             <TextView
                 android:layout_height="wrap_content"
@@ -146,101 +207,7 @@
                 android:text="动态信息"
                 style="@style/MainIconText"/>
         </TableRow>
-        <TableRow
-            android:layout_marginTop="8dp">
-            <ImageButton
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@drawable/ic_check_primary_64"
-                android:background="@android:color/transparent"
-                android:onClick="@{()->viewModel.onIconSelect(&quot;check&quot;)}"/>
-            <ImageButton
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@drawable/ic_maintain_primary_64"
-                android:background="@android:color/transparent" />
-            <ImageButton
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@drawable/ic_gis_primary_48"
-                android:background="@android:color/transparent"
-                android:onClick="@{()->viewModel.onIconSelect(&quot;gis&quot;)}"/>
-            <ImageButton
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@drawable/ic_phonebook_primary_64"
-                android:background="@android:color/transparent" />
-        </TableRow>
-        <TableRow>
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="56dp"
-                android:gravity="center"
-                android:text="经常检查"
-                style="@style/MainIconText"/>
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="56dp"
-                android:gravity="center"
-                android:text="桥梁维修"
-                style="@style/MainIconText"/>
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="56dp"
-                android:gravity="center"
-                android:text="地理信息"
-                style="@style/MainIconText"/>
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="56dp"
-                android:gravity="center"
-                android:text="通讯录"
-                style="@style/MainIconText"/>
-        </TableRow>
-        <TableRow
-            android:layout_marginTop="8dp">
-            <ImageButton
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@drawable/ic_test_primary_64"
-                android:onClick="@{()->viewModel.onIconSelect(&quot;test&quot;)}"
-                android:background="@android:color/transparent" />
-            <ImageButton
-                android:id="@+id/icon_test"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@drawable/ic_datum_primary_64"
-                android:background="@android:color/transparent" />
-            <View
-                android:layout_width="48dp"
-                android:layout_height="48dp"/>
-        </TableRow>
-        <TableRow>
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="56dp"
-                android:gravity="center"
-                android:text="定期检查"
-                style="@style/MainIconText"/>
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="56dp"
-                android:gravity="center"
-                android:text="资料查询"
-                style="@style/MainIconText"/>
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="56dp"
-                android:gravity="center"
-                android:text=""
-                style="@style/MainIconText"/>
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="56dp"
-                android:gravity="center"
-                android:text=""
-                style="@style/MainIconText"/>
-        </TableRow>
+
     </TableLayout>
     <TextView
         android:layout_width="match_parent"
@@ -269,12 +236,12 @@
             android:textStyle="bold"/>
     </LinearLayout>
     <TextView
+        android:id="@+id/tv_tongji_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:textColor="@color/black"
         android:lineSpacingExtra="4dp"
-        android:text="本单位所属桥梁共1324座。其中，大桥268座，中桥540座，小桥1127座，危险桥梁10座。"
         ></TextView>
                     <LinearLayout
                         android:id="@+id/layoutChart"

@@ -4,11 +4,14 @@ import android.support.annotation.NonNull;
 
 import java.text.SimpleDateFormat;
 
+import cn.com.lxsoft.bdasphone.app.AppApplication;
 import cn.com.lxsoft.bdasphone.app.SystemConfig;
 import cn.com.lxsoft.bdasphone.entity.Check;
 import cn.com.lxsoft.bdasphone.entity.Patrol;
 import cn.com.lxsoft.bdasphone.entity.QiaoLiang;
+import cn.com.lxsoft.bdasphone.entity.YearTest;
 import cn.com.lxsoft.bdasphone.ui.browse.QiaoLiangListItemViewModel;
+import cn.com.lxsoft.bdasphone.utils.ConvertUtils;
 import me.goldze.mvvmhabit.base.BaseViewModel;
 
 
@@ -29,40 +32,40 @@ public class ExamineListItemViewModel extends QiaoLiangListItemViewModel {
     {
         super(viewModel,tpEntity);
 
+        String ds="";
         switch(type){
             case SystemConfig.ExamineStyle_Patrol:
-                if (tpEntity.getPatrolID()!=null) {
-                    Patrol patrol=tpEntity.getPatrol();
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
-                    info4 = sdf.format(patrol.getDate());
-                    String ds=patrol.getDiseaseInfo();
-                    if(ds.equals("")){
-                        info5="未发现异常";
-                    }
-                    else{
-                        info5="异常部位：".concat(ds);
-                    }
+                Patrol patrol=AppApplication.dataBase.getPatrolDataFromBridge(tpEntity.getDaiMa());
+                info4 = ConvertUtils.getDateNameNoYear(patrol.getDate());
+                ds=patrol.getDiseaseInfo();
+                if(ds.equals("")){
+                    info5="未发现异常";
                 }
-                else {
-                    info4 = "未巡查";
-                    info5 = jieGou;
+                else{
+                    info5=ds;
                 }
                 break;
             case SystemConfig.ExamineStyle_Check:
-                if (tpEntity.getCheckID()!=null) {
-                    Check check=tpEntity.getCheck();
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
-                    info4 = sdf.format(check.getDate());
-                    String ds=check.getDiseaseInfo();
-                    if(ds.equals("")){
-                        info5="未发现异常";
-                    }
-                    else{
-                        info5="异常部位：".concat(ds);
-                    }
+                Check check=AppApplication.dataBase.getCheckDataFromBridge(tpEntity.getDaiMa());
+                info4 = ConvertUtils.getDateNameNoYear(check.getDate());
+                ds=check.getDiseaseInfo();
+                if(ds.equals("")){
+                    info5="未发现异常";
+                }
+                else{
+                    info5=ds;
+                }
+                break;
+            case SystemConfig.ExamineStyle_Test:
+                YearTest test=AppApplication.dataBase.getYearTestDataFromBridge(tpEntity.getDaiMa());
+                if(test!=null){
+                    info4 = ConvertUtils.getDateName(test.getDate());
+                    info5="评分"+Integer.toString(test.getPingFen())+"▪上部"+Integer.toString(test.getShangBuJieGouPingFen())+
+                            "▪下部"+Integer.toString(test.getXiaBuJieGouPingFen())+
+                            "▪桥面系"+Integer.toString(test.getQiaoMianXiPingFen());
                 }
                 else {
-                    info4 = "未巡查";
+                    info4 = "未定期检查";
                     info5 = jieGou;
                 }
                 break;

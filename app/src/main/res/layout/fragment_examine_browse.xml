@@ -39,7 +39,7 @@
                 android:fitsSystemWindows="true"
                 app:expandedTitleMarginBottom="0dp"
                 app:titleEnabled="false"
-                app:layout_scrollFlags="scroll"
+                app:layout_scrollFlags="enterAlways"
                 app:statusBarScrim="@android:color/transparent">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -54,6 +54,7 @@
                     <cn.com.lxsoft.bdasphone.ui.component.ToolBarBdas
                         android:id="@+id/layout_toolbar_title"
                         lx:init="false"
+                        lx:type="title_back"
                         style="@style/ToolBarTitle"
                         android:layout_height="32dp"/>
                 </LinearLayout>
@@ -73,27 +74,31 @@
                     android:id="@+id/id_radioGpJianCha"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:gravity="center"
                     android:orientation="horizontal">
+                    <TextView style="@style/viewWeight"/>
                     <RadioButton
                         style="@style/TopBarLightFunc"
-                        android:layout_width="102dp"
-                        android:text="已完成检查"
+                        android:text="已完成"
                         android:onClick="@{()->viewModel.onToolbarDiseaseSearch(1)}"/>
                     <TextView style="@style/viewWeight"/>
                     <RadioButton
                         style="@style/TopBarLightFunc"
-                        android:layout_width="102dp"
-                        android:text="未完成检查"
+                        android:text="未完成"
                         android:onClick="@{()->viewModel.onToolbarDiseaseSearch(2)}"/>
                     <TextView style="@style/viewWeight"/>
                     <RadioButton
                         style="@style/TopBarLightFunc"
-                        android:layout_width="102dp"
-                        android:text="有异常桥梁"
+                        android:text="有异常"
                         android:onClick="@{()->viewModel.onToolbarDiseaseSearch(3)}"/>
+                    <TextView style="@style/viewWeight"/>
+                    <RadioButton
+                        style="@style/TopBarLightFunc"
+                        android:text="刷新数据"
+                        android:onClick="@{()->viewModel.onRefreshCommand()}"/>
+                    <TextView style="@style/viewWeight"/>
                 </RadioGroup>
             </LinearLayout>
-
         </android.support.design.widget.AppBarLayout>
         <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
             android:id="@+id/twinklingRefreshLayout"
@@ -126,15 +131,9 @@
             app:menu="@menu/navigation"
             app:itemIconTint="@color/sel_navmenu"
             app:itemTextColor="@color/sel_navmenu"
-            android:fitsSystemWindows="true" />
+            android:fitsSystemWindows="true"
+            binding:selectedID="@{viewModel.nActivityPosition}"
+            binding:onNavigationItemSelected="@{viewModel.onNavigationItemSelected}"/>
     </android.support.design.widget.CoordinatorLayout>
-    <LinearLayout
-        android:id="@+id/id_LayoutDrawer"
-        android:layout_width="240dp"
-        android:layout_height="match_parent"
-        android:background="#fff"
-        android:layout_gravity="end"
-        android:orientation="vertical">
-    </LinearLayout>
 </android.support.v4.widget.DrawerLayout>
 </layout>

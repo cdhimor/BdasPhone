@@ -39,7 +39,7 @@ public class FragmentPatrolItemViewModel extends ItemViewModel {
         String res="";
         if(bCheckDisease.get())
         {
-            res= "A";
+            res= "1";
         }
         else
         {
@@ -53,7 +53,7 @@ public class FragmentPatrolItemViewModel extends ItemViewModel {
     }
 
     public void setDiseaseInfo(String res){
-        if(!res.equals("A"))
+        if(!res.equals("1"))
         {
             String[] tplist=res.split(":");
             for(int i=0;i<tplist.length;i++)

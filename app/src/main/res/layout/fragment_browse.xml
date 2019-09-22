@@ -112,36 +112,37 @@
                         android:id="@+id/rdoBtn_toolbarPaiXu_ZongHe"
                         style="@style/TopBarLightFunc"
                         android:text="综合▲"
-                        android:onClick="@{()->viewModel.onToolbarOrderSet(1)}"/>
+                        android:onClick="@{()->viewModel.onToolbarOrderSet(0)}"/>
                     <TextView style="@style/viewWeight"/>
                     <RadioButton
                         android:id="@+id/rdoBtn_toolbarPaiXu_LuXian"
                         style="@style/TopBarLightFunc"
                         android:text="路线▲"
-                        android:onClick="@{()->viewModel.onToolbarOrderSet(2)}"/>
+                        android:onClick="@{()->viewModel.onToolbarOrderSet(1)}"/>
                     <TextView style="@style/viewWeight"/>
                     <RadioButton
                         android:id="@+id/rdoBtn_toolbarPaiXu_ZhuangKuang"
                         style="@style/TopBarLightFunc"
-                        android:text="状况▲"
-                        android:onClick="@{()->viewModel.onToolbarOrderSet(3)}"/>
+                        android:text="年月▲"
+                        android:onClick="@{()->viewModel.onToolbarOrderSet(2)}"/>
                     <TextView style="@style/viewWeight"/>
                     <RadioButton
                         android:id="@+id/rdoBtn_toolbarPaiXu_QiaoChang"
                         style="@style/TopBarLightFunc"
                         android:text="桥长▲"
-                        android:onClick="@{()->viewModel.onToolbarOrderSet(4)}"/>
+                        android:onClick="@{()->viewModel.onToolbarOrderSet(3)}"/>
                 </RadioGroup>
                 <RadioGroup
-                    android:id="@+id/rdoGp_quickChoose"
+                    android:id="@+id/rdoGp_quickChooseDJ"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
-                    <LinearLayout
-                        android:id="@+id/layout_panel_PingJia"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                    android:orientation="horizontal">
+                    <RadioButton
+                        android:id="@+id/rdoBtn_toolbarPJ_0"
+                        style="@style/TopBarLightFunc"
+                        android:text="全选"
+                        android:onClick="@{()->viewModel.onToolbarQuickSearch(10)}"/>
+                    <TextView style="@style/viewWeight"/>
                         <RadioButton
                             android:id="@+id/rdoBtn_toolbarPJ_1"
                             style="@style/TopBarLightFunc"
@@ -171,12 +172,18 @@
                             style="@style/TopBarLightFunc"
                             android:text="五级"
                             android:onClick="@{()->viewModel.onToolbarQuickSearch(15)}"/>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/layout_panel_leiXing"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                </RadioGroup>
+                <RadioGroup
+                    android:id="@+id/rdoGp_quickChooseLX"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <RadioButton
+                        android:id="@+id/rdoBtn_toolbarLX_QX"
+                        style="@style/TopBarLightFunc"
+                        android:text="全选"
+                        android:onClick="@{()->viewModel.onToolbarQuickSearch(20)}"/>
+                    <TextView style="@style/viewWeight"/>
                         <RadioButton
                             android:id="@+id/rdoBtn_toolbarLX_TedaQ"
                             style="@style/TopBarLightFunc"
@@ -200,7 +207,6 @@
                             style="@style/TopBarLightFunc"
                             android:text="小桥"
                             android:onClick="@{()->viewModel.onToolbarQuickSearch(24)}"/>
-                    </LinearLayout>
                 </RadioGroup>
             </LinearLayout>
 
@@ -231,12 +237,14 @@
             android:id="@+id/navigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
             android:background="?android:attr/windowBackground"
+            android:layout_gravity="bottom"
             app:menu="@menu/navigation"
             app:itemIconTint="@color/sel_navmenu"
             app:itemTextColor="@color/sel_navmenu"
-            android:fitsSystemWindows="true" />
+            android:fitsSystemWindows="true"
+            binding:selectedID="@{viewModel.nActivityPosition}"
+            binding:onNavigationItemSelected="@{viewModel.onNavigationItemSelected}"/>
     </android.support.design.widget.CoordinatorLayout>
 
         <include

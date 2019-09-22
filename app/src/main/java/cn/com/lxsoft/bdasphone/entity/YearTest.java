@@ -1,11 +1,19 @@
 package cn.com.lxsoft.bdasphone.entity;
 
+import android.databinding.InverseBindingListener;
+import android.databinding.InverseBindingMethod;
+import android.databinding.InverseBindingMethods;
+
+import com.google.gson.annotations.SerializedName;
+
 import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToOne;
+import org.greenrobot.greendao.annotation.Transient;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import cn.com.lxsoft.bdasphone.database.greendao.DaoSession;
@@ -14,36 +22,67 @@ import cn.com.lxsoft.bdasphone.database.greendao.QiaoLiangDao;
 import cn.com.lxsoft.bdasphone.database.greendao.UserDao;
 import cn.com.lxsoft.bdasphone.database.greendao.YearTestDao;
 
+//@InverseBindingMethods({@InverseBindingMethod(type = YearTest.class, attribute = "pingJia",event = "progressAttrChanged"),@InverseBindingMethod(type = YearTest.class, attribute = "pingFen",event = "progressAttrChanged")})
+
+
 @Entity
 public class YearTest {
-    @Id
+    @SerializedName("F_Id")
     public String examineID;
 
+    @Id
+    @SerializedName("桥梁代码")
     private String BridgeID;
+
     @ToOne(joinProperty ="BridgeID")
     private QiaoLiang bridge;
 
+    @SerializedName("日期")
     private Date date;
 
+    @SerializedName("下次检查日期")
+    private Date nextDate;
+
+    @SerializedName("记录人")
     private String workerID;
+
     @ToOne(joinProperty ="workerID")
     private User worker;
 
+    @SerializedName("负责人")
     private String ownerID;
+
     @ToOne(joinProperty ="ownerID")
     private User owner;
 
-    private int pingJia;
+    @SerializedName("技术状况评级")
+    private int pingJia=-1;
 
-    private int pingFen;
+    @SerializedName("技术状况评分")
+    private int pingFen=-1;
 
-    private int shangBuJieGouPingFen;
+    @SerializedName("上部结构评分")
+    private int shangBuJieGouPingFen=-1;
 
-    private int xiaBuJieGouPingFen;
+    @SerializedName("下部机构评分")
+    private int xiaBuJieGouPingFen=-1;
 
-    private int qiaoMianXiPingFen;
+    @SerializedName("桥面系评分")
+    private int qiaoMianXiPingFen=-1;
 
+    @SerializedName("部件评分")
     private String gouJianPingFen;
+
+
+    /*
+    @Transient
+    private InverseBindingListener mInverseBindingListener;
+    public void setProgressAttrChanged(InverseBindingListener inverseBindingListener) {
+        if (inverseBindingListener != null) {
+            mInverseBindingListener = inverseBindingListener;
+        }
+    }
+    */
 
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
@@ -53,13 +92,22 @@ public class YearTest {
     @Generated(hash = 726318525)
     private transient YearTestDao myDao;
 
-    @Generated(hash = 394965588)
-    public YearTest(String examineID, String BridgeID, Date date, String workerID,
-            String ownerID, int pingJia, int pingFen, int shangBuJieGouPingFen,
-            int xiaBuJieGouPingFen, int qiaoMianXiPingFen, String gouJianPingFen) {
+    @Generated(hash = 761162677)
+    private transient String bridge__resolvedKey;
+
+    @Generated(hash = 1791517005)
+    private transient String worker__resolvedKey;
+
+    @Generated(hash = 1407767798)
+    private transient String owner__resolvedKey;
+
+    @Generated(hash = 1906039815)
+    public YearTest(String examineID, String BridgeID, Date date, Date nextDate, String workerID, String ownerID, int pingJia, int pingFen, int shangBuJieGouPingFen, int xiaBuJieGouPingFen, int qiaoMianXiPingFen,
+            String gouJianPingFen) {
         this.examineID = examineID;
         this.BridgeID = BridgeID;
         this.date = date;
+        this.nextDate = nextDate;
         this.workerID = workerID;
         this.ownerID = ownerID;
         this.pingJia = pingJia;
@@ -162,9 +210,6 @@ public class YearTest {
         this.gouJianPingFen = gouJianPingFen;
     }
 
-    @Generated(hash = 761162677)
-    private transient String bridge__resolvedKey;
-
     /** To-one relationship, resolved on first access. */
     @Generated(hash = 1078728531)
     public QiaoLiang getBridge() {
@@ -194,9 +239,6 @@ public class YearTest {
         }
     }
 
-    @Generated(hash = 1791517005)
-    private transient String worker__resolvedKey;
-
     /** To-one relationship, resolved on first access. */
     @Generated(hash = 741428595)
     public User getWorker() {
@@ -225,9 +267,6 @@ public class YearTest {
             worker__resolvedKey = workerID;
         }
     }
-
-    @Generated(hash = 1407767798)
-    private transient String owner__resolvedKey;
 
     /** To-one relationship, resolved on first access. */
     @Generated(hash = 1377745454)
@@ -301,5 +340,12 @@ public class YearTest {
         myDao = daoSession != null ? daoSession.getYearTestDao() : null;
     }
 
+    public Date getNextDate() {
+        return this.nextDate;
+    }
+
+    public void setNextDate(Date nextDate) {
+        this.nextDate = nextDate;
+    }
 
 }

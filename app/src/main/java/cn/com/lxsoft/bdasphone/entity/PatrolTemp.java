@@ -19,7 +19,7 @@ import cn.com.lxsoft.bdasphone.database.greendao.UserDao;
 import cn.com.lxsoft.bdasphone.database.greendao.PatrolTempDao;
 
 @Entity
-public class PatrolTemp extends Patrol{
+public class PatrolTemp{
     @Id
     @SerializedName("F_Id")
     public String examineID;
@@ -76,7 +76,7 @@ public class PatrolTemp extends Patrol{
     @SerializedName("照片")
     private String images;
 
-    private int type;//0:已上传历史记录，1：未上传历史记录
+    private int type=0;//0:已上传历史记录，1：未上传历史记录
 
     public PatrolTemp(Patrol patrol) {
         this.examineID = patrol.getExamineID();
@@ -154,7 +154,7 @@ public class PatrolTemp extends Patrol{
         if(biaoZhi!=null && !biaoZhi.equals("1"))
             res=res.concat("标志标牌▪");
         if(xianXing!=null && !xianXing.equals("1"))
-            res=res.concat("线性▪");
+            res=res.concat("线型▪");
         if(res.equals(""))
             return res;
         else

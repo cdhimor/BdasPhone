@@ -6,6 +6,7 @@ import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
 import android.databinding.ObservableList;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
@@ -24,19 +25,27 @@ import cn.com.lxsoft.bdasphone.database.greendao.DataSession;
 import cn.com.lxsoft.bdasphone.entity.Check;
 import cn.com.lxsoft.bdasphone.entity.CheckTemp;
 import cn.com.lxsoft.bdasphone.entity.ImageData;
+import cn.com.lxsoft.bdasphone.entity.PatrolTemp;
 import cn.com.lxsoft.bdasphone.entity.QiaoLiang;
 import cn.com.lxsoft.bdasphone.entity.User;
 import cn.com.lxsoft.bdasphone.net.BridegeNetObserver;
 import cn.com.lxsoft.bdasphone.net.RequestBase;
 import cn.com.lxsoft.bdasphone.net.ResponseInfo;
+import cn.com.lxsoft.bdasphone.net.ResponseList;
+import cn.com.lxsoft.bdasphone.ui.browse.ContentFragment;
 import cn.com.lxsoft.bdasphone.ui.browse.QiaoLiangListItemViewModel;
 import cn.com.lxsoft.bdasphone.utils.ActivityUtils;
 import cn.com.lxsoft.bdasphone.utils.ConvertUtils;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.functions.Consumer;
 import me.goldze.mvvmhabit.base.AppManager;
 import me.goldze.mvvmhabit.base.BaseViewModel;
+import me.goldze.mvvmhabit.binding.command.BindingAction;
 import me.goldze.mvvmhabit.binding.command.BindingCommand;
 import me.goldze.mvvmhabit.binding.command.BindingConsumer;
+import me.goldze.mvvmhabit.bus.event.SingleLiveEvent;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 import me.tatarka.bindingcollectionadapter2.BindingViewPagerAdapter;
 import me.tatarka.bindingcollectionadapter2.ItemBinding;
@@ -44,14 +53,16 @@ import me.tatarka.bindingcollectionadapter2.OnItemBind;
 
 public class FragmentCheckViewModel extends BridgeBaseViewModel {
     QiaoLiang bridge;
-    boolean bNewData=false;
     Check oldCheck;
+    public String sBridgeName="";
 
     public QiaoLiangListItemViewModel qiaoLiangViewModel;
 
     public HashMap<String,ObservableField<String>> checkDisease=new HashMap();
     public HashMap<String,List<ImageData>> checkImage=new HashMap();
     public HashMap<String,ObservableField<String>> checkComm=new HashMap();
+    public ObservableBoolean obNewData=new ObservableBoolean(false);
+    public ObservableBoolean obHistory=new ObservableBoolean(false);
 
     public Check check;
 
@@ -64,41 +75,59 @@ public class FragmentCheckViewModel extends BridgeBaseViewModel {
     public void onCreate() {
         DataBaseGreenImpl database = AppApplication.dataBase;
         bridge = DataSession.getCurrentQiaoLiang();
+        sBridgeName=bridge.getMingCheng();
 
-        check = database.getCheckDataFromBridge(bridge.getDaiMa());
-        if (check != null) {
-            if(check.beNewCheck()) {
-                bNewData = true;
-                oldCheck=check;
+
+        Bundle mBundle=bundleArguments;
+        if (mBundle != null) {
+            if(mBundle.getString(SystemConfig.Bundle_Examine_Type).equals(SystemConfig.Bundle_Examine_Type_History)){
+                CheckTemp pt=database.getCheckTempData(mBundle.getString(SystemConfig.Bundle_Examine_Type_History_Data));
+                check=new Check(pt);
+                obHistory.set(true);
             }
-        } else {
-            bNewData = true;
+            else {
+                check = database.getCheckDataFromBridge(bridge.getDaiMa());
+                obNewData.set(true);
+                oldCheck = check;
+                if (mBundle.getString(SystemConfig.Bundle_Examine_Type).equals(SystemConfig.Bundle_Examine_Type_CopyNew)) {
+                    check = database.getCheckDataFromBridge(bridge.getDaiMa());
+                } else {
+                    check = new Check();
+                    check.setWorker(DataSession.getCurrentUser());
+                    List<User> users = database.getLeaderUser();
+
+                    if (users.size() == 1)
+                        check.setOwner(users.get(0));
+                }
+                Date date = new Date();
+                check.setExamineID("C"+bridge.getDaiMa().concat("-"+ConvertUtils.getDateSimpleName(date)));
+                check.setBridgeID(bridge.getDaiMa());
+                check.setBridgeName(bridge.getMingCheng());
+                check.setDate(date);
+
+                int nextDay = 1;
+                if (bridge.getExamineLevel() == 3)
+                    nextDay = 7;
+                Date nextDate = ConvertUtils.getNewDate(nextDay);
+                check.setNextDate(nextDate);
+            }
         }
-        if(bNewData){
-            check=new Check();
-            check.setWorker(DataSession.getCurrentUser());
-            List<User> users=database.getLeaderUser();
+        else
+            check = database.getCheckDataFromBridge(bridge.getDaiMa());
 
-            if(users.size()==1)
-                check.setOwner(users.get(0));
+        if(check==null)
+            return;
 
-            Date date=new Date();
-            check.setExamineID("C"+bridge.getDaiMa().concat("-"+ConvertUtils.getDateSimpleName(date)));
-            check.setBridgeID(bridge.getDaiMa());
-            check.setBridgeName(bridge.getMingCheng());
-            check.setDate(date);
-
-            int nextDay=90;
-            int level=bridge.getExamineLevel();
-            if(level==1)
-                nextDay=30;
-            else if(level==2)
-                nextDay=60;
-            Date nextDate=ConvertUtils.getNewDate(nextDay);
-            check.setNextDate(nextDate);
-        }
         qiaoLiangViewModel = new QiaoLiangListItemViewModel(this, bridge);
-        qiaoLiangViewModel.bCanClick = false;
+        //qiaoLiangViewModel.bCanClick = false;
+        qiaoLiangViewModel.setItemClickListener(new QiaoLiangListItemViewModel.OnItemClickListener() {
+            @Override
+            public void onClick(QiaoLiang tpQiaoLiang) {
+                //oStringChooseQiaoLiang.set(tpQiaoLiang.getDaiMa());
+                //DataSession.setCurrentQiaoLiang(tpQiaoLiang);
+                startContainerActivity(ContentFragment.class.getCanonicalName());
+            }
+        });
 
         adapter.fragmentCheckViewModel=this;
     }
@@ -180,6 +209,10 @@ public class FragmentCheckViewModel extends BridgeBaseViewModel {
     }
 
     public void saveData(){
+        if(check.beNewCheck() || obHistory.get()){
+            showConfirmDialog("本次检查已逾期，请新建检查");
+            return;
+        }
         //ObservableBoolean bUploadOK=new ObservableBoolean(false);
         //0:初始化，1：位置校验成功，100:位置错误，2：图片上传成功，200：网络错误。3:提交成功，300：网络错误
         ObservableInt obSaveState=new ObservableInt(0);
@@ -199,7 +232,7 @@ public class FragmentCheckViewModel extends BridgeBaseViewModel {
                             oldCheck = null;
                         }
                         database.insertOrReplaceCheckData(check);
-                        if(bNewData) {
+                        if(obNewData.get()) {
                             bridge.setCheckID(check.getExamineID());
                             database.insertOrReplaceBridgeData(DataSession.getCurrentQiaoLiang());
                         }
@@ -213,7 +246,7 @@ public class FragmentCheckViewModel extends BridgeBaseViewModel {
                         break;
                     case 2:
                         RequestBase<Check> requestData = new RequestBase<>();
-                        if (bNewData)
+                        if (obNewData.get())
                             requestData.AddItems.add(check);
                         else
                             requestData.EditItems.add(check);
@@ -225,7 +258,7 @@ public class FragmentCheckViewModel extends BridgeBaseViewModel {
                                     showConfirmDialog("数据提交成功");
                                     dealCheckData();
                                     database.insertOrReplaceCheckData(check);
-                                    bNewData=false;
+                                    obNewData.set(false);
                                 } else
                                     showConfirmDialog(res.message+"请稍后同步");
                             }
@@ -321,13 +354,83 @@ public class FragmentCheckViewModel extends BridgeBaseViewModel {
         return res;
     }
 
+    public BindingCommand createNewClickCommand = new BindingCommand(new BindingAction() {
+        @Override
+        public void call() {
+            if(check.getDate().getDate()==new Date().getDate()) {
+                showConfirmDialog("当日不能添加新检查，请修改本检查");
+                return;
+            }
+            //if(ConvertUtils.patrolData.patrol.getDate().)
+            Bundle bundle=new Bundle();
+            bundle.putString(SystemConfig.Bundle_Examine_Type,SystemConfig.Bundle_Examine_Type_New);
+            startContainerActivity(FragmentCheck.class.getCanonicalName(),bundle);
+            finish();
+        }
+    });
 
-    //private int currentIndex=0;
 
-    //public FragmentCheckItemViewModel getCurrentItemViewModel(){
-    //    return items.get(currentIndex);
-    //}
+    public BindingCommand createCopyNewClickCommand = new BindingCommand(new BindingAction() {
+        @Override
+        public void call() {
+            if(check.getDate().getDate()==new Date().getDate()) {
+                showConfirmDialog("当日不能添加新检查，请修改本检查");
+                return;
+            }
+            Bundle bundle=new Bundle();
+            bundle.putString(SystemConfig.Bundle_Examine_Type,SystemConfig.Bundle_Examine_Type_CopyNew);
+            startContainerActivity(FragmentCheck.class.getCanonicalName(),bundle);
+            finish();
+        }
+    });
 
+    SingleLiveEvent<Void> openHisDialogEvent=new SingleLiveEvent();
+    ArrayList hisKeySet;
+    ArrayList hisValueSet;
+
+    public void getHistoryData(){
+        Observable<ResponseList<CheckTemp>> dbob=Observable.create(new ObservableOnSubscribe<ResponseList<CheckTemp>>() {
+            @Override
+            public void subscribe(ObservableEmitter<ResponseList<CheckTemp>> emitter) throws Exception{
+                List tplist=AppApplication.dataBase.getCheckTempList(bridge.getDaiMa(),0,0);
+                if(tplist==null || tplist.size()==0)
+                    emitter.onComplete();
+                emitter.onNext(new ResponseList<CheckTemp>(tplist,"db"));
+                emitter.onComplete();
+            }
+        });
+
+        Observable<ResponseList<CheckTemp>> netob=subscribeBase.getCheckTempListData(bridge.getDaiMa(),1,SystemConfig.PageSizeBridge);
+
+        Observable.concat(dbob,netob).firstElement()
+                .subscribe(new BridegeNetObserver<ResponseList<CheckTemp>>() {
+                    @Override
+                    public void onSuccess(ResponseList<CheckTemp> resData) {
+                        List<CheckTemp> datalist=resData.rows;
+                        if(datalist==null || datalist.size()==0)
+                            return;
+                        if(resData.CODE==null || !resData.CODE.equals("db"))
+                            AppApplication.dataBase.insertCheckTempListData(datalist);
+                        hisKeySet=new ArrayList();
+                        hisValueSet=new ArrayList();
+                        for(int i=0;i<datalist.size();i++){
+                            hisKeySet.add(datalist.get(i).getExamineID());
+                            String tps=datalist.get(i).getDiseaseInfo();
+                            if(tps.isEmpty())
+                                tps="未发现异常";
+                            hisValueSet.add(ConvertUtils.getDateNameNoYear(datalist.get(i).getDate())+"  ("+tps+")");
+                        }
+                        openHisDialogEvent.call();
+                    }
+                });
+    }
+
+    public void openHistoryActivity(String examineid){
+        Bundle bundle=new Bundle();
+        bundle.putString(SystemConfig.Bundle_Examine_Type,SystemConfig.Bundle_Examine_Type_History);
+        bundle.putString(SystemConfig.Bundle_Examine_Type_History_Data,examineid);
+        startContainerActivity(FragmentCheck.class.getCanonicalName(),bundle);
+    }
 
     @Override
     public void onDestroy() {

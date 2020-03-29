@@ -7,49 +7,143 @@
             name="viewModel"
             type="FragmentCheckViewModel" />
     </data>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:binding="http://schemas.android.com/apk/res-auto"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:binding="http://schemas.android.com/apk/res-auto"
         xmlns:tl="http://schemas.android.com/apk/res-auto"
+        xmlns:lx="http://schemas.android.com/apk/res/cn.com.lxsoft.bdasphone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/white">
-
+        android:orientation="vertical">
         <cn.com.lxsoft.bdasphone.ui.component.ToolBarBdas
             android:id="@+id/toolbar_check"
-            xmlns:lx="http://schemas.android.com/apk/res/cn.com.lxsoft.bdasphone"
-            lx:name="经常检查"
-            style="@style/ToolBarTitle" />
-
-        <TextView
+            lx:name="日常巡查"
+            style="@style/ToolBarTitle"
+            android:layout_height="40dp"/>
+        <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/main_content"
             android:layout_width="match_parent"
-            android:layout_height="4dp"
-            android:background="@color/colorLightGray"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            android:background="@color/white"
+            android:layout_weight="1">
 
-                <include
-                    android:id="@+id/include"
-                    layout="@layout/layout_qiaoliang_item"
-                    binding:viewModel="@{viewModel.qiaoLiangViewModel}" />
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true">
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fitsSystemWindows="true"
+                app:contentScrim="@color/colorLightGray"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:expandedTitleTextAppearance="@style/ExamineExpandedTitleText"
+                app:expandedTitleMarginBottom="-10dp"
+                app:collapsedTitleTextAppearance="@style/ExamineCollapsedTitleText"
+                app:collapsedTitleGravity="center">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:orientation="vertical"
+                    app:layout_collapseMode="pin"
+                    android:background="@color/white">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:gravity="center">
+                        <include
+                            android:id="@+id/include"
+                            layout="@layout/layout_qiaoliang_item"
+                            binding:viewModel="@{viewModel.qiaoLiangViewModel}" />
+                    </LinearLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="4dp"
+                        android:background="@color/colorLightGraySplit"/>
+                    <LinearLayout
+                        android:id="@+id/pannel_createNew"
+                        android:layout_width="match_parent"
+                        android:layout_height="42dp"
+                        android:orientation="horizontal"
+                        android:background="@color/colorLightGray"
+                        android:gravity="center_vertical">
+                        <TextView
+                            android:layout_width="4dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="新建"
+                            android:textAlignment="center"
+                            android:gravity="center"
+                            android:drawableLeft="@drawable/ic_add_circle_outline_black_24dp"
+                            android:drawablePadding="4sp"
+                            android:paddingLeft="12dp"
+                            android:paddingRight="12dp"
+                            binding:onClickCommand="@{viewModel.createNewClickCommand}"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="复制新建"
+                            android:textAlignment="center"
+                            android:gravity="center"
+                            android:drawableLeft="@drawable/ic_add_circle_gray"
+                            android:drawablePadding="4sp"
+                            android:paddingLeft="12dp"
+                            android:paddingRight="12dp"
+                            binding:onClickCommand="@{viewModel.createCopyNewClickCommand}"/>
+                        <TextView
+                            android:layout_width="4dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"/>
+                        <TextView
+                            android:id="@+id/patrol_tv_history"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="历史"
+                            android:textAlignment="center"
+                            android:gravity="center"
+                            android:drawableLeft="@drawable/ic_history_black_24dp"
+                            android:drawablePadding="4sp"
+                            android:paddingLeft="12dp"
+                            android:paddingRight="12dp"/>
+                        <TextView
+                            android:layout_width="4dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    app:title="@{viewModel.sBridgeName}">
+                </android.support.v7.widget.Toolbar>
+            </android.support.design.widget.CollapsingToolbarLayout>
 
-        </LinearLayout>
-
+        </android.support.design.widget.AppBarLayout>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="4dp"
             android:background="@color/colorLightGray"/>
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <q.rorbin.verticaltablayout.VerticalTabLayout
             android:id="@+id/verTablayout"
@@ -69,7 +163,9 @@
             binding:itemBinding="@{viewModel.itemBinding}"
             binding:items="@{viewModel.viewModelsItems}"
             binding:onPageSelectedCommand="@{viewModel.onPageSelectedCommand}"
-            binding:pageTitles="@{viewModel.pageTitles}" />
+            binding:pageTitles="@{viewModel.pageTitles}"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
         </LinearLayout>
+        </android.support.design.widget.CoordinatorLayout>
     </LinearLayout>
 </layout>

@@ -81,6 +81,9 @@ public class ExamineBrowseFragmentViewModel extends BaseBrowseFragmentViewModel 
                     public void onNext(ResponseInfo res) {
                         if (res.checkSuccess()) {
                             showDialog("本地历史数据提交成功");
+                            for(int i=0;i<patrolTemplist.size();i++){
+                                patrolTemplist.get(i).delete();
+                            }
                         }
                         dealNetDataEx();
                     }
@@ -99,6 +102,10 @@ public class ExamineBrowseFragmentViewModel extends BaseBrowseFragmentViewModel 
                     public void onNext(ResponseInfo res) {
                         if (res.checkSuccess()) {
                             showDialog("本地历史数据提交成功");
+                            for(int i=0;i<checkTemplist.size();i++){
+                                checkTemplist.get(i).delete();
+                            }
+
                         }
                         dealNetDataEx();
                     }
@@ -251,6 +258,7 @@ public class ExamineBrowseFragmentViewModel extends BaseBrowseFragmentViewModel 
                     case SystemConfig.ExamineStyle_Patrol:
                         //mBundle.putString("id",tpQiaoLiang.getPatrolID());
                         startContainerActivity(FragmentPatrol.class.getCanonicalName());
+                        //startContainerActivity(FragmentExamine.class.getCanonicalName());
                         break;
                     case SystemConfig.ExamineStyle_Check:
                         startContainerActivity(FragmentCheck.class.getCanonicalName());

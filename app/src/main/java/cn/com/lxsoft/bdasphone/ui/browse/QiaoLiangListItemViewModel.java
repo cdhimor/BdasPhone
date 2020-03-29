@@ -46,7 +46,7 @@ public class QiaoLiangListItemViewModel extends ItemViewModel<BaseViewModel> {
         super(viewModel);
         mingCheng=tpEntity.getMingCheng();
         leiXing=tpEntity.getleiXingInfo();
-        if(tpEntity.getLuXian()!=null)
+        if(tpEntity.getLuXian()!=null && !ConvertUtils.isSpace(tpEntity.getLuXianID()) && !ConvertUtils.isSpace(tpEntity.getLuXian().getMingCheng()))
             luXian=tpEntity.getLuXianID().concat(tpEntity.getLuXian().getMingCheng());
         else
             luXian=tpEntity.getLuXianID();

@@ -2,11 +2,14 @@ package cn.com.lxsoft.bdasphone.net;
 
 import cn.com.lxsoft.bdasphone.entity.BridgeChart;
 import cn.com.lxsoft.bdasphone.entity.Check;
+import cn.com.lxsoft.bdasphone.entity.CheckTemp;
 import cn.com.lxsoft.bdasphone.entity.Construct;
 import cn.com.lxsoft.bdasphone.entity.DanWei;
 import cn.com.lxsoft.bdasphone.entity.Disease;
+import cn.com.lxsoft.bdasphone.entity.Engineer;
 import cn.com.lxsoft.bdasphone.entity.LuXian;
 import cn.com.lxsoft.bdasphone.entity.Patrol;
+import cn.com.lxsoft.bdasphone.entity.PatrolTemp;
 import cn.com.lxsoft.bdasphone.entity.QiaoLiang;
 import cn.com.lxsoft.bdasphone.entity.UpdateVersion;
 import cn.com.lxsoft.bdasphone.entity.User;
@@ -50,10 +53,10 @@ public interface HttpApi {
     @GET("webapp/GetGridJson_for_gydw")
     Observable<ResponseList<User>> getUserData();
 
-    @GET("/updateversion.json")
+    @GET("updateversion.json")
     Observable<UpdateVersion> getApkUpdateData();
 
-    @GET("/report/qltj/Webapp_GetReport")
+    @GET("report/qltj/Webapp_GetReport")
     Observable<ResponseList<BridgeChart>> getReportData(@Query("gydw") String gydw, @Query("fucname") String type);
 
     @GET("WebApp/app_bridge_list")
@@ -61,6 +64,7 @@ public interface HttpApi {
 
     @GET("WebApp/CheckLogin_App")
     Observable<ResponseLogin> checkLogin(@Query("username") String username,@Query("password") String password);
+
 
     @GET("WebApp/Qlinfo_For_qldm")
     Observable<ResponseContent> getContentData(@Query("qldm") String qldm);
@@ -94,8 +98,14 @@ public interface HttpApi {
     @GET("QLJCManage/Rcxc/GetGridJson_For_NewTime")
     Observable<ResponseList<Patrol>> getPatrolData(@Query("page") Integer page,@Query("rows") Integer rows,@Query("sidx") String px,@Query("sord") String sord);
 
+    @GET("QLJCManage/Rcxc/GetGridJson")
+    Observable<ResponseList<PatrolTemp>> getPatrolTempData(@Query("qldm") String qldm, @Query("page") Integer page, @Query("rows") Integer rows, @Query("sidx") String px, @Query("sord") String sord);
+
     @GET("QLJCManage/jcjc/GetGridJson_For_NewTime")
     Observable<ResponseList<Check>> getCheckData(@Query("page") Integer page, @Query("rows") Integer rows, @Query("sidx") String px, @Query("sord") String sord);
+
+    @GET("QLJCManage/jcjc/GetGridJson")
+    Observable<ResponseList<CheckTemp>> getCheckTempData(@Query("qldm") String qldm,@Query("page") Integer page, @Query("rows") Integer rows, @Query("sidx") String px, @Query("sord") String sord);
 
     @GET("QLJCManage/dqjc/GetGridJson_For_NewTime")
     Observable<ResponseList<YearTest>> getYearTestData(@Query("page") Integer page, @Query("rows") Integer rows, @Query("sidx") String px, @Query("sord") String sord);
@@ -106,9 +116,23 @@ public interface HttpApi {
     @GET("QLJCManage/bjbh/getDqjcList_ForJcid")
     Observable<ResponseList<Disease>> getDiseaseData(@Query("jcId") String qldm);
 
+    @GET("gcsManage/Gcs_view/GetFormJson")
+    Observable<Engineer> getEngineerData(@Query("keyValue") String keyvalue);
+
+    @GET("gcsManage/Gcs_view/GetGridJson")
+    Observable<ResponseList<Engineer>> getEngineerListData(@Query("page") Integer page, @Query("rows") Integer rows, @Query("sidx") String px, @Query("sord") String sord);
+
+    @GET("wnm/login/login_result.json")
+    Observable<ResponseBody> getVPNLogin(@QueryMap Map<String, String> map);
+
+    @FormUrlEncoded
+    @POST("https://113.247.254.58:11111/wnm/login/login_result.json")
+    Observable<ResponseInfo> getVPNLogin(@Field("user_name") String user,@Field("password") String pass);
 
     @GET("api")
     Observable<ResponseBody> getWeatherDataForMap(@QueryMap Map<String, String> map);
+
+
 
     //天气预报接口测试  @GET 不支持@Body类型
     //@POST("api")

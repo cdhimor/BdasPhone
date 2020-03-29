@@ -25,6 +25,7 @@ public class DaoMaster extends AbstractDaoMaster {
         BridgeMaintainDao.createTable(db, ifNotExists);
         ChartDao.createTable(db, ifNotExists);
         CheckDao.createTable(db, ifNotExists);
+        CheckTempDao.createTable(db, ifNotExists);
         ConstructDao.createTable(db, ifNotExists);
         DanWeiDao.createTable(db, ifNotExists);
         DectectDao.createTable(db, ifNotExists);
@@ -36,7 +37,6 @@ public class DaoMaster extends AbstractDaoMaster {
         SearchHistoryDao.createTable(db, ifNotExists);
         UserDao.createTable(db, ifNotExists);
         YearTestDao.createTable(db, ifNotExists);
-        CheckTempDao.createTable(db, ifNotExists);
     }
 
     /** Drops underlying database table using DAOs. */
@@ -45,6 +45,7 @@ public class DaoMaster extends AbstractDaoMaster {
         BridgeMaintainDao.dropTable(db, ifExists);
         ChartDao.dropTable(db, ifExists);
         CheckDao.dropTable(db, ifExists);
+        CheckTempDao.dropTable(db, ifExists);
         ConstructDao.dropTable(db, ifExists);
         DanWeiDao.dropTable(db, ifExists);
         DectectDao.dropTable(db, ifExists);
@@ -56,7 +57,6 @@ public class DaoMaster extends AbstractDaoMaster {
         SearchHistoryDao.dropTable(db, ifExists);
         UserDao.dropTable(db, ifExists);
         YearTestDao.dropTable(db, ifExists);
-        CheckTempDao.dropTable(db, ifExists);
     }
 
     /**
@@ -79,6 +79,7 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(BridgeMaintainDao.class);
         registerDaoClass(ChartDao.class);
         registerDaoClass(CheckDao.class);
+        registerDaoClass(CheckTempDao.class);
         registerDaoClass(ConstructDao.class);
         registerDaoClass(DanWeiDao.class);
         registerDaoClass(DectectDao.class);
@@ -90,7 +91,6 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(SearchHistoryDao.class);
         registerDaoClass(UserDao.class);
         registerDaoClass(YearTestDao.class);
-        registerDaoClass(CheckTempDao.class);
     }
 
     public DaoSession newSession() {

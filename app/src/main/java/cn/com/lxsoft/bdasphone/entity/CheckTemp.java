@@ -118,7 +118,7 @@ public class CheckTemp {
     @SerializedName("bh113img")
     private String guanCeDianImg;//观测点;
 
-    private int type;//0:已上传历史记录，1：未上传历史记录
+    private int type=0;//0:已上传历史记录，1：未上传历史记录
 
     /** Used to resolve relations */
     @Generated(hash = 2040040024)

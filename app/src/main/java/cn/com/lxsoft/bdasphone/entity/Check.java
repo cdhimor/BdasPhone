@@ -536,6 +536,41 @@ public class Check {
         this.guanCeDianImg = guanCeDianImg;
     }
 
+    public Check(CheckTemp checkt) {
+        this.examineID = checkt.getExamineID();
+        this.BridgeID = checkt.getBridgeID();
+        this.date = checkt.getDate();
+        this.workerID = checkt.getWorkerID();
+        this.ownerID = checkt.getOwnerID();
+        this.beiZhu = checkt.getBeiZhu();
+        this.qiaoLiangJieGou = checkt.getQiaoLiangJieGou();
+        this.qiaoLiangWaiGuan = checkt.getQiaoLiangWaiGuan();
+        this.zhuLiang = checkt.getZhuLiang();
+        this.xieLaSuo = checkt.getXieLaSuo();
+        this.qiaoMianPuZhuang = checkt.getQiaoMianPuZhuang();
+        this.shenSuoFeng = checkt.getShenSuoFeng();
+        this.renXingDao = checkt.getRenXingDao();
+        this.lanGanHuLan = checkt.getLanGanHuLan();
+        this.paiShuiSheShi = checkt.getPaiShuiSheShi();
+        this.dunTai = checkt.getDunTai();
+        this.yiQiangHuPo = checkt.getYiQiangHuPo();
+        this.jiaoTongSheShi = checkt.getJiaoTongSheShi();
+        this.guanCeDian = checkt.getGuanCeDian();
+        this.nextDate = checkt.getNextDate();
+        this.qiaoLiangJieGouImg = checkt.getQiaoLiangJieGouImg();
+        this.qiaoLiangWaiGuanImg = checkt.getQiaoLiangWaiGuanImg();
+        this.zhuLiangImg = checkt.getZhuLiangImg();
+        this.xieLaSuoImg = checkt.getXieLaSuoImg();
+        this.qiaoMianPuZhuangImg = checkt.getQiaoMianPuZhuangImg();
+        this.shenSuoFengImg = checkt.getShenSuoFengImg();
+        this.renXingDaoImg = checkt.getRenXingDaoImg();
+        this.lanGanHuLanImg = checkt.getLanGanHuLanImg();
+        this.paiShuiSheShiImg = checkt.getPaiShuiSheShiImg();
+        this.dunTaiImg = checkt.getDunTaiImg();
+        this.yiQiangHuPoImg = checkt.getYiQiangHuPoImg();
+        this.jiaoTongSheShiImg = checkt.getJiaoTongSheShiImg();
+        this.guanCeDianImg = checkt.getGuanCeDianImg();
+    }
 
     @Generated(hash = 1080183208)
     public Check() {

@@ -13,6 +13,7 @@ import cn.com.lxsoft.bdasphone.BR;
 import cn.com.lxsoft.bdasphone.R;
 import cn.com.lxsoft.bdasphone.app.SystemConfig;
 import cn.com.lxsoft.bdasphone.databinding.FragmentContentBinding;
+import cn.com.lxsoft.bdasphone.utils.ConvertUtils;
 import cn.com.lxsoft.bdasphone.utils.StatusBarUtils;
 import me.goldze.mvvmhabit.base.BaseFragment;
 
@@ -46,6 +47,7 @@ public class ContentFragment extends BaseFragment<FragmentContentBinding, Conten
 
     @Override
     public void initViewObservable() {
+
         viewModel.bDataInitOK.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
@@ -53,6 +55,11 @@ public class ContentFragment extends BaseFragment<FragmentContentBinding, Conten
                 binding.viewPager.setAdapter(viewModel.adapter);
                 binding.tabLayout.setViewPager(binding.viewPager);
                 viewModel.adapter.contentFragment=ContentFragment.this;
+                if(viewModel.content.dazl==null)
+                    return;
+                String sZP=viewModel.content.dazl.getZongTiZhaoPian();
+                if(ConvertUtils.isSpace(sZP))
+                    return;
                 Map map=SystemConfig.parseNetPicData(viewModel.content.dazl.getZongTiZhaoPian());
                 if(map!=null)
                     Glide.with(getContext()).load(SystemConfig.BASE_URL+"Content/pic/"+viewModel.bridge.getDaiMa()+"/"+map.keySet().toArray()[0]).into(binding.mvBridgeContent);

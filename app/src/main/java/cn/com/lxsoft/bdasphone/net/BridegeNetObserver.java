@@ -2,6 +2,7 @@ package cn.com.lxsoft.bdasphone.net;
 
 import android.util.Log;
 
+import io.reactivex.MaybeObserver;
 import io.reactivex.Observer;
 import io.reactivex.SingleObserver;
 import io.reactivex.annotations.NonNull;
@@ -13,7 +14,7 @@ import retrofit2.HttpException;
 
 import static android.support.constraint.Constraints.TAG;
 
-public class BridegeNetObserver<T> implements Observer<T>,SingleObserver<T> {
+public class BridegeNetObserver<T> implements Observer<T>,SingleObserver<T>,MaybeObserver<T> {
     public interface DealData<T>{
         void execute(T t);
     }

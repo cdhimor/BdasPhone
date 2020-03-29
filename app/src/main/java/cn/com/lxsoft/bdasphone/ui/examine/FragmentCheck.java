@@ -1,14 +1,18 @@
 package cn.com.lxsoft.bdasphone.ui.examine;
 
 import android.Manifest;
+import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
@@ -37,6 +41,8 @@ import static android.app.Activity.RESULT_OK;
 
 
 public class FragmentCheck extends BaseFragment<FragmentCheckBinding, FragmentCheckViewModel> {
+    MaterialDialog hisDialog;
+
     @Override
     public void initParam() {
 
@@ -82,6 +88,43 @@ public class FragmentCheck extends BaseFragment<FragmentCheckBinding, FragmentCh
                 tab.setBackground(getContext().getResources().getDrawable(R.drawable.shape_rect_botomrightline_lightgray));
             }
         });
+
+        if(viewModel.obNewData.get() || viewModel.obHistory.get()){
+            binding.pannelCreateNew.setVisibility(View.GONE);
+        }
+
+        binding.patrolTvHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(hisDialog==null) {
+                    hisDialog = new MaterialDialog.Builder(FragmentCheck.this.getContext())
+                            .title("历史记录")
+                            .items()
+                            .alwaysCallSingleChoiceCallback()
+                            .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
+                                @Override
+                                public boolean onSelection(MaterialDialog dialog, View itemView, int which,
+                                                           CharSequence text) {
+                                    viewModel.openHistoryActivity(viewModel.hisKeySet.get(which).toString());
+                                    return true; // allow selection
+                                }
+                            })
+                            .negativeText("取消").show();
+                    viewModel.getHistoryData();
+                }
+                hisDialog.show();
+                hisDialog.setSelectedIndex(-1);
+            }
+        });
+
+        viewModel.openHisDialogEvent.observe(this, new Observer<Void>() {
+            @Override
+            public void onChanged(@Nullable Void v) {
+                String[] array=(String[])viewModel.hisValueSet.toArray(new String[viewModel.hisValueSet.size()]);
+                hisDialog.setItems(array);
+            }
+        });
+
 
         viewModel.initCheckData();
 

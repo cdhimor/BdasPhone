@@ -37,6 +37,12 @@ android {
         exclude 'META-INF/proguard/androidx-annotations.pro'
     }
 
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+
     android.applicationVariants.all {
         variant ->
             variant.outputs.all {
@@ -51,11 +57,16 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    testImplementation 'com.android.support.test:runner:1.0.1'
+    testImplementation 'net.sf.kxml:kxml2:2.2.2'
+    //testImplementation 'net.bytebuddy:byte-buddy-agent:1.10.7'
+    //testImplementation 'net.bytebuddy:byte-buddy:1.10.7'
     implementation 'org.greenrobot:greendao:3.2.2'
     implementation 'org.greenrobot:greendao-generator:3.2.2'
     api rootProject.ext.support["appcompat-v7"]
     api rootProject.ext.support["design"]
     api rootProject.ext.support["support-v4"]
+    api rootProject.ext.support["annotations"]
     implementation rootProject.ext.dependencies["rxjava"]
     implementation rootProject.ext.dependencies["rxandroid"]
     implementation rootProject.ext.dependencies["rxbinding"]
@@ -72,7 +83,19 @@ dependencies {
     implementation 'com.alibaba:fastjson:1.1.55.android'
     implementation 'cn.qqtheme.framework:WheelPicker:1.5.6'
     implementation 'com.github.philjay:mpandroidchart:v3.1.0'
+    implementation 'com.github.philjay:mpandroidchart:v3.1.0'
+
+    testImplementation 'org.assertj:assertj-core:3.15.0'
+    testImplementation 'org.robolectric:robolectric:4.3'
+    testImplementation 'org.powermock:powermock-module-junit4:2.0.2'
+    testImplementation 'org.powermock:powermock-module-junit4-rule:2.0.2'
+    testImplementation 'org.powermock:powermock-api-mockito2:2.0.2'
+    testImplementation 'org.powermock:powermock-classloading-xstream:2.0.2'
+
     //implementation 'com.amap.api:map2d:latest.integration'
     //implementation 'com.amap.api:location:latest.integration'
     implementation files('libs/AMap2DMap_5.2.0_AMapSearch_6.5.0_AMapLocation_4.5.1_20190402.jar')
+
+    compileOnly "org.projectlombok:lombok:1.18.8"
+    implementation 'org.glassfish:javax.annotation:10.0-b28'
 }

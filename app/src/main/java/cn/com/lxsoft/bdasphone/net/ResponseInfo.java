@@ -4,6 +4,7 @@ public class ResponseInfo extends ResponseBase {
     public String state="";
     public String message="";
     public String data="";
+    public String result="";
 
     public Boolean checkSuccess(){
         if(state.equals("success"))

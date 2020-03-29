@@ -1,6 +1,7 @@
 package cn.com.lxsoft.bdasphone.utils;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.text.TextUtils;
 
 import com.google.gson.GsonBuilder;
@@ -18,6 +19,7 @@ import java.lang.reflect.Type;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import cn.com.lxsoft.bdasphone.R;
 import cn.com.lxsoft.bdasphone.app.SystemConfig;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -89,15 +91,18 @@ public class RetrofitClient {
             KLog.e("Could not create http cache", e);
         }
         HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory();
+        //HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory(mContext.getResources().openRawResource(R.raw.server));
         okHttpClient = new OkHttpClient.Builder()
                 .cookieJar(new CookieJarImpl(new PersistentCookieStore(mContext)))
 //               .cache(cache)
                 //.addInterceptor(new BaseInterceptor(headers))
                 //.addInterceptor(new CacheInterceptor(mContext))
                 .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
+                //.sslSocketFactory(sslParams.sSLSocketFactory)
+                //.hostnameVerifier(HttpsUtils.UnSafeHostnameVerifier)
                 .addInterceptor(new LoggingInterceptor
                         .Builder()//构建者模式
-                        //.loggable(true) //是否开启日志打印
+                        .loggable(true) //是否开启日志打印
                         .setLevel(Level.BASIC) //打印的等级
                         .log(Platform.INFO) // 打印类型
                         .request("Request") // request的Tag

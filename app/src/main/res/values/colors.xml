@@ -9,6 +9,7 @@
     <color name="colorTextDark">#202020</color>
     <color name="colorText">#FFFFFF</color>
     <color name="colorLightGray">#F2F2F2</color>
+    <color name="colorLightGraySplit">#f0f0f0</color>
     <color name="colorSplit">#d7ccc8</color>
     <color name="colorLightBlack">#424242</color>
     <color name="colorPrimaryLight">#FFB2FF59</color>

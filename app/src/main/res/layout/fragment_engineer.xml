@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <import type="cn.com.lxsoft.bdasphone.ui.engineer.FragmentEngineerViewModel" />
+        <variable
+            name="viewModel"
+            type="FragmentEngineerViewModel" />
+    </data>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:binding="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:lx="http://schemas.android.com/apk/res/cn.com.lxsoft.bdasphone"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="姓名" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.engineer.name}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="得分" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.engineer.score}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="性别" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.engineer.sex}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="生日" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.engineer.birthday}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="职位" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.engineer.position}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="职称" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.engineer.duty}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="所属单位" />
+        <cn.com.lxsoft.bdasphone.ui.component.EditTextDict
+            style="@style/ContentItemTextEdit"
+            lx:dict="dept"
+            android:text="@={viewModel.engineer.departmentID}"/>
+    </LinearLayout>
+    <LinearLayout style="@style/ContentItem">
+        <TextView
+            style="@style/ContentItemTextView"
+            android:text="工作时间" />
+        <EditText
+            style="@style/ContentItemTextEdit"
+            android:text="@={viewModel.engineer.workTime}"/>
+    </LinearLayout>
+</LinearLayout>
+</android.support.v4.widget.NestedScrollView>
+</layout>

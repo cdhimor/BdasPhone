@@ -10,20 +10,16 @@ import com.trello.rxlifecycle2.LifecycleProvider;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import cn.com.lxsoft.bdasphone.app.AppApplication;
 import cn.com.lxsoft.bdasphone.app.BridgeBaseViewModel;
-import cn.com.lxsoft.bdasphone.app.SystemConfig;
-import cn.com.lxsoft.bdasphone.database.DataBase;
 import cn.com.lxsoft.bdasphone.entity.BridgeChart;
-import cn.com.lxsoft.bdasphone.entity.Chart;
 import cn.com.lxsoft.bdasphone.entity.Check;
 import cn.com.lxsoft.bdasphone.entity.CheckTemp;
 import cn.com.lxsoft.bdasphone.entity.Construct;
 import cn.com.lxsoft.bdasphone.entity.DanWei;
 import cn.com.lxsoft.bdasphone.entity.Disease;
+import cn.com.lxsoft.bdasphone.entity.Engineer;
 import cn.com.lxsoft.bdasphone.entity.LuXian;
 import cn.com.lxsoft.bdasphone.entity.Patrol;
 import cn.com.lxsoft.bdasphone.entity.PatrolTemp;
@@ -31,24 +27,19 @@ import cn.com.lxsoft.bdasphone.entity.QiaoLiang;
 import cn.com.lxsoft.bdasphone.entity.UpdateVersion;
 import cn.com.lxsoft.bdasphone.entity.User;
 import cn.com.lxsoft.bdasphone.entity.YearTest;
+import cn.com.lxsoft.bdasphone.net.reponse.LoginResponse;
+import cn.com.lxsoft.bdasphone.net.reponse.StateResponse;
+import cn.com.lxsoft.bdasphone.net.request.LoginRequest;
 import cn.com.lxsoft.bdasphone.utils.RetrofitClient;
 import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
-import me.goldze.mvvmhabit.base.BaseViewModel;
 import me.goldze.mvvmhabit.http.ResponseThrowable;
 import me.goldze.mvvmhabit.utils.RxUtils;
-import me.goldze.mvvmhabit.utils.ToastUtils;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import me.goldze.mvvmhabit.http.ExceptionHandle;
-import retrofit2.HttpException;
 
 import static android.support.constraint.Constraints.TAG;
 
@@ -111,6 +102,14 @@ public class SubscribeBase {
         return dealHttpData(RetrofitClient.getInstance().create(HttpApi.class).getPatrolData(pageIndex,pageSize,"日期","asc"));
     }
 
+    public Observable<ResponseList<PatrolTemp>> getPatrolTempListData(String qldm,int pageIndex,int pageSize){
+        return dealHttpData(RetrofitClient.getInstance().create(HttpApi.class).getPatrolTempData(qldm,pageIndex,pageSize,"日期","desc"));
+    }
+
+    public Observable<ResponseList<CheckTemp>> getCheckTempListData(String qldm,int pageIndex,int pageSize){
+        return dealHttpData(RetrofitClient.getInstance().create(HttpApi.class).getCheckTempData(qldm,pageIndex,pageSize,"日期","desc"));
+    }
+
     public Observable<ResponseList<Check>> getCheckListData(int pageIndex,int pageSize){
         return dealHttpData(RetrofitClient.getInstance().create(HttpApi.class).getCheckData(pageIndex,pageSize,"日期","asc"));
     }
@@ -158,11 +157,22 @@ public class SubscribeBase {
         return dealHttpData(RetrofitClient.getInstance().create(HttpApi.class).upLoadCheckMedia(stringStringMap,part));
     }
 
-    public Observable<ResponseLogin> checkLogin(String username,String pswd){
+    public Observable<ResponseLogin> checkLogin(String username, String pswd){
         return dealHttpData(RetrofitClient.getInstance().create(HttpApi.class).checkLogin(username,pswd));//"check_login"
     }
 
+    public Observable<LoginResponse> checkLoginx(String username, String pswd){
+        LoginRequest request=new LoginRequest();
+        request.name=username;
+        request.pass=pswd;
+        return dealHttpData(RetrofitClient.getInstance().create(HttpApix.class).checkLogin(request));//"check_login"
+    }
+
     public Observable<ResponseList<QiaoLiang>> getBridgeData(int page,int rows){
+        return dealHttpData(RetrofitClient.getInstance().create(HttpApi.class).getBridgeData(page,rows));
+    }
+
+    public Observable<ResponseList<QiaoLiang>> getBridgeDatax(int page,int rows){
         return dealHttpData(RetrofitClient.getInstance().create(HttpApi.class).getBridgeData(page,rows));
     }
 
@@ -180,6 +190,18 @@ public class SubscribeBase {
 
     public Observable<ResponseContent> getContentData(String qldm){
         return dealHttpData(RetrofitClient.getInstance().create(HttpApi.class).getContentData(qldm));
+    }
+
+    public Observable<Engineer> getEngineerData(String eid){
+        return dealHttpData(RetrofitClient.getInstance().create(HttpApi.class).getEngineerData(eid));
+    }
+
+    public Observable<ResponseList<Engineer>> getEngineerListData(int pageIndex,int pageSize){
+        return dealHttpData(RetrofitClient.getInstance().create(HttpApi.class).getEngineerListData(pageIndex,pageSize,"Score","asc"));
+    }
+
+    public Observable<ResponseInfo> getVPNLogin(String name,String pass){
+        return dealHttpData(RetrofitClient.getInstance().create(HttpApi.class).getVPNLogin(name,pass));
     }
 
     public Observable<UpdateVersion> getApkUpdateData(){

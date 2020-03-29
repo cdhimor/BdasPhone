@@ -134,6 +134,7 @@ public class ToolBarBdas extends Toolbar {
             ImageView ivOK=findViewById(R.id.toolbar_iv_ok);
             if(type==3) {
                 ivOK.setVisibility(GONE);
+                findViewById(R.id.toolbar_tv_space).setVisibility(VISIBLE);
             }
             else {
                 ivOK.setOnClickListener(new OnClickListener() {

@@ -73,6 +73,22 @@ public class Patrol{
 
     private String remark;
 
+    public Patrol(PatrolTemp patrolt) {
+        this.examineID = patrolt.getExamineID();
+        this.date = patrolt.getDate();
+        this.ownerID = patrolt.getOwnerID();
+        this.bridgeCode = patrolt.getBridgeCode();
+        this.workerID = patrolt.getWorkerID();
+        this.qiaoLuLianJie = patrolt.getQiaoLuLianJie();
+        this.puZhuangSSF = patrolt.getPuZhuangSSF();
+        this.lanGan = patrolt.getLanGan();
+        this.biaoZhi = patrolt.getBiaoZhi();
+        this.xianXing = patrolt.getXianXing();
+        this.nextDate = patrolt.getNextDate();
+        this.remark = patrolt.getRemark();
+        this.images = patrolt.getImages();
+    }
+
     @SerializedName("照片")
     private String images;
     /** Used to resolve relations */
@@ -134,7 +150,7 @@ public class Patrol{
         if(biaoZhi!=null && !biaoZhi.equals("1"))
             res=res.concat("标志标牌▪");
         if(xianXing!=null && !xianXing.equals("1"))
-            res=res.concat("线性▪");
+            res=res.concat("线形▪");
         if(res.equals(""))
             return res;
         else

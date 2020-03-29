@@ -16,21 +16,21 @@ import cn.com.lxsoft.bdasphone.database.greendao.UserDao;
 @Entity
 public class User {
     @Id
-    @SerializedName("ID")
+    @SerializedName("loginName")
     private String loginName;
 
-    @SerializedName("NM")
+    @SerializedName("realName")
     private String name;
 
     @SerializedName("PH")
     private String phoneNumber;
 
-    @SerializedName("DW")
+    @SerializedName("department")
     private String danWeiID;
     @ToOne(joinProperty ="danWeiID")
     private DanWei danWei;
 
-    @SerializedName("RL")
+    @SerializedName("role")
     private int roleID;
 
     /** Used to resolve relations */

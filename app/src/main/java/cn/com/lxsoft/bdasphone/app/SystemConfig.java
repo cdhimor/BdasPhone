@@ -42,9 +42,21 @@ public final class SystemConfig {
 
     public static final int[][] ExamineLevel={{1,2,2,2},{ 1,2,2,2},{1,2,2,2},{1,2,3,3},{1,2,3,3}};
 
-    public static final String BASE_URL="http://171.217.92.131:18008/";
+    //public static final String BASE_URL="http://171.217.92.131:18008/";
 
-    //public static final String BASE_URL="http://172.22.1.34:80/"; //湖南
+    //public static final String BASE_URL="https://113.247.254.58:11111/_proxy2/http/80/172.22.1.34/"; //湖南
+
+    //public static final String BASE_URL="https://113.247.254.58:11111/"; //湖南
+
+    //public static final String BASE_URL="http://124.207.182.34:6001/"; //安徽
+
+    //public static final String BASE_URL="http://192.168.43.11:8090/"; //test
+
+    public static final String BASE_URL="http://10.0.2.2:8080/"; //localtest
+
+    public static final Boolean CAN_VPN=false;
+
+    //public static final String BASE_URL="http://116.112.7.20:9001/";//内蒙;
 
     //public static final String APK_URL="http://171.217.92.131:18008/apk/hulan";
 
@@ -76,6 +88,13 @@ public final class SystemConfig {
             }
         }
     }
+
+    public static final String Bundle_Examine_Type="examine_type";
+    public static final String Bundle_Examine_Type_New="new";
+    public static final String Bundle_Examine_Type_CopyNew="copynew";
+    public static final String Bundle_Examine_Type_History="history";
+    public static final String Bundle_Examine_Type_History_Data="history_data";
+
 
     public static final String Bundle_SearchData="SearchHistory";
 

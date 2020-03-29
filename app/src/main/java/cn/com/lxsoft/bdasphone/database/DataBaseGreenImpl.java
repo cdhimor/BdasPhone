@@ -383,6 +383,26 @@ public class DataBaseGreenImpl implements DataBase {
         daoSession.getPatrolDao().insertInTx(ptList);
     }
 
+    public void insertPatrolTempListData(List<PatrolTemp> ptList){
+        openDataBase();
+
+        daoSession.getPatrolTempDao().deleteInTx(daoSession.getPatrolTempDao().queryBuilder().where(
+                PatrolTempDao.Properties.BridgeCode.eq(ptList.get(0).getBridgeCode())).list());
+        //daoSession.getPatrolDao().deleteAll();
+
+        daoSession.getPatrolTempDao().insertInTx(ptList);
+    }
+
+    public void insertCheckTempListData(List<CheckTemp> ptList){
+        openDataBase();
+
+        daoSession.getCheckTempDao().deleteInTx(daoSession.getCheckTempDao().queryBuilder().where(
+                CheckTempDao.Properties.BridgeID.eq(ptList.get(0).getBridgeID())).list());
+        //daoSession.getPatrolDao().deleteAll();
+
+        daoSession.getCheckTempDao().insertInTx(ptList);
+    }
+
     public void insertCheckListData(List<Check> ptList,Boolean bHistory){
         openDataBase();
         //daoSession.getCheckDao().deleteInTx(daoSession.getCheckDao().queryBuilder().where(CheckDao.Properties.BHistory.eq(false)).list());
@@ -579,22 +599,28 @@ public class DataBaseGreenImpl implements DataBase {
             return null;
     }
 
+    public PatrolTemp getPatrolTempData(String sExamineID) {
+        openDataBase();
+        return daoSession.getPatrolTempDao().load(sExamineID);
+    }
+
+    public CheckTemp getCheckTempData(String sExamineID) {
+        openDataBase();
+        return daoSession.getCheckTempDao().load(sExamineID);
+    }
+
+
     public Patrol getPatrolDataFromBridge(String sBridgeID) {
         openDataBase();
-        QueryBuilder qb=daoSession.getPatrolDao().queryBuilder();
-        qb.where(PatrolDao.Properties.BridgeCode.eq(sBridgeID));
-        List<Patrol> list=qb.limit(1).list();
-        if(list.size()>0)
-            return list.get(0);
-        else
-            return null;
+        return daoSession.getPatrolDao().load(sBridgeID);
     }
 
     public List<PatrolTemp> getPatrolTempList(String qldm,int page,int type) {
         openDataBase();
         if(patrolTempQB==null)
             patrolTempQB=daoSession.getPatrolTempDao().queryBuilder();
-        patrolTempQB.where(PatrolTempDao.Properties.Type.eq(type));
+        patrolTempQB.where(PatrolTempDao.Properties.BridgeCode.eq(qldm),PatrolTempDao.Properties.Type.eq(type));
+        patrolTempQB.orderDesc(PatrolTempDao.Properties.Date);
         List<PatrolTemp> tplist= patrolTempQB.offset(page * SystemConfig.PageSizeBridge).limit(SystemConfig.PageSizeBridge).list();
         return tplist;
     }

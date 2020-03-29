@@ -171,12 +171,12 @@
                 android:id="@+id/icon_test"
                 android:layout_width="42dp"
                 android:layout_height="42dp"
-                android:src="@drawable/ic_datum_primary_64"
+                android:src="@drawable/ic_maintain_primary_42dp"
                 android:background="@android:color/transparent" />
             <ImageButton
                 android:layout_width="42dp"
                 android:layout_height="42dp"
-                android:src="@drawable/ic_info_primary_64"
+                android:src="@drawable/ic_engineer_primary_64dp"
                 android:background="@android:color/transparent" />
         </TableRow>
         <TableRow>
@@ -198,13 +198,13 @@
                 android:layout_height="wrap_content"
                 android:layout_width="56dp"
                 android:gravity="center"
-                android:text="资料信息"
+                android:text="养护决策"
                 style="@style/MainIconText"/>
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="56dp"
                 android:gravity="center"
-                android:text="动态信息"
+                android:text="工程师"
                 style="@style/MainIconText"/>
         </TableRow>
 

@@ -76,6 +76,7 @@ public class BridgeMaintain {
 
         ArrayList<String> gjlist= (ArrayList<String>)Arrays.asList(yearTest.getGouJianPingFen().split(","));
         float resbj=1;
+
         if(gjlist.indexOf("101")!=-1 || gjlist.indexOf("102")!=-1 || gjlist.indexOf("103")!=-1 || gjlist.indexOf("104")!=-1
                 || gjlist.indexOf("121")!=-1 || gjlist.indexOf("122")!=-1 || gjlist.indexOf("127")!=-1 || gjlist.indexOf("128")!=-1 || gjlist.indexOf("129")!=-1 || gjlist.indexOf("130")!=-1
                 || gjlist.indexOf("141")!=-1 || gjlist.indexOf("142")!=-1
@@ -104,6 +105,8 @@ public class BridgeMaintain {
                 break;
         }
         setJingJiJiShu(resjj);
+
+
     }
 
     @Generated(hash = 842360067)

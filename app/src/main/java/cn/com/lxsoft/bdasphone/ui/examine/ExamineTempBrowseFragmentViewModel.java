@@ -25,6 +25,9 @@ import cn.com.lxsoft.bdasphone.net.ResponseList;
 import cn.com.lxsoft.bdasphone.ui.browse.BaseBrowseFragmentViewModel;
 import cn.com.lxsoft.bdasphone.ui.browse.QiaoLiangListItemViewModel;
 import cn.com.lxsoft.bdasphone.ui.browse.SlideBrowseViewModel;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -38,11 +41,43 @@ import static android.support.constraint.Constraints.TAG;
 
 public class ExamineTempBrowseFragmentViewModel extends BaseBrowseFragmentViewModel {
     public short nBrowseType=SystemConfig.ExamineStyle_Patrol;
+    public QiaoLiang qiaoLiang;
 
     public ExamineTempBrowseFragmentViewModel(@NonNull Application application) {
         super(application);
         nActivityPosition=1;
     }
+
+    protected void dealMainDataBinding(int pageIndex) {
+        //pageIndexMain.set(pageIndex);
+
+        Observable dbob=Observable.create(new ObservableOnSubscribe<List<PatrolTemp>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<PatrolTemp>> emitter) throws Exception{
+                emitter.onNext(AppApplication.dataBase.getPatrolTempList(qiaoLiang.getDaiMa(),0,0));
+                emitter.onComplete();
+
+            }
+        });
+
+        //Observable netob=subscribeBase.getPatrolListData();
+
+
+        dbob.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        new Consumer<List<Object>>() {
+                            @Override
+                            public void accept(List<Object> qiaoLiangs) {
+                                pageIndexMain.set(pageIndex);
+                                for (int i = 0; i < qiaoLiangs.size(); i++) {
+                                    dealMainItem(qiaoLiangs.get(i));
+                                }
+                            }
+                        }
+                );
+    }
+
 
     public void dealNetData(){
         DataBaseGreenImpl dataBase = AppApplication.dataBase;

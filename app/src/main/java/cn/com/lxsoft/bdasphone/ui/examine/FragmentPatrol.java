@@ -2,6 +2,7 @@ package cn.com.lxsoft.bdasphone.ui.examine;
 
 import android.Manifest;
 import android.app.Activity;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,6 +19,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.Gravity;
@@ -65,6 +67,7 @@ import cn.com.lxsoft.bdasphone.ui.component.BridgeImagePanel;
 import cn.com.lxsoft.bdasphone.ui.component.ToolBarBdas;
 import cn.com.lxsoft.bdasphone.utils.ActivityUtils;
 import cn.com.lxsoft.bdasphone.utils.GlideEnginex;
+import cn.com.lxsoft.bdasphone.utils.StatusBarUtils;
 import io.reactivex.functions.Consumer;
 import me.goldze.mvvmhabit.base.BaseFragment;
 import me.goldze.mvvmhabit.utils.MaterialDialogUtils;
@@ -75,6 +78,7 @@ import static android.app.Activity.RESULT_OK;
 
 
 public class FragmentPatrol extends BaseFragment<FragmentPatrolNewBinding, FragmentPatrolViewModel> {
+    MaterialDialog hisDialog;
 
     @Override
     public int initContentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -88,6 +92,8 @@ public class FragmentPatrol extends BaseFragment<FragmentPatrolNewBinding, Fragm
 
     @Override
     public void initData() {
+        StatusBarUtils.setBar(this.getActivity(),R.color.colorPrimary,false);
+
         addPatrolPanel("桥路连接处","1",viewModel.patrolData.qiaoLuLianJie);
         addPatrolPanel("桥面铺装、伸缩缝","2",viewModel.patrolData.puZhuangSSF);
         addPatrolPanel("栏杆或护栏","3",viewModel.patrolData.lanGan);
@@ -113,6 +119,19 @@ public class FragmentPatrol extends BaseFragment<FragmentPatrolNewBinding, Fragm
                 return false;
             }
         };
+        imgPanel.setButtonHidden();
+
+
+        binding.patrolAddImageEx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imgPanel.openChooseDialog();
+            }
+        });
+
+        if(viewModel.obNewData.get() || viewModel.obHistory.get()){
+            binding.pannelCreateNew.setVisibility(View.GONE);
+        }
 
         viewModel.patrolData.images.addOnListChangedCallback(new ObservableList.OnListChangedCallback<ObservableList<ImageData>>() {
             @Override
@@ -141,6 +160,39 @@ public class FragmentPatrol extends BaseFragment<FragmentPatrolNewBinding, Fragm
             }
         });
 
+        binding.patrolTvHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(hisDialog==null) {
+                    hisDialog = new MaterialDialog.Builder(FragmentPatrol.this.getContext())
+                            .title("历史记录")
+                            .items()
+                            .alwaysCallSingleChoiceCallback()
+                            .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
+                                @Override
+                                public boolean onSelection(MaterialDialog dialog, View itemView, int which,
+                                                           CharSequence text) {
+                                    viewModel.openHistoryActivity(viewModel.hisKeySet.get(which).toString());
+                                    return true; // allow selection
+                                }
+                            })
+                            .negativeText("取消").show();
+                    viewModel.getHistoryData();
+                }
+                hisDialog.show();
+                hisDialog.setSelectedIndex(-1);
+            }
+        });
+
+        viewModel.openHisDialogEvent.observe(this, new Observer<Void>() {
+            @Override
+            public void onChanged(@Nullable Void v) {
+                String[] array=(String[])viewModel.hisValueSet.toArray(new String[viewModel.hisValueSet.size()]);
+                hisDialog.setItems(array);
+            }
+        });
+
+
         viewModel.initPatrolData();
 
     }
@@ -149,6 +201,7 @@ public class FragmentPatrol extends BaseFragment<FragmentPatrolNewBinding, Fragm
     public void initViewObservable() {
 
     }
+
 
     void addPatrolPanel(String bjName,String disType,ObservableArrayList<String> disList){
         Context context=binding.getRoot().getContext();
@@ -222,6 +275,8 @@ public class FragmentPatrol extends BaseFragment<FragmentPatrolNewBinding, Fragm
                 }
             }
         });
+
+
 
         butAdd.setOnClickListener(new View.OnClickListener() {
             @Override

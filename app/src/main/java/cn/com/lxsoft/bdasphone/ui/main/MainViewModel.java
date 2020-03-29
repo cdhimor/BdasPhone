@@ -40,6 +40,8 @@ import cn.com.lxsoft.bdasphone.net.ResponseInfo;
 import cn.com.lxsoft.bdasphone.net.ResponseList;
 import cn.com.lxsoft.bdasphone.net.ResponseLogin;
 import cn.com.lxsoft.bdasphone.net.SubscribeBase;
+import cn.com.lxsoft.bdasphone.net.reponse.LoginResponse;
+import cn.com.lxsoft.bdasphone.net.request.LoginRequest;
 import cn.com.lxsoft.bdasphone.ui.browse.BrowseFragment;
 import cn.com.lxsoft.bdasphone.ui.browse.GISFragment;
 import cn.com.lxsoft.bdasphone.ui.chart.FragmentChart;
@@ -101,9 +103,9 @@ public class MainViewModel extends BridgeBaseViewModel {
                 password = sp.getString("user_password");
                 String department = sp.getString("user_department");
                 String truename = sp.getString("user_true_name");
-                int roleid=sp.getInt("role_id");
+                int roleid = sp.getInt("role_id");
 
-                User user=new User();
+                User user = new User();
                 user.setLoginName(username);
                 user.setDanWeiID(department);
                 user.setName(truename);
@@ -112,22 +114,27 @@ public class MainViewModel extends BridgeBaseViewModel {
                 setDepartment();
                 layoutChartViewModel.dealChartData(false);
 
-                subscribeBase.checkLogin(username,password).subscribe(new BridegeNetObserver<ResponseLogin>()
-                        .dealData(new BridegeNetObserver.DealData<ResponseLogin>() {
-                            @Override
-                            public void execute(ResponseLogin res) {
-                                ResponseLogin rlogin=(ResponseLogin)res;
-                                if(rlogin.state.equals("success")) {
-                                    ToastUtils.showShort("登录成功");
-                                    getInitNetData();
+                if(SystemConfig.CAN_VPN) {
+                    subscribeBase.getVPNLogin("test", "qiaoliang@123!").subscribe(new BridegeNetObserver<ResponseInfo>()
+                            .dealData(new BridegeNetObserver.DealData<ResponseInfo>() {
+                                @Override
+                                public void execute(ResponseInfo res) {
+                                    if (res.result.equals("Success")) {
+                                        ToastUtils.showShort("VPN成功");
+                                        dealLogin();
+                                    } else
+                                        ToastUtils.showShort("VPN失败");
                                 }
-                                else
-                                    ToastUtils.showShort("登录错误");
-                                }
-                        }));
+                            }));
+                }
+                else {
+                    dealLogin();
+                }
             }
-            else
+            else {
                 startActivity(LoginActivity.class);
+                finish();
+            }
         }
         else {
             setDepartment();
@@ -137,6 +144,38 @@ public class MainViewModel extends BridgeBaseViewModel {
             getInitNetData();
             DataSession.setbInitLoginData(false);
         }
+    }
+
+    protected void dealLogin(){
+        subscribeBase.checkLogin(username, password).subscribe(new BridegeNetObserver<ResponseLogin>()
+                .dealData(new BridegeNetObserver.DealData<ResponseLogin>() {
+                    @Override
+                    public void execute(ResponseLogin res) {
+                        ResponseLogin rlogin = (ResponseLogin) res;
+                        if(rlogin.state.equals("success")) {
+                            ToastUtils.showShort("登录成功");
+                            getInitNetData();
+                        } else
+                            ToastUtils.showShort("登录错误");
+                    }
+                }));
+    }
+
+    public void dealLoginx(){
+        subscribeBase.checkLoginx(username, password).subscribe(new BridegeNetObserver<LoginResponse>()
+                .dealData(new BridegeNetObserver.DealData<LoginResponse>() {
+                    @Override
+                    public void execute(LoginResponse res) {
+                        LoginResponse rlogin = (LoginResponse) res;
+                        if(rlogin.state==100) {
+                            //ToastUtils.showShort("登录成功");
+                            //getInitNetData();
+                            return;
+                        } else
+                            //ToastUtils.showShort("登录错误");
+                            return;
+                    }
+                }));
     }
 
     protected void getInitNetData(){
@@ -390,8 +429,8 @@ public class MainViewModel extends BridgeBaseViewModel {
 
     @Override
     public void onStop() {
-        if(DataSession.getCurrentUser()==null)
-            AppManager.getAppManager().finishActivity(MainActivity.class);
+        //if(DataSession.getCurrentUser()==null)
+        //    AppManager.getAppManager().finishActivity(MainActivity.class);
 
 
     }

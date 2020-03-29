@@ -54,6 +54,11 @@ public class BridgeEvaluation {
                     //bjData.weight = wtMap.get(ct.getBuJian());
                 }
 
+                //增加地方
+                if(ConvertUtils.isSpace(ct.getGouJian()))
+                    continue;
+                //
+
                 String[] tplist = ct.getGouJian().split(",");
                 for (int x = 0; x < tplist.length; x++) {
                     GjSt gjData = new GjSt();
@@ -103,11 +108,16 @@ public class BridgeEvaluation {
                     if (score < 40)
                         bLess40 = true;
                 }
+
                 float bjScore = 0;
                 if (bLess40)
                     bjScore = minGj;
+                //增加地方
+                else if(gjMap.size()==0)
+                    bjScore=100;
                 else
                     bjScore = sumGj / gjMap.size() - (100 - minGj) / getTMark(gjMap.size());
+
                 bjMap.get(bjKey).score = bjScore;
                 resBjScore += "," + bjKey + ":" + Integer.toString((int) bjScore);
                 switch (bjKey.charAt(0)) {

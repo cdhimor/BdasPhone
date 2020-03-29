@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 
 import cn.com.lxsoft.bdasphone.app.AppApplication;
 import cn.com.lxsoft.bdasphone.app.BridgeBaseViewModel;
+import cn.com.lxsoft.bdasphone.app.SystemConfig;
 import cn.com.lxsoft.bdasphone.database.DataBase;
 import cn.com.lxsoft.bdasphone.database.greendao.DataSession;
 import cn.com.lxsoft.bdasphone.entity.User;
@@ -22,6 +23,8 @@ import cn.com.lxsoft.bdasphone.net.ResponseBase;
 import cn.com.lxsoft.bdasphone.net.ResponseInfo;
 import cn.com.lxsoft.bdasphone.net.ResponseLogin;
 import cn.com.lxsoft.bdasphone.net.SubscribeBase;
+import cn.com.lxsoft.bdasphone.net.reponse.LoginResponse;
+import cn.com.lxsoft.bdasphone.net.reponse.StateResponse;
 import cn.com.lxsoft.bdasphone.ui.main.MainActivity;
 import me.goldze.mvvmhabit.base.AppManager;
 import me.goldze.mvvmhabit.binding.command.BindingAction;
@@ -97,7 +100,24 @@ public class LoginViewModel extends BridgeBaseViewModel {
     public BindingCommand loginOnClickCommand = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            login();
+            if(SystemConfig.CAN_VPN) {
+                subscribeBase.getVPNLogin("test", "qiaoliang@123!").subscribe(new BridegeNetObserver<ResponseInfo>()
+                        .dealData(new BridegeNetObserver.DealData<ResponseInfo>() {
+                            @Override
+                            public void execute(ResponseInfo res) {
+                                if (res.result.equals("Success")) {
+                                    ToastUtils.showShort("VPN成功");
+                                    login();
+                                } else
+                                    ToastUtils.showShort("VPN失败");
+                            }
+                        }));
+            }
+            else {
+                login();
+            }
+
+            //login();
         }
     });
 
@@ -105,13 +125,17 @@ public class LoginViewModel extends BridgeBaseViewModel {
      * 网络模拟一个登陆操作
      **/
     private void login() {
+        /*
         subscribeBase.checkLogin(userName.get(), password.get())
                 .subscribe(new BridegeNetObserver<ResponseLogin>(){
                     @Override
                     public void onNext(ResponseLogin rx) {
                         if(rx.state.equals("success")) {
+                        //if(rx.state==100) {
                             User user=new User();
                             user.setLoginName(userName.get());
+                            //user.setDanWeiID(rx.data.getDanWeiID());
+                            //user.setName(rx.data.getName());
                             user.setDanWeiID(rx.dept);
                             user.setName(rx.name);
                             user.setRoleID(Integer.parseInt(rx.role));
@@ -128,7 +152,7 @@ public class LoginViewModel extends BridgeBaseViewModel {
                                 sp.put("user_password",password.get());
                                 sp.put("user_department",user.getDanWeiID());
                                 sp.put("user_true_name",user.getName());
-                                sp.put("role_id",Integer.parseInt(rx.role));
+                                //sp.put("role_id",Integer.parseInt(rx.role));
                             }
                             else
                                 sp.clear();
@@ -140,6 +164,51 @@ public class LoginViewModel extends BridgeBaseViewModel {
                         }
                     }
                 });
+
+
+        //userName.set("anhui");
+        //password.set("anhui2020");
+
+/*
+        subscribeBase.checkLoginx(userName.get(), password.get())
+                .subscribe(new BridegeNetObserver<LoginResponse>(){
+                    @Override
+                    public void onNext(LoginResponse rx) {
+                        if(rx.state==100) {
+                            User user=new User();
+                            user.setLoginName(rx.data.getLoginName());
+                            user.setDanWeiID(rx.data.getDanWeiID());
+                            user.setName(rx.data.getName());
+                            //user.setDanWeiID(rx.dept);
+                            user.setName(rx.data.getName());
+                            //user.setRoleID(rx.user.);
+                            DataSession.setCurrentUser(user);
+                            DataSession.setbInitLoginData(true);
+                            SPUtils sp=SPUtils.getInstance("userinfo");
+
+                            if(sp.contains("prev_login_name") && !sp.getString("prev_login_name").equals(userName.get()))
+                                AppApplication.dataBase.initData();
+
+                            sp.put("prev_login_name",userName.get());
+                            if(uc.checkAutoLogin.get()){
+                                sp.put("user_login_name",user.getLoginName());
+                                sp.put("user_password",password.get());
+                                sp.put("user_department",user.getDanWeiID());
+                                sp.put("user_true_name",user.getName());
+                                //sp.put("role_id",Integer.parseInt(rx.role));
+                            }
+                            else
+                                sp.clear();
+
+                            startActivity(MainActivity.class);
+                        }
+                        else{
+                            ToastUtils.showShort(rx.info);
+                        }
+                    }
+                });
+                */
+
 
         //startActivity(MainActivity.class);
     }

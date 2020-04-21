@@ -769,20 +769,20 @@ public class DataBaseGreenImpl implements DataBase {
                     join.where(CheckDao.Properties.NextDate.le(new Date()));
                     break;
                 case 3:
-                    join.where(join.or(CheckDao.Properties.DunTai.notEq("0"),
-                            CheckDao.Properties.GuanCeDian.notEq("0"),
-                            CheckDao.Properties.JiaoTongSheShi.notEq("0"),
-                            CheckDao.Properties.LanGanHuLan.notEq("0"),
-                            CheckDao.Properties.PaiShuiSheShi.notEq("0"),
-                            CheckDao.Properties.DunTai.notEq("0"),
-                            CheckDao.Properties.QiaoLiangJieGou.notEq("0"),
-                            CheckDao.Properties.QiaoLiangWaiGuan.notEq("0"),
-                            CheckDao.Properties.QiaoMianPuZhuang.notEq("0"),
-                            CheckDao.Properties.RenXingDao.notEq("0"),
-                            CheckDao.Properties.ShenSuoFeng.notEq("0"),
-                            CheckDao.Properties.XieLaSuo.notEq("0"),
-                            CheckDao.Properties.YiQiangHuPo.notEq("0"),
-                            CheckDao.Properties.ZhuLiang.notEq("0")));
+                    join.where(join.or(CheckDao.Properties.DunTai.notEq("1"),
+                            CheckDao.Properties.GuanCeDian.notEq("1"),
+                            CheckDao.Properties.JiaoTongSheShi.notEq("1"),
+                            CheckDao.Properties.LanGanHuLan.notEq("1"),
+                            CheckDao.Properties.PaiShuiSheShi.notEq("1"),
+                            CheckDao.Properties.DunTai.notEq("1"),
+                            CheckDao.Properties.QiaoLiangJieGou.notEq("1"),
+                            CheckDao.Properties.QiaoLiangWaiGuan.notEq("1"),
+                            CheckDao.Properties.QiaoMianPuZhuang.notEq("1"),
+                            CheckDao.Properties.RenXingDao.notEq("1"),
+                            CheckDao.Properties.ShenSuoFeng.notEq("1"),
+                            CheckDao.Properties.XieLaSuo.notEq("1"),
+                            CheckDao.Properties.YiQiangHuPo.notEq("1"),
+                            CheckDao.Properties.ZhuLiang.notEq("1")));
                     break;
             }
         }
@@ -798,7 +798,7 @@ public class DataBaseGreenImpl implements DataBase {
                         break;
                     case 3:
                         //join=bridgeQB.join(QiaoLiangDao.Properties.DaiMa, YearTest.class,YearTestDao.Properties.BridgeID);
-                        join.where(YearTestDao.Properties.PingFen.le(100));
+                        join.where(YearTestDao.Properties.PingFen.lt(100));
                         break;
                 }
             }

@@ -121,14 +121,14 @@ public class MainViewModel extends BridgeBaseViewModel {
                                 public void execute(ResponseInfo res) {
                                     if (res.result.equals("Success")) {
                                         ToastUtils.showShort("VPN成功");
-                                        dealLogin();
+                                        dealLoginx();
                                     } else
                                         ToastUtils.showShort("VPN失败");
                                 }
                             }));
                 }
                 else {
-                    dealLogin();
+                    dealLoginx();
                 }
             }
             else {

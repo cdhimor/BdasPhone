@@ -125,51 +125,6 @@ public class LoginViewModel extends BridgeBaseViewModel {
      * 网络模拟一个登陆操作
      **/
     private void login() {
-        /*
-        subscribeBase.checkLogin(userName.get(), password.get())
-                .subscribe(new BridegeNetObserver<ResponseLogin>(){
-                    @Override
-                    public void onNext(ResponseLogin rx) {
-                        if(rx.state.equals("success")) {
-                        //if(rx.state==100) {
-                            User user=new User();
-                            user.setLoginName(userName.get());
-                            //user.setDanWeiID(rx.data.getDanWeiID());
-                            //user.setName(rx.data.getName());
-                            user.setDanWeiID(rx.dept);
-                            user.setName(rx.name);
-                            user.setRoleID(Integer.parseInt(rx.role));
-                            DataSession.setCurrentUser(user);
-                            DataSession.setbInitLoginData(true);
-                            SPUtils sp=SPUtils.getInstance("userinfo");
-
-                            if(sp.contains("prev_login_name") && !sp.getString("prev_login_name").equals(userName.get()))
-                                AppApplication.dataBase.initData();
-
-                            sp.put("prev_login_name",userName.get());
-                            if(uc.checkAutoLogin.get()){
-                                sp.put("user_login_name",userName.get());
-                                sp.put("user_password",password.get());
-                                sp.put("user_department",user.getDanWeiID());
-                                sp.put("user_true_name",user.getName());
-                                //sp.put("role_id",Integer.parseInt(rx.role));
-                            }
-                            else
-                                sp.clear();
-
-                            startActivity(MainActivity.class);
-                        }
-                        else{
-                            ToastUtils.showShort(rx.message);
-                        }
-                    }
-                });
-
-
-        //userName.set("anhui");
-        //password.set("anhui2020");
-
-/*
         subscribeBase.checkLoginx(userName.get(), password.get())
                 .subscribe(new BridegeNetObserver<LoginResponse>(){
                     @Override
@@ -207,8 +162,6 @@ public class LoginViewModel extends BridgeBaseViewModel {
                         }
                     }
                 });
-                */
-
 
         //startActivity(MainActivity.class);
     }
